@@ -1,4 +1,4 @@
-package com.octagisgame.model;
+package com.octagisgame;
 
 public class FigureCreator {
 
