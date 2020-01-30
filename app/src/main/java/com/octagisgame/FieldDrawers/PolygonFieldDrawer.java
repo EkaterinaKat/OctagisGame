@@ -1,9 +1,8 @@
-package com.octagisgame;
+package com.octagisgame.FieldDrawers;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
 
@@ -13,25 +12,17 @@ import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-class FieldDrawer {
-    private Path path = new Path();
-    private Paint paint = new Paint();
-
-    private int numberOfColumns;
-    private int numberOfRows;
-    private Point center;
-    private int rowHeight;
+public class PolygonFieldDrawer extends FieldDrawer {
     private double angleRad;
+    private int cellHeight;
+    private Point center;
     private Point[] mainAxisNodes;
 
-    FieldDrawer(PlayingField field, DisplayMetrics displayMetrics) {
-        numberOfColumns = field.getNumberOfColumns();
-        numberOfRows = field.getNumberOfRows();
+    public PolygonFieldDrawer(PlayingField field, DisplayMetrics displayMetrics) {
+        super(field, displayMetrics);
         angleRad = 2 * PI / numberOfColumns;
-        int screenWidth = displayMetrics.widthPixels;
-        int screenHeight = displayMetrics.heightPixels;
         int columnHeight = screenHeight / 2;
-        rowHeight = columnHeight / numberOfRows;
+        cellHeight = columnHeight / numberOfRows;
         center = new Point(screenWidth / 2, screenHeight / 2);
         setMainAxisNodes();
     }
@@ -41,28 +32,24 @@ class FieldDrawer {
         //будем поворачивать на разные углы чтобы выполнять посторения
         mainAxisNodes = new Point[numberOfRows+1];
         for (int i = 0; i < mainAxisNodes.length; i++) {
-            mainAxisNodes[i] = new Point(center.x - i * rowHeight, center.y);
+            mainAxisNodes[i] = new Point(center.x - i * cellHeight, center.y);
         }
     }
 
-    void drawField(Canvas canvas) {
-        for (int i = 0; i < numberOfColumns; i++) {
-            for (int j = 0; j < numberOfRows; j++) {
-                drawCell(i,j,canvas);
-            }
-        }
-    }
-
-    private void drawCell(int column, int row, Canvas canvas) {
+    @Override
+    void drawCell(int column, int row, Canvas canvas) {
         Point[] tops = getCellTops(column, row);
         path.moveTo(tops[0].x,tops[0].y);
         for (int i = 1; i < tops.length; i++) {
             path.lineTo(tops[i].x,tops[i].y);
         }
         path.close();
+//        paint.setColor(field.getCell(column,row).getColor());
+//        paint.setStyle(Paint.Style.FILL);
+//        canvas.drawPath(path, paint);
         paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(4);
         paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(4);
         canvas.drawPath(path, paint);
         path.reset();
     }
