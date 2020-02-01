@@ -30,7 +30,7 @@ public class PolygonFieldDrawer extends FieldDrawer {
     private void setMainAxisNodes() {
         //главная ось направлена из центра поля вправо, узлы на главной оси это точки которые
         //будем поворачивать на разные углы чтобы выполнять посторения
-        mainAxisNodes = new Point[numberOfRows+1];
+        mainAxisNodes = new Point[numberOfRows + 1];
         for (int i = 0; i < mainAxisNodes.length; i++) {
             mainAxisNodes[i] = new Point(center.x - i * cellHeight, center.y);
         }
@@ -39,14 +39,14 @@ public class PolygonFieldDrawer extends FieldDrawer {
     @Override
     void drawCell(int column, int row, Canvas canvas) {
         Point[] tops = getCellTops(column, row);
-        path.moveTo(tops[0].x,tops[0].y);
+        path.moveTo(tops[0].x, tops[0].y);
         for (int i = 1; i < tops.length; i++) {
-            path.lineTo(tops[i].x,tops[i].y);
+            path.lineTo(tops[i].x, tops[i].y);
         }
         path.close();
-//        paint.setColor(field.getCell(column,row).getColor());
-//        paint.setStyle(Paint.Style.FILL);
-//        canvas.drawPath(path, paint);
+        paint.setColor(field.getCellColour(column, row));
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawPath(path, paint);
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(4);
@@ -54,12 +54,12 @@ public class PolygonFieldDrawer extends FieldDrawer {
         path.reset();
     }
 
-    private Point[] getCellTops(int column, int row){
+    private Point[] getCellTops(int column, int row) {
         Point[] tops = new Point[4];
-        tops[0] = rotatePointAroundCenter(mainAxisNodes[row],angleRad*column);
-        tops[1] = rotatePointAroundCenter(mainAxisNodes[row+1],angleRad*column);
-        tops[2] = rotatePointAroundCenter(mainAxisNodes[row+1],angleRad*(column+1));
-        tops[3] = rotatePointAroundCenter(mainAxisNodes[row],angleRad*(column+1));
+        tops[0] = rotatePointAroundCenter(mainAxisNodes[row], angleRad * column);
+        tops[1] = rotatePointAroundCenter(mainAxisNodes[row + 1], angleRad * column);
+        tops[2] = rotatePointAroundCenter(mainAxisNodes[row + 1], angleRad * (column + 1));
+        tops[3] = rotatePointAroundCenter(mainAxisNodes[row], angleRad * (column + 1));
         return tops;
     }
 

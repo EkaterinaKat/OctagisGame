@@ -1,16 +1,15 @@
 package com.octagisgame;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.octagisgame.FieldDrawers.ClassicFieldDrawer;
 import com.octagisgame.FieldDrawers.FieldDrawer;
-import com.octagisgame.FieldDrawers.PolygonFieldDrawer;
 import com.octagisgame.model.PlayingField;
 
 public class GameActivity extends AppCompatActivity {
@@ -19,13 +18,17 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new DrawView(this));
+        DrawView drawView = new DrawView(this);
+        setContentView(drawView);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        PlayingField playingField = new PlayingField(10, 15);
+        int numberOfColumns = 10;
+        int numberOfRows = 10;
+        PlayingField playingField = new PlayingField(numberOfColumns, numberOfRows, drawView);
         fieldDrawer = new ClassicFieldDrawer(playingField, displayMetrics);
+        playingField.startGame();
     }
 
     class DrawView extends View {

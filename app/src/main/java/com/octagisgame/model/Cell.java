@@ -6,7 +6,7 @@ public class Cell {
     private boolean filled;
     private int color;
 
-    public Cell() {
+    Cell() {
         makeEmpty();
     }
 
@@ -14,16 +14,16 @@ public class Cell {
         return filled;
     }
 
-    public int getColor() {
+    int getColor() {
         return color;
     }
 
     public void makeFilled(int color) {
-        filled=true;
+        filled = true;
         this.color = color;
     }
 
-    public void makeEmpty(){
+    private void makeEmpty() {
         filled = false;
         color = Color.WHITE;
     }

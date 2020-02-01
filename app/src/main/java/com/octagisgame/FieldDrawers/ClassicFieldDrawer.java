@@ -28,9 +28,9 @@ public class ClassicFieldDrawer extends FieldDrawer {
         int left = startingPoint.x + (column * cellWidth);
         int right = startingPoint.x + ((column + 1) * cellWidth);
         Rect rect = new Rect(left, top, right, bottom);
-//        paint.setColor(field.getCell(column,row).getColor());
-//        paint.setStyle(Paint.Style.FILL);
-//        canvas.drawPath(path, paint);
+        paint.setColor(field.getCellColour(column, row));
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(rect, paint);
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(4);
