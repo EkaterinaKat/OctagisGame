@@ -1,4 +1,4 @@
-package com.octagisgame.FieldDrawers;
+package com.octagisgame.drawers;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -67,5 +67,10 @@ public class PolygonFieldDrawer extends FieldDrawer {
         double x1 = (point.x - center.x) * cos(angle) + (point.y - center.y) * sin(angle) + center.x;
         double y1 = (-1) * (point.x - center.x) * sin(angle) + (point.y - center.y) * cos(angle) + center.y;
         return new Point((int) x1, (int) y1);
+    }
+
+    @Override
+    public void onTouchEvent(float x, float y) {
+
     }
 }

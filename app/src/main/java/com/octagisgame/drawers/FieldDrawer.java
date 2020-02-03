@@ -1,4 +1,4 @@
-package com.octagisgame.FieldDrawers;
+package com.octagisgame.drawers;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -34,4 +34,6 @@ abstract public class FieldDrawer {
     }
 
     abstract void drawCell(int column, int row, Canvas canvas);
+
+    abstract public void onTouchEvent(float x, float y);
 }

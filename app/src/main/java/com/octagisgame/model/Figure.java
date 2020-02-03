@@ -19,6 +19,14 @@ public class Figure {
         y++;
     }
 
+    void left(){
+        x--;
+    }
+
+    void right(){
+        x++;
+    }
+
     boolean[][] getShape() {
         return shape;
     }

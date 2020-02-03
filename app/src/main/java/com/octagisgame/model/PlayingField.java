@@ -33,7 +33,7 @@ public class PlayingField {
     private Thread game = new Thread(new Runnable() {
         @Override
         public void run() {
-            generateNewFallingFigure();
+            fallingFigure = FigureCreator.getRandomFigure();
             while (true) {
                 view.invalidate();
                 fallingFigure.descend();
@@ -42,10 +42,10 @@ public class PlayingField {
                     if (gameOver()) {
 
                     }
-                    generateNewFallingFigure();
+                    endFalling();
                 }
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -54,6 +54,17 @@ public class PlayingField {
     });
 
     private boolean fallingFigureLanded() {
+        for (int i = 0; i < FIGURE_SIZE; i++) {
+            for (int j = 0; j < FIGURE_SIZE; j++) {
+                if(fallingFigure.getShape()[i][j]){
+                    if(fallingFigure.getY()-i==numberOfRows-1){
+                        return true;
+                    }else if (cells[fallingFigure.getX()+j][fallingFigure.getY()-i+1].isFilled()){
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -65,7 +76,14 @@ public class PlayingField {
 
     }
 
-    private void generateNewFallingFigure() {
+    private void endFalling() {
+        for (int i = 0; i < FIGURE_SIZE; i++) {
+            for (int j = 0; j < FIGURE_SIZE; j++) {
+                if(fallingFigure.getShape()[i][j]){
+                    cells[fallingFigure.getX()+j][fallingFigure.getY()-i].makeFilled(fallingFigure.getColor());
+                }
+            }
+        }
         fallingFigure = FigureCreator.getRandomFigure();
     }
 
@@ -80,6 +98,16 @@ public class PlayingField {
             }
         }
         return false;
+    }
+
+    public void left(){
+        fallingFigure.left();
+        view.invalidate();
+    }
+
+    public void right(){
+        fallingFigure.right();
+        view.invalidate();
     }
 
     public int getCellColour(int column, int row) {

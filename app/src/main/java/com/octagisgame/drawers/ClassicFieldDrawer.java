@@ -1,4 +1,4 @@
-package com.octagisgame.FieldDrawers;
+package com.octagisgame.drawers;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -35,5 +35,14 @@ public class ClassicFieldDrawer extends FieldDrawer {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(4);
         canvas.drawRect(rect, paint);
+    }
+
+    @Override
+    public void onTouchEvent(float x, float y) {
+        if (x<screenWidth/2){
+            field.left();
+        }else {
+            field.right();
+        }
     }
 }
