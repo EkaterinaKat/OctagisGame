@@ -1,6 +1,10 @@
 package com.octagisgame.model;
 
+import android.graphics.Point;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayingField {
     private final int FIGURE_SIZE = 4;
@@ -13,12 +17,12 @@ public class PlayingField {
     public PlayingField(int numberOfColumns, int numberOfRows, View view) {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
-        cells = new Cell[numberOfColumns][numberOfRows];
         this.view = view;
         initializeField();
     }
 
     private void initializeField(){
+        cells = new Cell[numberOfColumns][numberOfRows];
         for (int column = 0; column < numberOfColumns; column++) {
             for (int row = 0; row < numberOfRows; row++) {
                 cells[column][row] = new Cell();
@@ -53,21 +57,6 @@ public class PlayingField {
         }
     });
 
-    private boolean fallingFigureLanded() {
-        for (int i = 0; i < FIGURE_SIZE; i++) {
-            for (int j = 0; j < FIGURE_SIZE; j++) {
-                if(fallingFigure.getShape()[i][j]){
-                    if(fallingFigure.getY()-i==numberOfRows-1){
-                        return true;
-                    }else if (cells[fallingFigure.getX()+j][fallingFigure.getY()-i+1].isFilled()){
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     private boolean gameOver() {
         return false;
     }
@@ -76,28 +65,52 @@ public class PlayingField {
 
     }
 
-    private void endFalling() {
-        for (int i = 0; i < FIGURE_SIZE; i++) {
-            for (int j = 0; j < FIGURE_SIZE; j++) {
-                if(fallingFigure.getShape()[i][j]){
-                    cells[fallingFigure.getX()+j][fallingFigure.getY()-i].makeFilled(fallingFigure.getColor());
-                }
+    private boolean fallingFigureLanded() {
+        for(Point sectionCoordinates: getFallingFigureSectionsCoordinates()){
+            if(sectionCoordinates.y==numberOfRows-1){
+                return true;
+            }else if (cells[sectionCoordinates.x][sectionCoordinates.y+1].isFilled()){
+                return true;
             }
+        }
+        return false;
+    }
+
+    private void endFalling() {
+        for(Point sectionCoordinates: getFallingFigureSectionsCoordinates()){
+            cells[sectionCoordinates.x][sectionCoordinates.y].makeFilled(fallingFigure.getColor());
         }
         fallingFigure = FigureCreator.getRandomFigure();
     }
 
     private boolean fallingFigureInCell(int column, int row){
-        for (int i = 0; i < FIGURE_SIZE; i++) {
-            for (int j = 0; j < FIGURE_SIZE; j++) {
-                if(fallingFigure.getShape()[i][j]){
-                    if(fallingFigure.getX()+j==column && fallingFigure.getY()-i==row){
-                        return true;
-                    }
-                }
+        for(Point sectionCoordinates: getFallingFigureSectionsCoordinates()){
+            if(sectionCoordinates.x==column && sectionCoordinates.y == row){
+                return true;
             }
         }
         return false;
+    }
+
+    private List<Point> getFallingFigureSectionsCoordinates(){
+        List<Point> result = new ArrayList<>();
+        for (int i = 0; i < FIGURE_SIZE; i++) {
+            for (int j = 0; j < FIGURE_SIZE; j++) {
+                if(fallingFigure.getShape()[i][j]){
+                    int x = getActualColumnNumber(fallingFigure.getX()+j);
+                    int y = fallingFigure.getY()-i;
+                    result.add(new Point(x, y));
+                }
+            }
+        }
+        return result;
+    }
+
+    private int getActualColumnNumber(int columnNum){
+        while (columnNum<0)
+            columnNum+=numberOfColumns;
+        columnNum%=numberOfColumns;
+        return columnNum;
     }
 
     public void left(){

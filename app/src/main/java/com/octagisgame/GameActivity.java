@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.drawers.ClassicFieldDrawer;
 import com.octagisgame.drawers.FieldDrawer;
+import com.octagisgame.drawers.PolygonFieldDrawer;
 import com.octagisgame.model.PlayingField;
 
 public class GameActivity extends AppCompatActivity {
@@ -26,10 +27,11 @@ public class GameActivity extends AppCompatActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        int numberOfColumns = 20;
-        int numberOfRows = 20;
+        int numberOfColumns = 10;
+        int numberOfRows = 10;
         playingField = new PlayingField(numberOfColumns, numberOfRows, drawView);
         fieldDrawer = new ClassicFieldDrawer(playingField, displayMetrics);
+//        fieldDrawer = new PolygonFieldDrawer(playingField, displayMetrics);
         playingField.startGame();
     }
 
