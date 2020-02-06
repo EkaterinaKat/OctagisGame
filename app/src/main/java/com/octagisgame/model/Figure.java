@@ -1,6 +1,6 @@
 package com.octagisgame.model;
 
-public class Figure {
+class Figure {
     private boolean[][] shape;
     private int color;
     //горизонтальная координата направлена слева направо, вертикальная сверху вниз
@@ -43,7 +43,20 @@ public class Figure {
         return y;
     }
 
-    public void rotate() {
+    void rotate() {
+        int figureSize = 4;
+        boolean[][] tmp = copyArray(shape);
+        for (int i = 0; i < figureSize; i++) {
+            for (int j = 0; j < figureSize; j++) {
+                shape[figureSize-1-j][i] = tmp [i][j];
+            }
+        }
+    }
 
+    static private boolean[][] copyArray(boolean[][] inArray){
+        boolean[][] outArray = inArray.clone();
+        for (int i = 0; i < outArray.length; i++)
+            outArray[i] = inArray[i].clone();
+        return outArray;
     }
 }

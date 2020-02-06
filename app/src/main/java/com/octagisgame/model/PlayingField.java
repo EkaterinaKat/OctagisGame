@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayingField {
-    private final int FIGURE_SIZE = 4;
     private int numberOfColumns;
     private int numberOfRows;
     private Cell[][] cells;
@@ -94,8 +93,9 @@ public class PlayingField {
 
     private List<Point> getFallingFigureSectionsCoordinates(){
         List<Point> result = new ArrayList<>();
-        for (int i = 0; i < FIGURE_SIZE; i++) {
-            for (int j = 0; j < FIGURE_SIZE; j++) {
+        int figureSize = 4;
+        for (int i = 0; i < figureSize; i++) {
+            for (int j = 0; j < figureSize; j++) {
                 if(fallingFigure.getShape()[i][j]){
                     int x = getActualColumnNumber(fallingFigure.getX()+j);
                     int y = fallingFigure.getY()-i;
@@ -121,6 +121,18 @@ public class PlayingField {
     public void right(){
         fallingFigure.right();
         view.invalidate();
+    }
+
+    public void rotateFigure(){
+        if(figureAbleToRotate()){
+            fallingFigure.rotate();
+            view.invalidate();
+        }
+    }
+
+    private boolean figureAbleToRotate(){
+        //можно сделатть пробный поворот "в уме" посмотреть если всё норм то рил поворачивать
+        return false;
     }
 
     public int getCellColour(int column, int row) {

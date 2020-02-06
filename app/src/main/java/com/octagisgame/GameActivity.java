@@ -27,8 +27,8 @@ public class GameActivity extends AppCompatActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        int numberOfColumns = 10;
-        int numberOfRows = 10;
+        int numberOfColumns = 15;
+        int numberOfRows = 17;
         playingField = new PlayingField(numberOfColumns, numberOfRows, drawView);
         fieldDrawer = new ClassicFieldDrawer(playingField, displayMetrics);
 //        fieldDrawer = new PolygonFieldDrawer(playingField, displayMetrics);
