@@ -65,7 +65,35 @@ public class PlayingField {
     }
 
     private void deleteFilledRows() {
+        List<Integer> filledRows = getFilledRows();
+        for(int row: filledRows){
+            deleteRow(row);
+        }
+    }
 
+    private void deleteRow(int targetRow){
+        for (int row = targetRow; row > 0; row--) {
+            for (int column = 0; column < numberOfColumns; column++) {
+                cells[column][row] = cells[column][row-1];
+            }
+        }
+        for (int column = 0; column < numberOfColumns; column++) {
+            cells[column][0] = new Cell();
+        }
+    }
+
+    private List<Integer> getFilledRows(){
+        List<Integer> result = new ArrayList<>();
+        for (int row = 0; row < numberOfRows; row++) {
+            boolean rowFilled = true;
+            for (int column = 0; column < numberOfColumns; column++) {
+                if(!cells[column][row].isFilled())
+                    rowFilled=false;
+            }
+            if(rowFilled)
+                result.add(row);
+        }
+        return result;
     }
 
     private boolean fallingFigureLanded() {
