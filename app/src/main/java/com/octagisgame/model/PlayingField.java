@@ -75,7 +75,6 @@ public class PlayingField {
             if (figureAtBottom)
                 return true;
 
-            //todo здесь происходит ошибка при поворачивании выход за пределы массива
             boolean figureOnOtherFigure = cells[sectionCoordinates.x][sectionCoordinates.y + 1].isFilled();
             if (figureOnOtherFigure)
                 return true;
@@ -116,10 +115,6 @@ public class PlayingField {
         return getShapeSectionsCoordinates(fallingFigure.getShape(), fallingFigure.getX(), fallingFigure.getY());
     }
 
-    private List<Point> getTestShapeSectionsCoordinates(boolean[][] testShape) {
-        return getShapeSectionsCoordinates(testShape, fallingFigure.getX(), fallingFigure.getY());
-    }
-
     private int getActualColumnNumber(int columnNum) {
         while (columnNum < 0)
             columnNum += numberOfColumns;
@@ -128,13 +123,17 @@ public class PlayingField {
     }
 
     public void moveFigureLeft() {
-        fallingFigure.left();
-        view.invalidate();
+        if (figureAbleToMoveLeft()) {
+            fallingFigure.left();
+            view.invalidate();
+        }
     }
 
     public void moveFigureRight() {
-        fallingFigure.right();
-        view.invalidate();
+        if (figureAbleToMoveRight()) {
+            fallingFigure.right();
+            view.invalidate();
+        }
     }
 
     public void rotateFigure() {
@@ -145,8 +144,22 @@ public class PlayingField {
     }
 
     private boolean figureAbleToRotate() {
-        boolean[][] testShape = fallingFigure.getRotatedShape();
-        for (Point section : getTestShapeSectionsCoordinates(testShape)) {
+        boolean[][] rotatedShape = fallingFigure.getRotatedShape();
+        return shapeAcceptable(rotatedShape, fallingFigure.getX(), fallingFigure.getY());
+    }
+
+    private boolean figureAbleToMoveLeft() {
+        int movedFigureColumn = getActualColumnNumber(fallingFigure.getX() - 1);
+        return shapeAcceptable(fallingFigure.getShape(), movedFigureColumn, fallingFigure.getY());
+    }
+
+    private boolean figureAbleToMoveRight() {
+        int movedFigureColumn = getActualColumnNumber(fallingFigure.getX() + 1);
+        return shapeAcceptable(fallingFigure.getShape(), movedFigureColumn, fallingFigure.getY());
+    }
+
+    private boolean shapeAcceptable(boolean[][] shape, int posX, int posY) {
+        for (Point section : getShapeSectionsCoordinates(shape, posX, posY)) {
 
             boolean sectionBelowBottom = section.y >= numberOfRows;
             if (sectionBelowBottom)
@@ -156,14 +169,11 @@ public class PlayingField {
             if (sectionAboveTop)
                 return false;
 
-            if (sectionInFilledCell(section))
+            boolean sectionInFilledCell = cells[section.x][section.y].isFilled();
+            if (sectionInFilledCell)
                 return false;
         }
         return true;
-    }
-
-    private boolean sectionInFilledCell(Point section) {
-        return cells[section.x][section.y].isFilled();
     }
 
     public int getCellColour(int column, int row) {
