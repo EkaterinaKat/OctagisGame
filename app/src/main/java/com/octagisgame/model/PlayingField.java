@@ -6,6 +6,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.octagisgame.model.Figure.FIGURE_SIZE;
+
 public class PlayingField {
     private int numberOfColumns;
     private int numberOfRows;
@@ -20,7 +22,7 @@ public class PlayingField {
         initializeField();
     }
 
-    private void initializeField(){
+    private void initializeField() {
         cells = new Cell[numberOfColumns][numberOfRows];
         for (int column = 0; column < numberOfColumns; column++) {
             for (int row = 0; row < numberOfRows; row++) {
@@ -37,18 +39,20 @@ public class PlayingField {
         @Override
         public void run() {
             fallingFigure = FigureCreator.getRandomFigure();
+            fallingFigure.descend();
             while (true) {
                 view.invalidate();
-                fallingFigure.descend();
                 if (fallingFigureLanded()) {
+                    finishFalling();
                     deleteFilledRows();
                     if (gameOver()) {
 
                     }
-                    endFalling();
+                    fallingFigure = FigureCreator.getRandomFigure();
                 }
+                fallingFigure.descend();
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(300);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -65,78 +69,105 @@ public class PlayingField {
     }
 
     private boolean fallingFigureLanded() {
-        for(Point sectionCoordinates: getFallingFigureSectionsCoordinates()){
-            if(sectionCoordinates.y==numberOfRows-1){
+        for (Point sectionCoordinates : getFallingFigureSectionsCoordinates()) {
+
+            boolean figureAtBottom = sectionCoordinates.y == numberOfRows - 1;
+            if (figureAtBottom)
                 return true;
-            }else if (cells[sectionCoordinates.x][sectionCoordinates.y+1].isFilled()){
+
+            //todo здесь происходит ошибка при поворачивании выход за пределы массива
+            boolean figureOnOtherFigure = cells[sectionCoordinates.x][sectionCoordinates.y + 1].isFilled();
+            if (figureOnOtherFigure)
                 return true;
-            }
         }
         return false;
     }
 
-    private void endFalling() {
-        for(Point sectionCoordinates: getFallingFigureSectionsCoordinates()){
+    private void finishFalling() {
+        for (Point sectionCoordinates : getFallingFigureSectionsCoordinates()) {
             cells[sectionCoordinates.x][sectionCoordinates.y].makeFilled(fallingFigure.getColor());
         }
-        fallingFigure = FigureCreator.getRandomFigure();
     }
 
-    private boolean fallingFigureInCell(int column, int row){
-        for(Point sectionCoordinates: getFallingFigureSectionsCoordinates()){
-            if(sectionCoordinates.x==column && sectionCoordinates.y == row){
+    private boolean fallingFigureInCell(int column, int row) {
+        for (Point sectionCoordinates : getFallingFigureSectionsCoordinates()) {
+            if (sectionCoordinates.x == column && sectionCoordinates.y == row) {
                 return true;
             }
         }
         return false;
     }
 
-    private List<Point> getFallingFigureSectionsCoordinates(){
+    private List<Point> getShapeSectionsCoordinates(boolean[][] shape, int shapeX, int shapeY) {
         List<Point> result = new ArrayList<>();
-        int figureSize = 4;
-        for (int i = 0; i < figureSize; i++) {
-            for (int j = 0; j < figureSize; j++) {
-                if(fallingFigure.getShape()[i][j]){
-                    int x = getActualColumnNumber(fallingFigure.getX()+j);
-                    int y = fallingFigure.getY()-i;
-                    result.add(new Point(x, y));
+        for (int i = 0; i < FIGURE_SIZE; i++) {
+            for (int j = 0; j < FIGURE_SIZE; j++) {
+                if (shape[i][j]) {
+                    int sectionColumn = getActualColumnNumber(shapeX + j);
+                    int sectionRow = shapeY - i;
+                    result.add(new Point(sectionColumn, sectionRow));
                 }
             }
         }
         return result;
     }
 
-    private int getActualColumnNumber(int columnNum){
-        while (columnNum<0)
-            columnNum+=numberOfColumns;
-        columnNum%=numberOfColumns;
+    private List<Point> getFallingFigureSectionsCoordinates() {
+        return getShapeSectionsCoordinates(fallingFigure.getShape(), fallingFigure.getX(), fallingFigure.getY());
+    }
+
+    private List<Point> getTestShapeSectionsCoordinates(boolean[][] testShape) {
+        return getShapeSectionsCoordinates(testShape, fallingFigure.getX(), fallingFigure.getY());
+    }
+
+    private int getActualColumnNumber(int columnNum) {
+        while (columnNum < 0)
+            columnNum += numberOfColumns;
+        columnNum %= numberOfColumns;
         return columnNum;
     }
 
-    public void left(){
+    public void moveFigureLeft() {
         fallingFigure.left();
         view.invalidate();
     }
 
-    public void right(){
+    public void moveFigureRight() {
         fallingFigure.right();
         view.invalidate();
     }
 
-    public void rotateFigure(){
-        if(figureAbleToRotate()){
+    public void rotateFigure() {
+        if (figureAbleToRotate()) {
             fallingFigure.rotate();
             view.invalidate();
         }
     }
 
-    private boolean figureAbleToRotate(){
-        //можно сделатть пробный поворот "в уме" посмотреть если всё норм то рил поворачивать
-        return false;
+    private boolean figureAbleToRotate() {
+        boolean[][] testShape = fallingFigure.getRotatedShape();
+        for (Point section : getTestShapeSectionsCoordinates(testShape)) {
+
+            boolean sectionBelowBottom = section.y >= numberOfRows;
+            if (sectionBelowBottom)
+                return false;
+
+            boolean sectionAboveTop = section.y < 0;
+            if (sectionAboveTop)
+                return false;
+
+            if (sectionInFilledCell(section))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean sectionInFilledCell(Point section) {
+        return cells[section.x][section.y].isFilled();
     }
 
     public int getCellColour(int column, int row) {
-        if(fallingFigureInCell(column, row)){
+        if (fallingFigureInCell(column, row)) {
             return fallingFigure.getColor();
         }
         return cells[column][row].getColor();

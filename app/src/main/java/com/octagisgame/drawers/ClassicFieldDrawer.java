@@ -43,9 +43,9 @@ public class ClassicFieldDrawer extends FieldDrawer {
     @Override
     public void onTouchEvent(float x, float y) {
         if (x < (screenWidth - fieldWidth) / 2) {
-            field.left();
+            field.moveFigureLeft();
         } else if (x > (screenWidth + fieldWidth) / 2) {
-            field.right();
+            field.moveFigureRight();
         } else {
             field.rotateFigure();
         }
