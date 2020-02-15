@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.drawers.ClassicFieldDrawer;
 import com.octagisgame.drawers.FieldDrawer;
-import com.octagisgame.drawers.PolygonFieldDrawer;
 import com.octagisgame.model.PlayingField;
 
 public class GameActivity extends AppCompatActivity {
@@ -43,7 +42,7 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         protected void onDraw(Canvas canvas) {
-            fieldDrawer.drawField(canvas);
+            fieldDrawer.draw(canvas);
         }
 
         @Override

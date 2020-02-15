@@ -14,11 +14,14 @@ public class PlayingField {
     private Cell[][] cells;
     private Figure fallingFigure;
     private View view;
+    private int scoredPoints;
+    private final int POINTS_FOR_ONE_ROW = 10;
 
     public PlayingField(int numberOfColumns, int numberOfRows, View view) {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
         this.view = view;
+        scoredPoints = 0;
         initializeField();
     }
 
@@ -66,15 +69,22 @@ public class PlayingField {
 
     private void deleteFilledRows() {
         List<Integer> filledRows = getFilledRows();
-        for(int row: filledRows){
+        increasePoints(filledRows.size());
+        for (int row : filledRows) {
             deleteRow(row);
         }
     }
 
-    private void deleteRow(int targetRow){
+    private void increasePoints(int numberOfRows) {
+        double coefficient = 1 + (numberOfRows - 1) / 5.0;
+        int a = (int) (numberOfRows * POINTS_FOR_ONE_ROW * coefficient);
+        scoredPoints += a;
+    }
+
+    private void deleteRow(int targetRow) {
         for (int row = targetRow; row > 0; row--) {
             for (int column = 0; column < numberOfColumns; column++) {
-                cells[column][row] = cells[column][row-1];
+                cells[column][row] = cells[column][row - 1];
             }
         }
         for (int column = 0; column < numberOfColumns; column++) {
@@ -82,15 +92,15 @@ public class PlayingField {
         }
     }
 
-    private List<Integer> getFilledRows(){
+    private List<Integer> getFilledRows() {
         List<Integer> result = new ArrayList<>();
         for (int row = 0; row < numberOfRows; row++) {
             boolean rowFilled = true;
             for (int column = 0; column < numberOfColumns; column++) {
-                if(!cells[column][row].isFilled())
-                    rowFilled=false;
+                if (!cells[column][row].isFilled())
+                    rowFilled = false;
             }
-            if(rowFilled)
+            if (rowFilled)
                 result.add(row);
         }
         return result;
@@ -217,5 +227,9 @@ public class PlayingField {
 
     public int getNumberOfRows() {
         return numberOfRows;
+    }
+
+    public int getScoredPoints() {
+        return scoredPoints;
     }
 }
