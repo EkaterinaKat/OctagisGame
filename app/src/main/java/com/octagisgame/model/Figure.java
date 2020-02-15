@@ -9,10 +9,10 @@ class Figure {
     private int x;
     private int y;
 
-    Figure(boolean[][] shape, int color) {
+    Figure(boolean[][] shape, int color, int initialHorizontalPosition) {
         this.shape = shape;
         this.color = color;
-        x = 0;
+        x = initialHorizontalPosition;
         y = 0;
     }
 

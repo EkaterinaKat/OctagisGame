@@ -19,12 +19,14 @@ public class PlayingField {
     private int scoredPoints;
     private final int POINTS_FOR_ONE_ROW = 10;
     private GameActivity activity;
+    private FigureCreator figureCreator;
 
     public PlayingField(GameActivity activity, int numberOfColumns, int numberOfRows) {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
         this.view = activity.getDrawView();
         this.activity = activity;
+        figureCreator = new FigureCreator(numberOfColumns);
     }
 
     private void initializeFieldWithEmptyCells() {
@@ -45,7 +47,7 @@ public class PlayingField {
         public void run() {
             initializeFieldWithEmptyCells();
             scoredPoints = 0;
-            fallingFigure = FigureCreator.getRandomFigure();
+            fallingFigure = figureCreator.getRandomFigure();
             fallingFigure.descend();
             while (true) {
                 view.invalidate();
@@ -56,11 +58,11 @@ public class PlayingField {
                     }
                     finishFalling();
                     deleteFilledRows();
-                    fallingFigure = FigureCreator.getRandomFigure();
+                    fallingFigure = figureCreator.getRandomFigure();
                 }
                 fallingFigure.descend();
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -35,7 +35,7 @@ public class PolygonFieldDrawer extends FieldDrawer {
         //будем поворачивать на разные углы чтобы выполнять посторения
         mainAxisNodes = new Point[numberOfRows + 1];
         for (int i = 0; i < mainAxisNodes.length; i++) {
-            mainAxisNodes[i] = new Point(center.x - columnHeight + i * rowHeight, center.y);
+            mainAxisNodes[i] = new Point(center.x, center.y + columnHeight - i * rowHeight);
         }
     }
 
