@@ -10,19 +10,22 @@ import com.octagisgame.model.PlayingField;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
+import static java.lang.Math.pow;
 import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
 
 public class PolygonFieldDrawer extends FieldDrawer {
     private double angleRad;
-    private int cellHeight;
+    private int rowHeight;
     private Point center;
     private Point[] mainAxisNodes;
+    private int columnHeight;
 
     public PolygonFieldDrawer(PlayingField field, DisplayMetrics displayMetrics) {
         super(field, displayMetrics);
         angleRad = 2 * PI / numberOfColumns;
-        int columnHeight = screenHeight / 2;
-        cellHeight = columnHeight / numberOfRows;
+        columnHeight = screenHeight / 2;
+        rowHeight = columnHeight / (numberOfRows + 1);
         center = new Point(screenWidth / 2, screenHeight / 2);
         setMainAxisNodes();
     }
@@ -32,7 +35,7 @@ public class PolygonFieldDrawer extends FieldDrawer {
         //будем поворачивать на разные углы чтобы выполнять посторения
         mainAxisNodes = new Point[numberOfRows + 1];
         for (int i = 0; i < mainAxisNodes.length; i++) {
-            mainAxisNodes[i] = new Point(center.x - i * cellHeight, center.y);
+            mainAxisNodes[i] = new Point(center.x - columnHeight + i * rowHeight, center.y);
         }
     }
 
@@ -71,6 +74,16 @@ public class PolygonFieldDrawer extends FieldDrawer {
 
     @Override
     public void onTouchEvent(float x, float y) {
+        if (pointInFieldArea((int) x, (int) y)) {
+            field.rotateFigure();
+        } else if (x > center.x) {
+            field.moveFigureLeft();
+        } else {
+            field.moveFigureRight();
+        }
+    }
 
+    private boolean pointInFieldArea(int x, int y) {
+        return sqrt(pow(center.x - x, 2) + pow(center.y - y, 2)) <= columnHeight;
     }
 }
