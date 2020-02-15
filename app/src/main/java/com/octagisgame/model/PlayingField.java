@@ -3,6 +3,8 @@ package com.octagisgame.model;
 import android.graphics.Point;
 import android.view.View;
 
+import com.octagisgame.GameActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,16 +18,16 @@ public class PlayingField {
     private View view;
     private int scoredPoints;
     private final int POINTS_FOR_ONE_ROW = 10;
+    private GameActivity activity;
 
-    public PlayingField(int numberOfColumns, int numberOfRows, View view) {
+    public PlayingField(GameActivity activity, int numberOfColumns, int numberOfRows) {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
-        this.view = view;
-        scoredPoints = 0;
-        initializeField();
+        this.view = activity.getDrawView();
+        this.activity = activity;
     }
 
-    private void initializeField() {
+    private void initializeFieldWithEmptyCells() {
         cells = new Cell[numberOfColumns][numberOfRows];
         for (int column = 0; column < numberOfColumns; column++) {
             for (int row = 0; row < numberOfRows; row++) {
@@ -35,22 +37,25 @@ public class PlayingField {
     }
 
     public void startGame() {
-        game.start();
+        new Thread(game).start();
     }
 
-    private Thread game = new Thread(new Runnable() {
+    private Runnable game = new Runnable() {
         @Override
         public void run() {
+            initializeFieldWithEmptyCells();
+            scoredPoints = 0;
             fallingFigure = FigureCreator.getRandomFigure();
             fallingFigure.descend();
             while (true) {
                 view.invalidate();
                 if (fallingFigureLanded()) {
+                    if (gameOver()) {
+                        activity.showGameOverDialog(scoredPoints);
+                        break;
+                    }
                     finishFalling();
                     deleteFilledRows();
-                    if (gameOver()) {
-
-                    }
                     fallingFigure = FigureCreator.getRandomFigure();
                 }
                 fallingFigure.descend();
@@ -61,9 +66,14 @@ public class PlayingField {
                 }
             }
         }
-    });
+    };
 
     private boolean gameOver() {
+        for (Point section : getFallingFigureSectionsCoordinates()) {
+            boolean sectionAboveTop = section.y < 0;
+            if (sectionAboveTop)
+                return true;
+        }
         return false;
     }
 

@@ -16,11 +16,12 @@ import com.octagisgame.model.PlayingField;
 public class GameActivity extends AppCompatActivity {
     FieldDrawer fieldDrawer;
     PlayingField playingField;
+    DrawView drawView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DrawView drawView = new DrawView(this);
+        drawView = new DrawView(this);
         setContentView(drawView);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -28,9 +29,13 @@ public class GameActivity extends AppCompatActivity {
 
         int numberOfColumns = 15;
         int numberOfRows = 17;
-        playingField = new PlayingField(numberOfColumns, numberOfRows, drawView);
+        playingField = new PlayingField(this, numberOfColumns, numberOfRows);
         fieldDrawer = new ClassicFieldDrawer(playingField, displayMetrics);
 //        fieldDrawer = new PolygonFieldDrawer(playingField, displayMetrics);
+        startGame();
+    }
+
+    public void startGame() {
         playingField.startGame();
     }
 
@@ -54,5 +59,14 @@ public class GameActivity extends AppCompatActivity {
 
             return super.onTouchEvent(event);
         }
+    }
+
+    public void showGameOverDialog(int scoredPoints) {
+        GameOverDialog gameOverDialog = new GameOverDialog(this, scoredPoints);
+        gameOverDialog.show(getSupportFragmentManager(), "gameOverDialog");
+    }
+
+    public DrawView getDrawView() {
+        return drawView;
     }
 }
