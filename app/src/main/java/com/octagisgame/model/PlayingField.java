@@ -48,10 +48,12 @@ public class PlayingField {
             initializeFieldWithEmptyCells();
             scoredPoints = 0;
             fallingFigure = figureCreator.getRandomFigure();
-            fallingFigure.descend();
             while (true) {
-                view.invalidate();
-                if (fallingFigureLanded()) {
+                if (figureAbleToDescend()) {
+                    fallingFigure.descend();
+                    view.invalidate();
+                    sleep();
+                }else {
                     if (gameOver()) {
                         activity.showGameOverDialog(scoredPoints);
                         break;
@@ -60,15 +62,36 @@ public class PlayingField {
                     deleteFilledRows();
                     fallingFigure = figureCreator.getRandomFigure();
                 }
-                fallingFigure.descend();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         }
     };
+
+    private boolean figureAbleToDescend() {
+        int descendedFigureRow = fallingFigure.getY() + 1;
+        for (Point section : getShapeSectionsCoordinates(fallingFigure.getShape(), fallingFigure.getX(), descendedFigureRow)) {
+
+            boolean sectionAboveTop = section.y < 0;
+            if (sectionAboveTop)
+                break;
+
+            boolean sectionBelowBottom = section.y >= numberOfRows;
+            if (sectionBelowBottom)
+                return false;
+
+            boolean sectionInFilledCell = cells[section.x][section.y].isFilled();
+            if (sectionInFilledCell)
+                return false;
+        }
+        return true;
+    }
+
+    private void sleep() {
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     private boolean gameOver() {
         for (Point section : getFallingFigureSectionsCoordinates()) {
@@ -116,20 +139,6 @@ public class PlayingField {
                 result.add(row);
         }
         return result;
-    }
-
-    private boolean fallingFigureLanded() {
-        for (Point sectionCoordinates : getFallingFigureSectionsCoordinates()) {
-
-            boolean figureAtBottom = sectionCoordinates.y == numberOfRows - 1;
-            if (figureAtBottom)
-                return true;
-
-            boolean figureOnOtherFigure = cells[sectionCoordinates.x][sectionCoordinates.y + 1].isFilled();
-            if (figureOnOtherFigure)
-                return true;
-        }
-        return false;
     }
 
     private void finishFalling() {
