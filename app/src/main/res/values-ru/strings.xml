@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OctagisGame</string>
+    <string name="game_over">Игра окончена</string>
+    <string name="start_again">Еще раз</string>
+    <string name="main_menu">Главное меню</string>
+    <string name="number_of_scored_points">Количество набранных очков: %1$d </string>
+</resources>

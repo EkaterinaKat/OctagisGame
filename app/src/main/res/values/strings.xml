@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">OctagisGame</string>
-    <string name="start_game">Start game</string>
     <string name="game_over">Game over</string>
     <string name="start_again">Start again</string>
     <string name="main_menu">Main menu</string>
