@@ -54,13 +54,13 @@ class FigureCreator {
             {false, false, true, true},
             {false, false, false, false}};
 
-    private int RED = Color.rgb(255, 0, 0);
-    private int ORANGE = Color.rgb(255, 100, 0);
-    private int YELLOW = Color.rgb(255, 255, 0);
-    private int GREEN = Color.rgb(0, 128, 0);
-    private int BLUE = Color.rgb(0, 191, 255);
-    private int INDIGO = Color.rgb(0, 0, 128);
-    private int VIOLET = Color.rgb(75, 0, 130);
+    private int RED = Color.rgb(255, 8, 0);
+    private int ORANGE = Color.rgb(254, 93, 3);
+    private int YELLOW = Color.rgb(250, 215, 0);
+    private int GREEN = Color.rgb(75, 254, 1);
+    private int BLUE = Color.rgb(0, 214, 220);
+    private int INDIGO = Color.rgb(6, 0, 254);
+    private int VIOLET = Color.rgb(255, 0, 218);
 
     private boolean[][][] shapes = {I_SHAPE, O_SHAPE, T_SHAPE, L_SHAPE, J_SHAPE, S_SHAPE, Z_SHAPE};
     private int[] colors = {RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET};

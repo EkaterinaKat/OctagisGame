@@ -15,7 +15,7 @@ import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
 public class PolygonFieldDrawer extends FieldDrawer {
-    private double angleRad;
+    private double angle; //угол в радианах, внутри которого располагается одна колонка
     private int rowHeight;
     private Point center;
     private Point[] mainAxisNodes;
@@ -23,7 +23,7 @@ public class PolygonFieldDrawer extends FieldDrawer {
 
     public PolygonFieldDrawer(PlayingField field, DisplayMetrics displayMetrics) {
         super(field, displayMetrics);
-        angleRad = 2 * PI / numberOfColumns;
+        angle = 2 * PI / numberOfColumns;
         columnHeight = screenHeight / 2;
         rowHeight = columnHeight / (numberOfRows + 1);
         center = new Point(screenWidth / 2, screenHeight / 2);
@@ -59,10 +59,10 @@ public class PolygonFieldDrawer extends FieldDrawer {
 
     private Point[] getCellTops(int column, int row) {
         Point[] tops = new Point[4];
-        tops[0] = rotatePointAroundCenter(mainAxisNodes[row], angleRad * column);
-        tops[1] = rotatePointAroundCenter(mainAxisNodes[row + 1], angleRad * column);
-        tops[2] = rotatePointAroundCenter(mainAxisNodes[row + 1], angleRad * (column + 1));
-        tops[3] = rotatePointAroundCenter(mainAxisNodes[row], angleRad * (column + 1));
+        tops[0] = rotatePointAroundCenter(mainAxisNodes[row], angle * column);
+        tops[1] = rotatePointAroundCenter(mainAxisNodes[row + 1], angle * column);
+        tops[2] = rotatePointAroundCenter(mainAxisNodes[row + 1], angle * (column + 1));
+        tops[3] = rotatePointAroundCenter(mainAxisNodes[row], angle * (column + 1));
         return tops;
     }
 
