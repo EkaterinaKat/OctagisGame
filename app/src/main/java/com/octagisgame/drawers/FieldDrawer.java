@@ -33,9 +33,9 @@ abstract public class FieldDrawer {
     }
 
     private void drawField(Canvas canvas) {
-        for (int i = 0; i < numberOfColumns; i++) {
-            for (int j = 0; j < numberOfRows; j++) {
-                drawCell(i, j, canvas);
+        for (int column = 0; column < numberOfColumns; column++) {
+            for (int row = 0; row < numberOfRows; row++) {
+                drawCell(column, row, canvas);
             }
         }
     }

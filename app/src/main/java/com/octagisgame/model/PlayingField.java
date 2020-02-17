@@ -1,6 +1,5 @@
 package com.octagisgame.model;
 
-import android.graphics.Point;
 import android.view.View;
 
 import com.octagisgame.GameActivity;
@@ -68,17 +67,17 @@ public class PlayingField {
 
     private boolean figureAbleToDescend() {
         int descendedFigureRow = fallingFigure.getY() + 1;
-        for (Point section : getShapeSectionsCoordinates(fallingFigure.getShape(), fallingFigure.getX(), descendedFigureRow)) {
+        for (FigureSection section : getShapeSectionsCoordinates(fallingFigure.getShape(), fallingFigure.getX(), descendedFigureRow)) {
 
-            boolean sectionAboveTop = section.y < 0;
+            boolean sectionAboveTop = section.getRow() < 0;
             if (sectionAboveTop)
                 break;
 
-            boolean sectionBelowBottom = section.y >= numberOfRows;
+            boolean sectionBelowBottom = section.getRow() >= numberOfRows;
             if (sectionBelowBottom)
                 return false;
 
-            boolean sectionInFilledCell = cells[section.x][section.y].isFilled();
+            boolean sectionInFilledCell = cells[section.getColumn()][section.getRow()].isFilled();
             if (sectionInFilledCell)
                 return false;
         }
@@ -94,8 +93,8 @@ public class PlayingField {
     }
 
     private boolean gameOver() {
-        for (Point section : getFallingFigureSectionsCoordinates()) {
-            boolean sectionAboveTop = section.y < 0;
+        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
+            boolean sectionAboveTop = section.getRow() < 0;
             if (sectionAboveTop)
                 return true;
         }
@@ -142,35 +141,35 @@ public class PlayingField {
     }
 
     private void finishFalling() {
-        for (Point sectionCoordinates : getFallingFigureSectionsCoordinates()) {
-            cells[sectionCoordinates.x][sectionCoordinates.y].makeFilled(fallingFigure.getColor());
+        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
+            cells[section.getColumn()][section.getRow()].makeFilled(fallingFigure.getColor());
         }
     }
 
     private boolean fallingFigureInCell(int column, int row) {
-        for (Point sectionCoordinates : getFallingFigureSectionsCoordinates()) {
-            if (sectionCoordinates.x == column && sectionCoordinates.y == row) {
+        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
+            if (section.getColumn() == column && section.getRow() == row) {
                 return true;
             }
         }
         return false;
     }
 
-    private List<Point> getShapeSectionsCoordinates(boolean[][] shape, int shapeX, int shapeY) {
-        List<Point> result = new ArrayList<>();
+    private List<FigureSection> getShapeSectionsCoordinates(boolean[][] shape, int shapeX, int shapeY) {
+        List<FigureSection> result = new ArrayList<>();
         for (int i = 0; i < FIGURE_SIZE; i++) {
             for (int j = 0; j < FIGURE_SIZE; j++) {
                 if (shape[i][j]) {
                     int sectionColumn = getActualColumnNumber(shapeX + j);
                     int sectionRow = shapeY - i;
-                    result.add(new Point(sectionColumn, sectionRow));
+                    result.add(new FigureSection(sectionColumn, sectionRow));
                 }
             }
         }
         return result;
     }
 
-    private List<Point> getFallingFigureSectionsCoordinates() {
+    private List<FigureSection> getFallingFigureSectionsCoordinates() {
         return getShapeSectionsCoordinates(fallingFigure.getShape(), fallingFigure.getX(), fallingFigure.getY());
     }
 
@@ -218,17 +217,17 @@ public class PlayingField {
     }
 
     private boolean shapeAcceptable(boolean[][] shape, int posX, int posY) {
-        for (Point section : getShapeSectionsCoordinates(shape, posX, posY)) {
+        for (FigureSection section : getShapeSectionsCoordinates(shape, posX, posY)) {
 
-            boolean sectionBelowBottom = section.y >= numberOfRows;
+            boolean sectionBelowBottom = section.getRow() >= numberOfRows;
             if (sectionBelowBottom)
                 return false;
 
-            boolean sectionAboveTop = section.y < 0;
+            boolean sectionAboveTop = section.getRow() < 0;
             if (sectionAboveTop)
                 return false;
 
-            boolean sectionInFilledCell = cells[section.x][section.y].isFilled();
+            boolean sectionInFilledCell = cells[section.getColumn()][section.getRow()].isFilled();
             if (sectionInFilledCell)
                 return false;
         }
