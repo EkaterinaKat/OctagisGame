@@ -2,7 +2,7 @@ package com.octagisgame.model;
 
 import android.view.View;
 
-import com.octagisgame.GameActivity;
+import com.octagisgame.activities.GameActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,24 +46,28 @@ public class PlayingField {
         public void run() {
             initializeFieldWithEmptyCells();
             scoredPoints = 0;
-            fallingFigure = figureCreator.getRandomFigure();
+            generateNextFigure();
             while (true) {
                 if (figureAbleToDescend()) {
                     fallingFigure.descend();
                     view.invalidate();
                     sleep();
-                }else {
+                } else {
                     if (gameOver()) {
                         activity.showGameOverDialog(scoredPoints);
                         break;
                     }
                     finishFalling();
                     deleteFilledRows();
-                    fallingFigure = figureCreator.getRandomFigure();
+                    generateNextFigure();
                 }
             }
         }
     };
+
+    private void generateNextFigure() {
+        fallingFigure = figureCreator.getRandomFigure();
+    }
 
     private boolean figureAbleToDescend() {
         int descendedFigureRow = fallingFigure.getY() + 1;
