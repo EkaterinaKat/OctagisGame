@@ -15,9 +15,12 @@ import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
 public class PolygonFieldDrawer extends FieldDrawer {
-    private double angle; //угол в радианах, внутри которого располагается одна колонка
+    /* Угол в радианах, внутри которого располагается одна колонка*/
+    private double angle;
     private int rowHeight;
     private Point center;
+    /* Главная ось направлена из центра поля вправо, узлы на главной оси это точки которые
+     * будем поворачивать на разные углы чтобы выполнять посторения */
     private Point[] mainAxisNodes;
     private int columnHeight;
 
@@ -31,8 +34,6 @@ public class PolygonFieldDrawer extends FieldDrawer {
     }
 
     private void setMainAxisNodes() {
-        //главная ось направлена из центра поля вправо, узлы на главной оси это точки которые
-        //будем поворачивать на разные углы чтобы выполнять посторения
         mainAxisNodes = new Point[numberOfRows + 1];
         for (int i = 0; i < mainAxisNodes.length; i++) {
             mainAxisNodes[i] = new Point(center.x, center.y + columnHeight - i * rowHeight);

@@ -5,4 +5,5 @@
     <string name="start_again">Еще раз</string>
     <string name="main_menu">Главное меню</string>
     <string name="number_of_scored_points">Количество набранных очков: %1$d </string>
+    <string name="continue_game">Продолжить игру</string>
 </resources>

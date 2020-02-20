@@ -14,7 +14,8 @@ public class ClassicFieldDrawer extends FieldDrawer {
     private int cellHeight;
     private int cellWidth;
     private int fieldWidth;
-    private Point startingPoint; //верхняя левая точка поля
+    /* Верхняя левая точка поля */
+    private Point startingPoint;
 
     public ClassicFieldDrawer(PlayingField field, DisplayMetrics displayMetrics) {
         super(field, displayMetrics);

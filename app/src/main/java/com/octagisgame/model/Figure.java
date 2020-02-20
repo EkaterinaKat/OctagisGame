@@ -4,9 +4,11 @@ class Figure {
     static final int FIGURE_SIZE = 4;
     private boolean[][] shape;
     private int color;
-    //горизонтальная координата направлена слева направо, вертикальная сверху вниз
-    //координаты нижней левой клеточки фигуры
+    /* Горизонтальная координата нижней левой клеточки фигуры.
+     * Горизонтальная ось направлена слева направо */
     private int x;
+    /* Вертикальная координата нижней левой клеточки фигуры.
+     * Вертикальная ось направлена сверху вниз */
     private int y;
 
     Figure(boolean[][] shape, int color, int initialHorizontalPosition) {

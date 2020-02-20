@@ -12,31 +12,28 @@ import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
 import com.octagisgame.activities.MainActivity;
 
-public class GameOverDialog extends DialogFragment {
+public class PauseDialog  extends DialogFragment {
 
-    private int scoredPoints;
     private GameActivity activity;
 
-    public GameOverDialog(GameActivity activity, int scoredPoints) {
-        this.scoredPoints = scoredPoints;
+    public PauseDialog(GameActivity activity) {
         this.activity = activity;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.game_over)
-                .setMessage(getString(R.string.number_of_scored_points, scoredPoints))
-                .setPositiveButton(R.string.start_again, startAgainListener)
+                .setPositiveButton(R.string.continue_game, continueGameListener)
                 .setNegativeButton(R.string.main_menu, mainMenuListener);
         setCancelable(false);
         return builder.create();
     }
 
-    private DialogInterface.OnClickListener startAgainListener = new DialogInterface.OnClickListener() {
+    private DialogInterface.OnClickListener continueGameListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
-            activity.startGame();
+            dismiss();
+            activity.continueGame();
         }
     };
 

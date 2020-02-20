@@ -9,22 +9,24 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.octagisgame.dialogs.GameOverDialog;
+import com.octagisgame.dialogs.PauseDialog;
 import com.octagisgame.drawers.ClassicFieldDrawer;
 import com.octagisgame.drawers.FieldDrawer;
 import com.octagisgame.model.PlayingField;
 
+import static com.octagisgame.activities.MainActivity.hideSystemUI;
+
 public class GameActivity extends AppCompatActivity {
-    FieldDrawer fieldDrawer;
-    PlayingField playingField;
-    DrawView drawView;
+    private FieldDrawer fieldDrawer;
+    private DrawView drawView;
+    private PlayingField playingField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         drawView = new DrawView(this);
         setContentView(drawView);
-        hideSystemUI();
+        hideSystemUI(getWindow());
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -35,6 +37,16 @@ public class GameActivity extends AppCompatActivity {
         fieldDrawer = new ClassicFieldDrawer(playingField, displayMetrics);
 //        fieldDrawer = new PolygonFieldDrawer(playingField, displayMetrics);
         startGame();
+    }
+
+    @Override
+    public void onBackPressed() {
+        playingField.pauseGame();
+        showPauseDialog();
+    }
+
+    public void continueGame(){
+        playingField.continueGame();
     }
 
     public void startGame() {
@@ -56,29 +68,15 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouchEvent(MotionEvent event) {
             float x = event.getX();
             float y = event.getY();
-
             fieldDrawer.onTouchEvent(x, y);
-
             return super.onTouchEvent(event);
         }
     }
 
-    public void showGameOverDialog(int scoredPoints) {
-        GameOverDialog gameOverDialog = new GameOverDialog(this, scoredPoints);
-        gameOverDialog.show(getSupportFragmentManager(), "gameOverDialog");
+    private void showPauseDialog() {
+        PauseDialog pauseDialog = new PauseDialog(this);
+        pauseDialog.show(getSupportFragmentManager(), "pauseDialog");
     }
-
-    private void hideSystemUI() {
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-    }
-
 
     public DrawView getDrawView() {
         return drawView;

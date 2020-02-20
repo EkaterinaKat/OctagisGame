@@ -3,6 +3,7 @@ package com.octagisgame.model;
 import android.view.View;
 
 import com.octagisgame.activities.GameActivity;
+import com.octagisgame.dialogs.GameOverDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class PlayingField {
     private final int POINTS_FOR_ONE_ROW = 10;
     private GameActivity activity;
     private FigureCreator figureCreator;
+    private boolean gamePaused;
 
     public PlayingField(GameActivity activity, int numberOfColumns, int numberOfRows) {
         this.numberOfColumns = numberOfColumns;
@@ -46,24 +48,32 @@ public class PlayingField {
         public void run() {
             initializeFieldWithEmptyCells();
             scoredPoints = 0;
+            gamePaused = false;
             generateNextFigure();
             while (true) {
-                if (figureAbleToDescend()) {
-                    fallingFigure.descend();
-                    view.invalidate();
-                    sleep();
-                } else {
-                    if (gameOver()) {
-                        activity.showGameOverDialog(scoredPoints);
-                        break;
+                if(!gamePaused){
+                    if (figureAbleToDescend()) {
+                        fallingFigure.descend();
+                        view.invalidate();
+                        sleep();
+                    } else {
+                        if (gameOver()) {
+                            showGameOverDialog(scoredPoints);
+                            break;
+                        }
+                        finishFalling();
+                        deleteFilledRows();
+                        generateNextFigure();
                     }
-                    finishFalling();
-                    deleteFilledRows();
-                    generateNextFigure();
                 }
             }
         }
     };
+
+    private void showGameOverDialog(int scoredPoints) {
+        GameOverDialog gameOverDialog = new GameOverDialog(activity, scoredPoints);
+        gameOverDialog.show(activity.getSupportFragmentManager(), "gameOverDialog");
+    }
 
     private void generateNextFigure() {
         fallingFigure = figureCreator.getRandomFigure();
@@ -255,5 +265,13 @@ public class PlayingField {
 
     public int getScoredPoints() {
         return scoredPoints;
+    }
+
+    public void pauseGame(){
+        gamePaused = true;
+    }
+
+    public void continueGame(){
+        gamePaused = false;
     }
 }
