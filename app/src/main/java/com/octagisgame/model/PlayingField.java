@@ -54,7 +54,6 @@ public class PlayingField {
                 if(!gamePaused){
                     if (figureAbleToDescend()) {
                         fallingFigure.descend();
-                        view.invalidate();
                         sleep();
                     } else {
                         if (gameOver()) {
@@ -273,5 +272,9 @@ public class PlayingField {
 
     public void continueGame(){
         gamePaused = false;
+    }
+
+    public boolean isGamePaused() {
+        return gamePaused;
     }
 }

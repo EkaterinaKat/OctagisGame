@@ -10,8 +10,8 @@ import com.octagisgame.model.PlayingField;
 
 abstract public class FieldDrawer {
     private final int TEXT_SIZE = 40;
-    Path path = new Path();
-    Paint paint = new Paint();
+    Path path;
+    Paint paint;
     PlayingField field;
     int numberOfColumns;
     int numberOfRows;
@@ -20,6 +20,8 @@ abstract public class FieldDrawer {
 
 
     FieldDrawer(PlayingField field, DisplayMetrics displayMetrics) {
+        path = new Path();
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         this.field = field;
         numberOfColumns = field.getNumberOfColumns();
         numberOfRows = field.getNumberOfRows();

@@ -40,12 +40,8 @@ public class PauseDialog  extends DialogFragment {
     private DialogInterface.OnClickListener mainMenuListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
-            goToMainMenu();
+            activity.goToMainMenu();
         }
     };
 
-    private void goToMainMenu(){
-        Intent intent = new Intent(activity, MainActivity.class);
-        startActivity(intent);
-    }
 }

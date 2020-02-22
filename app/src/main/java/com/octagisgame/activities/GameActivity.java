@@ -1,17 +1,19 @@
 package com.octagisgame.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.dialogs.PauseDialog;
-import com.octagisgame.drawers.ClassicFieldDrawer;
 import com.octagisgame.drawers.FieldDrawer;
+import com.octagisgame.drawers.PolygonFieldDrawer;
 import com.octagisgame.model.PlayingField;
 
 import static com.octagisgame.activities.MainActivity.hideSystemUI;
@@ -20,6 +22,7 @@ public class GameActivity extends AppCompatActivity {
     private FieldDrawer fieldDrawer;
     private DrawView drawView;
     private PlayingField playingField;
+    private DrawThread drawThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,10 @@ public class GameActivity extends AppCompatActivity {
         int numberOfColumns = 15;
         int numberOfRows = 17;
         playingField = new PlayingField(this, numberOfColumns, numberOfRows);
-        fieldDrawer = new ClassicFieldDrawer(playingField, displayMetrics);
-//        fieldDrawer = new PolygonFieldDrawer(playingField, displayMetrics);
+//        fieldDrawer = new ClassicFieldDrawer(playingField, displayMetrics);
+        fieldDrawer = new PolygonFieldDrawer(playingField, displayMetrics);
+        drawThread = new DrawThread();
+        drawThread.start();
         startGame();
     }
 
@@ -70,6 +75,24 @@ public class GameActivity extends AppCompatActivity {
             float y = event.getY();
             fieldDrawer.onTouchEvent(x, y);
             return super.onTouchEvent(event);
+        }
+    }
+
+    public void goToMainMenu(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        drawThread.interrupt();
+        finish();
+    }
+
+    private class DrawThread extends Thread {
+        @Override
+        public void run() {
+            while (true){
+                if(!playingField.isGamePaused()){
+                    drawView.invalidate();
+                }
+            }
         }
     }
 
