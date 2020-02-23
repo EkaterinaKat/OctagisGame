@@ -262,7 +262,7 @@ public class PlayingField {
             return fallingFigure.getColor();
         }
         if(figureProjectionInCell(column, row)){
-            return Color.rgb(215,215, 215);
+            return Color.rgb(200,200, 200);
         }
         return cells[column][row].getColor();
     }

@@ -1,14 +1,16 @@
 package com.octagisgame.drawers;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.util.DisplayMetrics;
 
 import com.octagisgame.model.PlayingField;
+import com.octagisgame.stylers.Styler;
 
-import static java.lang.Math.*;
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
 
 public class PolygonFieldDrawer extends FieldDrawer {
     /* Угол в радианах, внутри которого располагается одна колонка*/
@@ -21,8 +23,8 @@ public class PolygonFieldDrawer extends FieldDrawer {
     private int columnHeight;
     private PolygonFieldInterfaceDrawer interfaceDrawer;
 
-    public PolygonFieldDrawer(PlayingField field, Point displaySize) {
-        super(field, displaySize);
+    public PolygonFieldDrawer(PlayingField field, Point displaySize, Styler styler) {
+        super(field, displaySize, styler);
         interfaceDrawer = new PolygonFieldInterfaceDrawer(field, displaySize);
         angle = 2 * PI / numberOfColumns;
         columnHeight = screenWidth / 2;
@@ -51,13 +53,11 @@ public class PolygonFieldDrawer extends FieldDrawer {
             path.lineTo(tops[i].x, tops[i].y);
         }
         path.close();
-        paint.setColor(field.getCellColour(column, row));
-        paint.setStyle(Paint.Style.FILL);
+        int cellColour = field.getCellColour(column, row);
+        styler.tunePaintForCell(paint, cellColour);
         canvas.drawPath(path, paint);
-//        paint.setColor(Color.BLACK);
-//        paint.setStyle(Paint.Style.STROKE);
-//        paint.setStrokeWidth(4);
-//        canvas.drawPath(path, paint);
+        styler.tunePaintForCellBorders(paint, cellColour);
+        canvas.drawPath(path, paint);
         path.reset();
     }
 

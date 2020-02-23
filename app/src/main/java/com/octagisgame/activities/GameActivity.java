@@ -12,9 +12,11 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.dialogs.PauseDialog;
+import com.octagisgame.drawers.ClassicFieldDrawer;
 import com.octagisgame.drawers.FieldDrawer;
-import com.octagisgame.drawers.PolygonFieldDrawer;
 import com.octagisgame.model.PlayingField;
+import com.octagisgame.stylers.MinimalisticStyler;
+import com.octagisgame.stylers.Styler;
 
 import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
@@ -38,8 +40,11 @@ public class GameActivity extends AppCompatActivity {
         int numberOfColumns = 15;
         int numberOfRows = 17;
         playingField = new PlayingField(this, numberOfColumns, numberOfRows);
-//        fieldDrawer = new ClassicFieldDrawer(playingField, displayMetrics);
-        fieldDrawer = new PolygonFieldDrawer(playingField, displaySize);
+//        Styler styler = new BasicStyler();
+//        Styler styler = new BrickStyler();
+        Styler styler = new MinimalisticStyler();
+//        fieldDrawer = new PolygonFieldDrawer(playingField, displaySize, styler);
+        fieldDrawer = new ClassicFieldDrawer(playingField, displaySize, styler);
         drawThread = new DrawThread();
         drawThread.start();
         startGame();

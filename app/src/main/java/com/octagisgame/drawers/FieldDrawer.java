@@ -7,6 +7,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 
 import com.octagisgame.model.PlayingField;
+import com.octagisgame.stylers.Styler;
 
 abstract public class FieldDrawer {
     Path path;
@@ -16,9 +17,10 @@ abstract public class FieldDrawer {
     int numberOfRows;
     int screenWidth;
     int screenHeight;
+    Styler styler;
 
-
-    FieldDrawer(PlayingField field, Point displaySize) {
+    FieldDrawer(PlayingField field, Point displaySize, Styler styler) {
+        this.styler = styler;
         path = new Path();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         this.field = field;
