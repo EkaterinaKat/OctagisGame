@@ -12,7 +12,7 @@ import com.octagisgame.model.PlayingField;
 
 public class PolygonFieldInterfaceDrawer {
     /* Указывает сколько процентов от высоты поля занимает высота кнопок управления */
-    private final double CONTROL_BUTTONS_HEIGHT_PERCENT = 0.3;
+    private final double CONTROL_BUTTONS_HEIGHT_PERCENT = 0.35;
     private final int TEXT_SIZE = 40;
     private int controlButtonsHeight;
     private PlayingField field;
@@ -58,10 +58,10 @@ public class PolygonFieldInterfaceDrawer {
     }
 
     void drawInterface(Canvas canvas) {
-        leftButton.draw(canvas, Color.argb(130, 100, 149, 237)); //CornflowerBlue	#6495ED
+        leftButton.draw(canvas, Color.argb(130, 100, 149, 237));
         rightButton.draw(canvas, Color.argb(130,100, 149, 237));
-        rotationButton.draw(canvas, Color.argb(130,173, 255, 47)); //GreenYellow	#ADFF2F
-        speedUpButton.draw(canvas, Color.argb(130,250, 128, 114)); //Salmon	#FA8072
+        rotationButton.draw(canvas, Color.argb(130,173, 255, 47));
+        speedUpButton.draw(canvas, Color.argb(130,250, 128, 114));
     }
 
     private void printScoredPoints(Canvas canvas) {

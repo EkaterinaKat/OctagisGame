@@ -1,5 +1,6 @@
 package com.octagisgame.model;
 
+import android.graphics.Color;
 import android.view.View;
 
 import com.octagisgame.activities.GameActivity;
@@ -13,7 +14,7 @@ import static com.octagisgame.model.Figure.FIGURE_SIZE;
 public class PlayingField {
     private final int POINTS_FOR_ONE_ROW = 10;
     private final int STANDARD_TIME_INTERVAL = 300;
-    private final int REDUCED_TIME_INTERVAL = 40;
+    private final int REDUCED_TIME_INTERVAL = 20;
     private int timeInterval;
     private int numberOfColumns;
     private int numberOfRows;
@@ -260,7 +261,29 @@ public class PlayingField {
         if (fallingFigureInCell(column, row)) {
             return fallingFigure.getColor();
         }
+        if(figureProjectionInCell(column, row)){
+            return Color.rgb(215,215, 215);
+        }
         return cells[column][row].getColor();
+    }
+
+    private boolean figureProjectionInCell(int column, int row){
+        for (FigureSection section : getFigureProjectionCoordinates()) {
+            if (section.getColumn() == column && section.getRow() == row) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private List<FigureSection> getFigureProjectionCoordinates(){
+        boolean[][] projectionShape = fallingFigure.getShape();
+        int projectionY = fallingFigure.getY();
+        int projectionX = fallingFigure.getX();
+        while (shapeAcceptable(projectionShape, projectionX, projectionY+1)){
+            projectionY+=1;
+        }
+        return getShapeSectionsCoordinates(projectionShape, projectionX, projectionY);
     }
 
     public int getNumberOfColumns() {
