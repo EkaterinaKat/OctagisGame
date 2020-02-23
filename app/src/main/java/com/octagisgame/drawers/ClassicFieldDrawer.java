@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.DisplayMetrics;
 
 import com.octagisgame.model.PlayingField;
 
@@ -17,9 +16,9 @@ public class ClassicFieldDrawer extends FieldDrawer {
     /* Верхняя левая точка поля */
     private Point startingPoint;
 
-    public ClassicFieldDrawer(PlayingField field, DisplayMetrics displayMetrics) {
-        super(field, displayMetrics);
-        fieldWidth = (int)(screenWidth*RELATIVE_FIELD_WIDTH);
+    public ClassicFieldDrawer(PlayingField field, Point displaySize) {
+        super(field, displaySize);
+        fieldWidth = (int) (screenWidth * RELATIVE_FIELD_WIDTH);
         cellHeight = screenHeight / numberOfRows;
         cellWidth = fieldWidth / numberOfColumns;
         startingPoint = new Point((screenWidth - fieldWidth) / 2, 0);
@@ -42,7 +41,7 @@ public class ClassicFieldDrawer extends FieldDrawer {
     }
 
     @Override
-    public void onTouchEvent(float x, float y) {
+    public void onTouchEvent(int x, int y) {
         if (x < (screenWidth - fieldWidth) / 2) {
             field.moveFigureLeft();
         } else if (x > (screenWidth + fieldWidth) / 2) {
@@ -50,5 +49,10 @@ public class ClassicFieldDrawer extends FieldDrawer {
         } else {
             field.rotateFigure();
         }
+    }
+
+    @Override
+    void drawInterface(Canvas canvas) {
+
     }
 }

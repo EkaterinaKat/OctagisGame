@@ -8,28 +8,26 @@ import android.util.DisplayMetrics;
 
 import com.octagisgame.model.PlayingField;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.cos;
-import static java.lang.Math.pow;
-import static java.lang.Math.sin;
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 
 public class PolygonFieldDrawer extends FieldDrawer {
     /* Угол в радианах, внутри которого располагается одна колонка*/
     private double angle;
     private int rowHeight;
     private Point center;
-    /* Главная ось направлена из центра поля вправо, узлы на главной оси это точки которые
+    /* Главная ось направлена из центра поля вправо, узлы на главной оси это точки, которые
      * будем поворачивать на разные углы чтобы выполнять посторения */
     private Point[] mainAxisNodes;
     private int columnHeight;
+    private PolygonFieldInterfaceDrawer interfaceDrawer;
 
-    public PolygonFieldDrawer(PlayingField field, DisplayMetrics displayMetrics) {
-        super(field, displayMetrics);
+    public PolygonFieldDrawer(PlayingField field, Point displaySize) {
+        super(field, displaySize);
+        interfaceDrawer = new PolygonFieldInterfaceDrawer(field, displaySize);
         angle = 2 * PI / numberOfColumns;
-        columnHeight = screenHeight / 2;
+        columnHeight = screenWidth / 2;
         rowHeight = columnHeight / (numberOfRows + 1);
-        center = new Point(screenWidth / 2, screenHeight / 2);
+        center = new Point(screenWidth / 2, columnHeight);
         setMainAxisNodes();
     }
 
@@ -38,6 +36,11 @@ public class PolygonFieldDrawer extends FieldDrawer {
         for (int i = 0; i < mainAxisNodes.length; i++) {
             mainAxisNodes[i] = new Point(center.x, center.y + columnHeight - i * rowHeight);
         }
+    }
+
+    @Override
+    void drawInterface(Canvas canvas) {
+        interfaceDrawer.drawInterface(canvas);
     }
 
     @Override
@@ -51,10 +54,10 @@ public class PolygonFieldDrawer extends FieldDrawer {
         paint.setColor(field.getCellColour(column, row));
         paint.setStyle(Paint.Style.FILL);
         canvas.drawPath(path, paint);
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(4);
-        canvas.drawPath(path, paint);
+//        paint.setColor(Color.BLACK);
+//        paint.setStyle(Paint.Style.STROKE);
+//        paint.setStrokeWidth(4);
+//        canvas.drawPath(path, paint);
         path.reset();
     }
 
@@ -74,14 +77,8 @@ public class PolygonFieldDrawer extends FieldDrawer {
     }
 
     @Override
-    public void onTouchEvent(float x, float y) {
-        if (pointInFieldArea((int) x, (int) y)) {
-            field.rotateFigure();
-        } else if (x > center.x) {
-            field.moveFigureLeft();
-        } else {
-            field.moveFigureRight();
-        }
+    public void onTouchEvent(int x, int y) {
+        interfaceDrawer.onTouchEvent(x, y);
     }
 
     private boolean pointInFieldArea(int x, int y) {

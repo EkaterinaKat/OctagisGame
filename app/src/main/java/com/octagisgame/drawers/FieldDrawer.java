@@ -4,12 +4,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.DisplayMetrics;
+import android.graphics.Point;
 
 import com.octagisgame.model.PlayingField;
 
 abstract public class FieldDrawer {
-    private final int TEXT_SIZE = 40;
     Path path;
     Paint paint;
     PlayingField field;
@@ -19,19 +18,20 @@ abstract public class FieldDrawer {
     int screenHeight;
 
 
-    FieldDrawer(PlayingField field, DisplayMetrics displayMetrics) {
+    FieldDrawer(PlayingField field, Point displaySize) {
         path = new Path();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         this.field = field;
         numberOfColumns = field.getNumberOfColumns();
         numberOfRows = field.getNumberOfRows();
-        screenWidth = displayMetrics.widthPixels;
-        screenHeight = displayMetrics.heightPixels;
+        screenWidth = displaySize.x;
+        screenHeight = displaySize.y;
     }
 
     public void draw(Canvas canvas) {
+        canvas.drawColor(Color.WHITE);
         drawField(canvas);
-        printScoredPoints(canvas);
+        drawInterface(canvas);
     }
 
     private void drawField(Canvas canvas) {
@@ -42,14 +42,9 @@ abstract public class FieldDrawer {
         }
     }
 
-    private void printScoredPoints(Canvas canvas) {
-        String scoredPoints = String.valueOf(field.getScoredPoints());
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(TEXT_SIZE);
-        canvas.drawText(scoredPoints, 50, 50, paint);
-    }
-
     abstract void drawCell(int column, int row, Canvas canvas);
 
-    abstract public void onTouchEvent(float x, float y);
+    abstract void drawInterface(Canvas canvas);
+
+    abstract public void onTouchEvent(int x, int y);
 }

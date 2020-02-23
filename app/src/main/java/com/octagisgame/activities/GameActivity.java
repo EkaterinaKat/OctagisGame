@@ -3,9 +3,9 @@ package com.octagisgame.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -31,14 +31,15 @@ public class GameActivity extends AppCompatActivity {
         setContentView(drawView);
         hideSystemUI(getWindow());
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        Display display = getWindowManager().getDefaultDisplay();
+        Point displaySize = new Point();
+        display.getRealSize(displaySize);
 
         int numberOfColumns = 15;
         int numberOfRows = 17;
         playingField = new PlayingField(this, numberOfColumns, numberOfRows);
 //        fieldDrawer = new ClassicFieldDrawer(playingField, displayMetrics);
-        fieldDrawer = new PolygonFieldDrawer(playingField, displayMetrics);
+        fieldDrawer = new PolygonFieldDrawer(playingField, displaySize);
         drawThread = new DrawThread();
         drawThread.start();
         startGame();
@@ -50,7 +51,7 @@ public class GameActivity extends AppCompatActivity {
         showPauseDialog();
     }
 
-    public void continueGame(){
+    public void continueGame() {
         playingField.continueGame();
     }
 
@@ -73,12 +74,12 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouchEvent(MotionEvent event) {
             float x = event.getX();
             float y = event.getY();
-            fieldDrawer.onTouchEvent(x, y);
+            fieldDrawer.onTouchEvent((int) x, (int) y);
             return super.onTouchEvent(event);
         }
     }
 
-    public void goToMainMenu(){
+    public void goToMainMenu() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         drawThread.interrupt();
@@ -88,8 +89,8 @@ public class GameActivity extends AppCompatActivity {
     private class DrawThread extends Thread {
         @Override
         public void run() {
-            while (true){
-                if(!playingField.isGamePaused()){
+            while (true) {
+                if (!playingField.isGamePaused()) {
                     drawView.invalidate();
                 }
             }
