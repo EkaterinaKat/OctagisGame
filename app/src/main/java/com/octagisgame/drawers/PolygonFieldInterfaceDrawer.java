@@ -7,14 +7,8 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Region;
-import android.util.DisplayMetrics;
 
 import com.octagisgame.model.PlayingField;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class PolygonFieldInterfaceDrawer {
     /* Указывает сколько процентов от высоты поля занимает высота кнопок управления */
@@ -28,7 +22,7 @@ public class PolygonFieldInterfaceDrawer {
     private int screenHeight;
     private ControlButton leftButton;
     private ControlButton rightButton;
-    private ControlButton dropButton;
+    private ControlButton speedUpButton;
     private ControlButton rotationButton;
 
     public PolygonFieldInterfaceDrawer(PlayingField field, Point displaySize) {
@@ -48,7 +42,7 @@ public class PolygonFieldInterfaceDrawer {
         Point rightBottom = new Point(screenWidth, screenHeight);
         leftButton = new ControlButton(center, leftBottom, leftTop);
         rightButton = new ControlButton(center, rightBottom, rightTop);
-        dropButton = new ControlButton(center,leftBottom,rightBottom);
+        speedUpButton = new ControlButton(center,leftBottom,rightBottom);
         rotationButton = new ControlButton(center, leftTop,rightTop);
     }
 
@@ -59,13 +53,15 @@ public class PolygonFieldInterfaceDrawer {
             field.moveFigureRight();
         if(rotationButton.pressed(x,y))
             field.rotateFigure();
+        if(speedUpButton.pressed(x,y))
+            field.speedUpFalling();
     }
 
     void drawInterface(Canvas canvas) {
         leftButton.draw(canvas, Color.argb(130, 100, 149, 237)); //CornflowerBlue	#6495ED
         rightButton.draw(canvas, Color.argb(130,100, 149, 237));
         rotationButton.draw(canvas, Color.argb(130,173, 255, 47)); //GreenYellow	#ADFF2F
-        dropButton.draw(canvas, Color.argb(130,250, 128, 114)); //Salmon	#FA8072
+        speedUpButton.draw(canvas, Color.argb(130,250, 128, 114)); //Salmon	#FA8072
     }
 
     private void printScoredPoints(Canvas canvas) {

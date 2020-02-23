@@ -11,13 +11,16 @@ import java.util.List;
 import static com.octagisgame.model.Figure.FIGURE_SIZE;
 
 public class PlayingField {
+    private final int POINTS_FOR_ONE_ROW = 10;
+    private final int STANDARD_TIME_INTERVAL = 300;
+    private final int REDUCED_TIME_INTERVAL = 40;
+    private int timeInterval;
     private int numberOfColumns;
     private int numberOfRows;
     private Cell[][] cells;
     private Figure fallingFigure;
     private View view;
     private int scoredPoints;
-    private final int POINTS_FOR_ONE_ROW = 10;
     private GameActivity activity;
     private FigureCreator figureCreator;
     private boolean gamePaused;
@@ -28,6 +31,7 @@ public class PlayingField {
         this.view = activity.getDrawView();
         this.activity = activity;
         figureCreator = new FigureCreator(numberOfColumns);
+        timeInterval = STANDARD_TIME_INTERVAL;
     }
 
     private void initializeFieldWithEmptyCells() {
@@ -63,6 +67,7 @@ public class PlayingField {
                         finishFalling();
                         deleteFilledRows();
                         generateNextFigure();
+                        timeInterval = STANDARD_TIME_INTERVAL;
                     }
                 }
             }
@@ -99,7 +104,7 @@ public class PlayingField {
 
     private void sleep() {
         try {
-            Thread.sleep(300);
+            Thread.sleep(timeInterval);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -212,6 +217,10 @@ public class PlayingField {
             fallingFigure.rotate();
             view.invalidate();
         }
+    }
+
+    public void speedUpFalling(){
+        timeInterval = REDUCED_TIME_INTERVAL;
     }
 
     private boolean figureAbleToRotate() {

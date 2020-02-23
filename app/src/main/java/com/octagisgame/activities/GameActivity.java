@@ -53,6 +53,7 @@ public class GameActivity extends AppCompatActivity {
 
     public void continueGame() {
         playingField.continueGame();
+        hideSystemUI(getWindow());
     }
 
     public void startGame() {
