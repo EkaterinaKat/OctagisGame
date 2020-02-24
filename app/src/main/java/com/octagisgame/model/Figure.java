@@ -37,11 +37,11 @@ class Figure {
     }
 
     void left(){
-        x++;
+        x--;
     }
 
     void right(){
-        x--;
+        x++;
     }
 
     boolean[][] getShape() {

@@ -51,6 +51,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+        playingField.pauseGame();
+        showPauseDialog();
+    }
+
+    @Override
     public void onBackPressed() {
         playingField.pauseGame();
         showPauseDialog();
