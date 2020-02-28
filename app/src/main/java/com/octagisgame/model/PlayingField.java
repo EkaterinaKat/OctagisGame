@@ -1,10 +1,6 @@
 package com.octagisgame.model;
 
 import android.graphics.Color;
-import android.view.View;
-
-import com.octagisgame.activities.GameActivity;
-import com.octagisgame.dialogs.GameOverDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,30 +8,17 @@ import java.util.List;
 import static com.octagisgame.model.Figure.FIGURE_SIZE;
 
 public class PlayingField {
-    private final int POINTS_FOR_ONE_ROW = 10;
-    private final int STANDARD_TIME_INTERVAL = 300;
-    private final int REDUCED_TIME_INTERVAL = 20;
-    private int timeInterval;
     private int numberOfColumns;
     private int numberOfRows;
     private Cell[][] cells;
     private Figure fallingFigure;
-    private View view;
-    private int scoredPoints;
-    private GameActivity activity;
-    private FigureCreator figureCreator;
-    private boolean gamePaused;
 
-    public PlayingField(GameActivity activity, int numberOfColumns, int numberOfRows) {
+    public PlayingField(int numberOfColumns, int numberOfRows) {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
-        this.view = activity.getDrawView();
-        this.activity = activity;
-        figureCreator = new FigureCreator(numberOfColumns);
-        timeInterval = STANDARD_TIME_INTERVAL;
     }
 
-    private void initializeFieldWithEmptyCells() {
+    public void initializeWithEmptyCells() {
         cells = new Cell[numberOfColumns][numberOfRows];
         for (int column = 0; column < numberOfColumns; column++) {
             for (int row = 0; row < numberOfRows; row++) {
@@ -44,44 +27,98 @@ public class PlayingField {
         }
     }
 
-    public void startGame() {
-        new Thread(game).start();
+    public boolean figureLanded(){
+        return !figureAbleToDescend();
     }
 
-    private Runnable game = new Runnable() {
-        @Override
-        public void run() {
-            initializeFieldWithEmptyCells();
-            scoredPoints = 0;
-            gamePaused = false;
-            generateNextFigure();
-            while (true) {
-                if(!gamePaused){
-                    if (figureAbleToDescend()) {
-                        fallingFigure.descend();
-                        sleep();
-                    } else {
-                        if (gameOver()) {
-                            showGameOverDialog(scoredPoints);
-                            break;
-                        }
-                        finishFalling();
-                        deleteFilledRows();
-                        generateNextFigure();
-                        timeInterval = STANDARD_TIME_INTERVAL;
-                    }
-                }
+    public boolean figureAboveTop() {
+        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
+            boolean sectionAboveTop = section.getRow() < 0;
+            if (sectionAboveTop)
+                return true;
+        }
+        return false;
+    }
+
+    public List<Integer> getFilledRows() {
+        List<Integer> result = new ArrayList<>();
+        for (int row = 0; row < numberOfRows; row++) {
+            boolean rowFilled = true;
+            for (int column = 0; column < numberOfColumns; column++) {
+                if (!cells[column][row].isFilled())
+                    rowFilled = false;
+            }
+            if (rowFilled)
+                result.add(row);
+        }
+        return result;
+    }
+
+    public void deleteRow(int targetRow) {
+        for (int row = targetRow; row > 0; row--) {
+            for (int column = 0; column < numberOfColumns; column++) {
+                cells[column][row] = cells[column][row - 1];
             }
         }
-    };
-
-    private void showGameOverDialog(int scoredPoints) {
-        GameOverDialog gameOverDialog = new GameOverDialog(activity, scoredPoints);
-        gameOverDialog.show(activity.getSupportFragmentManager(), "gameOverDialog");
+        for (int column = 0; column < numberOfColumns; column++) {
+            cells[column][0] = new Cell();
+        }
     }
 
-    private void generateNextFigure() {
-        fallingFigure = figureCreator.getRandomFigure();
+    public void finishFalling() {
+        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
+            cells[section.getColumn()][section.getRow()].makeFilled(fallingFigure.getColor());
+        }
+    }
+
+    private List<FigureSection> getFallingFigureSectionsCoordinates() {
+        return getShapeSectionsCoordinates(fallingFigure.getShape(), fallingFigure.getX(), fallingFigure.getY());
+    }
+
+    private int getActualColumnNumber(int columnNum) {
+        while (columnNum < 0)
+            columnNum += numberOfColumns;
+        columnNum %= numberOfColumns;
+        return columnNum;
+    }
+
+    public void moveFigureLeft() {
+        if (figureAbleToMoveLeft()) {
+            fallingFigure.left();
+        }
+    }
+
+    public void moveFigureRight() {
+        if (figureAbleToMoveRight()) {
+            fallingFigure.right();
+        }
+    }
+
+    public void rotateFigure() {
+        if (figureAbleToRotate()) {
+            fallingFigure.rotate();
+        }
+    }
+
+    public void descentFigure(){
+        if(figureAbleToDescend()){
+            fallingFigure.descend();
+        }
+    }
+
+    private boolean figureAbleToRotate() {
+        boolean[][] rotatedShape = fallingFigure.getRotatedShape();
+        return shapeAcceptable(rotatedShape, fallingFigure.getX(), fallingFigure.getY());
+    }
+
+    private boolean figureAbleToMoveLeft() {
+        int movedFigureColumn = getActualColumnNumber(fallingFigure.getX() - 1);
+        return shapeAcceptable(fallingFigure.getShape(), movedFigureColumn, fallingFigure.getY());
+    }
+
+    private boolean figureAbleToMoveRight() {
+        int movedFigureColumn = getActualColumnNumber(fallingFigure.getX() + 1);
+        return shapeAcceptable(fallingFigure.getShape(), movedFigureColumn, fallingFigure.getY());
     }
 
     private boolean figureAbleToDescend() {
@@ -101,142 +138,6 @@ public class PlayingField {
                 return false;
         }
         return true;
-    }
-
-    private void sleep() {
-        try {
-            Thread.sleep(timeInterval);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean gameOver() {
-        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
-            boolean sectionAboveTop = section.getRow() < 0;
-            if (sectionAboveTop)
-                return true;
-        }
-        return false;
-    }
-
-    private void deleteFilledRows() {
-        List<Integer> filledRows = getFilledRows();
-        increasePoints(filledRows.size());
-        for (int row : filledRows) {
-            deleteRow(row);
-        }
-    }
-
-    private void increasePoints(int numberOfRows) {
-        double coefficient = 1 + (numberOfRows - 1) / 5.0;
-        int a = (int) (numberOfRows * POINTS_FOR_ONE_ROW * coefficient);
-        scoredPoints += a;
-    }
-
-    private void deleteRow(int targetRow) {
-        for (int row = targetRow; row > 0; row--) {
-            for (int column = 0; column < numberOfColumns; column++) {
-                cells[column][row] = cells[column][row - 1];
-            }
-        }
-        for (int column = 0; column < numberOfColumns; column++) {
-            cells[column][0] = new Cell();
-        }
-    }
-
-    private List<Integer> getFilledRows() {
-        List<Integer> result = new ArrayList<>();
-        for (int row = 0; row < numberOfRows; row++) {
-            boolean rowFilled = true;
-            for (int column = 0; column < numberOfColumns; column++) {
-                if (!cells[column][row].isFilled())
-                    rowFilled = false;
-            }
-            if (rowFilled)
-                result.add(row);
-        }
-        return result;
-    }
-
-    private void finishFalling() {
-        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
-            cells[section.getColumn()][section.getRow()].makeFilled(fallingFigure.getColor());
-        }
-    }
-
-    private boolean fallingFigureInCell(int column, int row) {
-        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
-            if (section.getColumn() == column && section.getRow() == row) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private List<FigureSection> getShapeSectionsCoordinates(boolean[][] shape, int shapeX, int shapeY) {
-        List<FigureSection> result = new ArrayList<>();
-        for (int i = 0; i < FIGURE_SIZE; i++) {
-            for (int j = 0; j < FIGURE_SIZE; j++) {
-                if (shape[i][j]) {
-                    int sectionColumn = getActualColumnNumber(shapeX + j);
-                    int sectionRow = shapeY - i;
-                    result.add(new FigureSection(sectionColumn, sectionRow));
-                }
-            }
-        }
-        return result;
-    }
-
-    private List<FigureSection> getFallingFigureSectionsCoordinates() {
-        return getShapeSectionsCoordinates(fallingFigure.getShape(), fallingFigure.getX(), fallingFigure.getY());
-    }
-
-    private int getActualColumnNumber(int columnNum) {
-        while (columnNum < 0)
-            columnNum += numberOfColumns;
-        columnNum %= numberOfColumns;
-        return columnNum;
-    }
-
-    public void moveFigureLeft() {
-        if (figureAbleToMoveLeft()) {
-            fallingFigure.left();
-            view.invalidate();
-        }
-    }
-
-    public void moveFigureRight() {
-        if (figureAbleToMoveRight()) {
-            fallingFigure.right();
-            view.invalidate();
-        }
-    }
-
-    public void rotateFigure() {
-        if (figureAbleToRotate()) {
-            fallingFigure.rotate();
-            view.invalidate();
-        }
-    }
-
-    public void speedUpFalling(){
-        timeInterval = REDUCED_TIME_INTERVAL;
-    }
-
-    private boolean figureAbleToRotate() {
-        boolean[][] rotatedShape = fallingFigure.getRotatedShape();
-        return shapeAcceptable(rotatedShape, fallingFigure.getX(), fallingFigure.getY());
-    }
-
-    private boolean figureAbleToMoveLeft() {
-        int movedFigureColumn = getActualColumnNumber(fallingFigure.getX() - 1);
-        return shapeAcceptable(fallingFigure.getShape(), movedFigureColumn, fallingFigure.getY());
-    }
-
-    private boolean figureAbleToMoveRight() {
-        int movedFigureColumn = getActualColumnNumber(fallingFigure.getX() + 1);
-        return shapeAcceptable(fallingFigure.getShape(), movedFigureColumn, fallingFigure.getY());
     }
 
     private boolean shapeAcceptable(boolean[][] shape, int posX, int posY) {
@@ -261,13 +162,22 @@ public class PlayingField {
         if (fallingFigureInCell(column, row)) {
             return fallingFigure.getColor();
         }
-        if(figureProjectionInCell(column, row)){
-            return Color.rgb(200,200, 200);
+        if (figureProjectionInCell(column, row)) {
+            return Color.rgb(200, 200, 200);
         }
         return cells[column][row].getColor();
     }
 
-    private boolean figureProjectionInCell(int column, int row){
+    private boolean fallingFigureInCell(int column, int row) {
+        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
+            if (section.getColumn() == column && section.getRow() == row) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean figureProjectionInCell(int column, int row) {
         for (FigureSection section : getFigureProjectionCoordinates()) {
             if (section.getColumn() == column && section.getRow() == row) {
                 return true;
@@ -276,14 +186,32 @@ public class PlayingField {
         return false;
     }
 
-    private List<FigureSection> getFigureProjectionCoordinates(){
+    private List<FigureSection> getFigureProjectionCoordinates() {
         boolean[][] projectionShape = fallingFigure.getShape();
         int projectionY = fallingFigure.getY();
         int projectionX = fallingFigure.getX();
-        while (shapeAcceptable(projectionShape, projectionX, projectionY+1)){
-            projectionY+=1;
+        while (shapeAcceptable(projectionShape, projectionX, projectionY + 1)) {
+            projectionY += 1;
         }
         return getShapeSectionsCoordinates(projectionShape, projectionX, projectionY);
+    }
+
+    private List<FigureSection> getShapeSectionsCoordinates(boolean[][] shape, int shapeX, int shapeY) {
+        List<FigureSection> result = new ArrayList<>();
+        for (int i = 0; i < FIGURE_SIZE; i++) {
+            for (int j = 0; j < FIGURE_SIZE; j++) {
+                if (shape[i][j]) {
+                    int sectionColumn = getActualColumnNumber(shapeX + j);
+                    int sectionRow = shapeY - i;
+                    result.add(new FigureSection(sectionColumn, sectionRow));
+                }
+            }
+        }
+        return result;
+    }
+
+    public void setFallingFigure(Figure figure){
+        fallingFigure = figure;
     }
 
     public int getNumberOfColumns() {
@@ -292,21 +220,5 @@ public class PlayingField {
 
     public int getNumberOfRows() {
         return numberOfRows;
-    }
-
-    public int getScoredPoints() {
-        return scoredPoints;
-    }
-
-    public void pauseGame(){
-        gamePaused = true;
-    }
-
-    public void continueGame(){
-        gamePaused = false;
-    }
-
-    public boolean isGamePaused() {
-        return gamePaused;
     }
 }

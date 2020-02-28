@@ -5,10 +5,10 @@ import android.graphics.Color;
 import java.util.Date;
 import java.util.Random;
 
-class FigureCreator {
+public class FigureCreator {
     private int initialHorizontalPosition;
 
-    FigureCreator(int numberOfColumns) {
+    public FigureCreator(int numberOfColumns) {
         initialHorizontalPosition = numberOfColumns / 2 - 2;
     }
 
@@ -67,7 +67,7 @@ class FigureCreator {
 
     private Random random = new Random((new Date()).getTime());
 
-    Figure getRandomFigure() {
+    public Figure getRandomFigure() {
         int color = colors[random.nextInt(colors.length)];
         boolean[][] shape = shapes[random.nextInt(shapes.length)];
         return new Figure(shape, color, initialHorizontalPosition);

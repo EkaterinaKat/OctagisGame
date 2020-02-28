@@ -11,9 +11,10 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.octagisgame.controller.GameProcess;
 import com.octagisgame.dialogs.PauseDialog;
-import com.octagisgame.drawers.ClassicFieldDrawer;
 import com.octagisgame.drawers.FieldDrawer;
+import com.octagisgame.drawers.PolygonFieldDrawer;
 import com.octagisgame.model.PlayingField;
 import com.octagisgame.stylers.MinimalisticStyler;
 import com.octagisgame.stylers.Styler;
@@ -25,6 +26,7 @@ public class GameActivity extends AppCompatActivity {
     private DrawView drawView;
     private PlayingField playingField;
     private DrawThread drawThread;
+    private GameProcess game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +41,10 @@ public class GameActivity extends AppCompatActivity {
 
         int numberOfColumns = 15;
         int numberOfRows = 17;
-        playingField = new PlayingField(this, numberOfColumns, numberOfRows);
-//        Styler styler = new BasicStyler();
-//        Styler styler = new BrickStyler();
+        playingField = new PlayingField(numberOfColumns, numberOfRows);
+        game = new GameProcess(this, playingField);
         Styler styler = new MinimalisticStyler();
-//        fieldDrawer = new PolygonFieldDrawer(playingField, displaySize, styler);
-        fieldDrawer = new ClassicFieldDrawer(playingField, displaySize, styler);
+        fieldDrawer = new PolygonFieldDrawer(playingField, displaySize, styler);
         drawThread = new DrawThread();
         drawThread.start();
         startGame();
@@ -53,23 +53,23 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onPause(){
         super.onPause();
-        playingField.pauseGame();
+        game.setOnPause();
         showPauseDialog();
     }
 
     @Override
     public void onBackPressed() {
-        playingField.pauseGame();
+        game.setOnPause();
         showPauseDialog();
     }
 
     public void continueGame() {
-        playingField.continueGame();
+        game.continueGame();
         hideSystemUI(getWindow());
     }
 
     public void startGame() {
-        playingField.startGame();
+        game.start();
     }
 
     class DrawView extends View {
@@ -103,7 +103,7 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void run() {
             while (true) {
-                if (!playingField.isGamePaused()) {
+                if (!game.isPaused()) {
                     drawView.invalidate();
                 }
             }
