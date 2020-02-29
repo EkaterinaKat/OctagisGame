@@ -7,7 +7,7 @@ import com.octagisgame.model.PlayingField;
 
 import java.util.List;
 
-public class GameProcess {
+public class Game {
     private final int POINTS_FOR_ONE_ROW = 10;
     private final int STANDARD_TIME_INTERVAL = 300;
     private final int REDUCED_TIME_INTERVAL = 20;
@@ -18,7 +18,7 @@ public class GameProcess {
     private boolean gamePaused;
     private PlayingField field;
 
-    public GameProcess(GameActivity activity, PlayingField field) {
+    public Game(GameActivity activity, PlayingField field) {
         this.field = field;
         this.activity = activity;
         figureCreator = new FigureCreator(field.getNumberOfColumns());
@@ -55,19 +55,19 @@ public class GameProcess {
         }
     };
 
-    public void moveFigureLeft() {
+    void moveFigureLeft() {
         field.moveFigureLeft();
     }
 
-    public void moveFigureRight() {
+    void moveFigureRight() {
         field.moveFigureRight();
     }
 
-    public void rotateFigure() {
+    void rotateFigure() {
         field.rotateFigure();
     }
 
-    public void speedUpFalling() {
+    void speedUpFalling() {
         timeInterval = REDUCED_TIME_INTERVAL;
     }
 

@@ -46,7 +46,5 @@ abstract public class FieldDrawer {
 
     abstract void drawCell(int column, int row, Canvas canvas);
 
-    abstract void drawInterface(Canvas canvas);
-
-    abstract public void onTouchEvent(int x, int y);
+    abstract void drawInterface(Canvas canvas); //todo хмммммм
 }

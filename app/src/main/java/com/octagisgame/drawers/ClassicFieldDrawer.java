@@ -10,13 +10,12 @@ import com.octagisgame.stylers.Styler;
 public class ClassicFieldDrawer extends FieldDrawer {
     private int cellHeight;
     private int cellWidth;
-    private int fieldWidth;
     /* Верхняя левая точка поля */
     private Point startingPoint;
 
     public ClassicFieldDrawer(PlayingField field, Point displaySize, Styler styler) {
         super(field, displaySize, styler);
-        fieldWidth = screenWidth;
+        int fieldWidth = screenWidth;
         cellHeight = screenHeight / numberOfRows;
         cellWidth = fieldWidth / numberOfColumns;
         startingPoint = new Point((screenWidth - fieldWidth) / 2, 0);
@@ -34,15 +33,6 @@ public class ClassicFieldDrawer extends FieldDrawer {
         canvas.drawRect(rect, paint);
         styler.tunePaintForCellBorders(paint, cellColour);
         canvas.drawRect(rect, paint);
-    }
-
-    @Override
-    public void onTouchEvent(int x, int y) {
-        if (x < screenWidth / 2) {
-            field.moveFigureLeft();
-        } else {
-            field.moveFigureRight();
-        }
     }
 
     @Override

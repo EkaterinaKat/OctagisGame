@@ -8,9 +8,7 @@ import com.octagisgame.stylers.Styler;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
-import static java.lang.Math.pow;
 import static java.lang.Math.sin;
-import static java.lang.Math.sqrt;
 
 public class PolygonFieldDrawer extends FieldDrawer {
     /* Угол в радианах, внутри которого располагается одна колонка*/
@@ -21,11 +19,11 @@ public class PolygonFieldDrawer extends FieldDrawer {
      * будем поворачивать на разные углы чтобы выполнять посторения */
     private Point[] mainAxisNodes;
     private int columnHeight;
-    private PolygonFieldInterfaceDrawer interfaceDrawer;
+    private PolygonInterfaceDrawer interfaceDrawer;
 
-    public PolygonFieldDrawer(PlayingField field, Point displaySize, Styler styler) {
+    public PolygonFieldDrawer(PlayingField field, PolygonInterfaceDrawer interfaceDrawer, Point displaySize, Styler styler) {
         super(field, displaySize, styler);
-        interfaceDrawer = new PolygonFieldInterfaceDrawer(field, displaySize);
+        this.interfaceDrawer = interfaceDrawer;
         angle = 2 * PI / numberOfColumns;
         columnHeight = screenWidth / 2;
         rowHeight = columnHeight / (numberOfRows + 1);
@@ -74,14 +72,5 @@ public class PolygonFieldDrawer extends FieldDrawer {
         double x1 = (point.x - center.x) * cos(angle) + (point.y - center.y) * sin(angle) + center.x;
         double y1 = (-1) * (point.x - center.x) * sin(angle) + (point.y - center.y) * cos(angle) + center.y;
         return new Point((int) x1, (int) y1);
-    }
-
-    @Override
-    public void onTouchEvent(int x, int y) {
-        interfaceDrawer.onTouchEvent(x, y);
-    }
-
-    private boolean pointInFieldArea(int x, int y) {
-        return sqrt(pow(center.x - x, 2) + pow(center.y - y, 2)) <= columnHeight;
     }
 }

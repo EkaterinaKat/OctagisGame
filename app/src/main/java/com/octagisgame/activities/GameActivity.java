@@ -11,22 +11,21 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.octagisgame.controller.GameProcess;
+import com.octagisgame.builders.GameBuilder;
+import com.octagisgame.controller.ControlInterface;
+import com.octagisgame.controller.Game;
 import com.octagisgame.dialogs.PauseDialog;
 import com.octagisgame.drawers.FieldDrawer;
-import com.octagisgame.drawers.PolygonFieldDrawer;
-import com.octagisgame.model.PlayingField;
-import com.octagisgame.stylers.MinimalisticStyler;
-import com.octagisgame.stylers.Styler;
+import com.octagisgame.stylers.BrickStyler;
 
 import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
 public class GameActivity extends AppCompatActivity {
-    private FieldDrawer fieldDrawer;
     private DrawView drawView;
-    private PlayingField playingField;
     private DrawThread drawThread;
-    private GameProcess game;
+    private Game game;
+    private FieldDrawer fieldDrawer;
+    private ControlInterface controlInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +38,22 @@ public class GameActivity extends AppCompatActivity {
         Point displaySize = new Point();
         display.getRealSize(displaySize);
 
-        int numberOfColumns = 15;
-        int numberOfRows = 17;
-        playingField = new PlayingField(numberOfColumns, numberOfRows);
-        game = new GameProcess(this, playingField);
-        Styler styler = new MinimalisticStyler();
-        fieldDrawer = new PolygonFieldDrawer(playingField, displaySize, styler);
+        GameBuilder gameBuilder = new GameBuilder(this, displaySize);
+        gameBuilder
+                .setMode(GameBuilder.Mode.POLYGON)
+                .setStyler(new BrickStyler())
+                .build();
+        game = gameBuilder.getGame();
+        fieldDrawer = gameBuilder.getFieldDrawer();
+        controlInterface = gameBuilder.getControlInterface();
+
         drawThread = new DrawThread();
         drawThread.start();
         startGame();
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         game.setOnPause();
         showPauseDialog();
@@ -70,26 +72,12 @@ public class GameActivity extends AppCompatActivity {
 
     public void startGame() {
         game.start();
+        hideSystemUI(getWindow());
     }
 
-    class DrawView extends View {
-
-        public DrawView(Context context) {
-            super(context);
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-            fieldDrawer.draw(canvas);
-        }
-
-        @Override
-        public boolean onTouchEvent(MotionEvent event) {
-            float x = event.getX();
-            float y = event.getY();
-            fieldDrawer.onTouchEvent((int) x, (int) y);
-            return super.onTouchEvent(event);
-        }
+    private void showPauseDialog() {
+        PauseDialog pauseDialog = new PauseDialog(this);
+        pauseDialog.show(getSupportFragmentManager(), "pauseDialog");
     }
 
     public void goToMainMenu() {
@@ -110,12 +98,23 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void showPauseDialog() {
-        PauseDialog pauseDialog = new PauseDialog(this);
-        pauseDialog.show(getSupportFragmentManager(), "pauseDialog");
-    }
+    class DrawView extends View {
 
-    public DrawView getDrawView() {
-        return drawView;
+        public DrawView(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            fieldDrawer.draw(canvas);
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            float x = event.getX();
+            float y = event.getY();
+            controlInterface.onTouchEvent((int) x, (int) y);
+            return super.onTouchEvent(event);
+        }
     }
 }
