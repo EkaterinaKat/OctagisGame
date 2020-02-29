@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-import com.octagisgame.model.PlayingField;
+import com.octagisgame.controller.Game;
 import com.octagisgame.stylers.Styler;
 
 public class ClassicFieldDrawer extends FieldDrawer {
@@ -13,8 +13,8 @@ public class ClassicFieldDrawer extends FieldDrawer {
     /* Верхняя левая точка поля */
     private Point startingPoint;
 
-    public ClassicFieldDrawer(PlayingField field, Point displaySize, Styler styler) {
-        super(field, displaySize, styler);
+    public ClassicFieldDrawer(Game game, Point displaySize, Styler styler) {
+        super(game, displaySize, styler);
         int fieldWidth = screenWidth;
         cellHeight = screenHeight / numberOfRows;
         cellWidth = fieldWidth / numberOfColumns;
@@ -28,7 +28,7 @@ public class ClassicFieldDrawer extends FieldDrawer {
         int left = startingPoint.x + (column * cellWidth);
         int right = startingPoint.x + ((column + 1) * cellWidth);
         Rect rect = new Rect(left, top, right, bottom);
-        int cellColour = field.getCellColour(column, row);
+        int cellColour = game.getCellColour(column, row);
         styler.tunePaintForCell(paint, cellColour);
         canvas.drawRect(rect, paint);
         styler.tunePaintForCellBorders(paint, cellColour);

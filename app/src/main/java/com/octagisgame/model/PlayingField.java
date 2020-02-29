@@ -1,7 +1,5 @@
 package com.octagisgame.model;
 
-import android.graphics.Color;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class PlayingField {
         }
     }
 
-    public boolean figureLanded(){
+    public boolean figureLanded() {
         return !figureAbleToDescend();
     }
 
@@ -100,8 +98,8 @@ public class PlayingField {
         }
     }
 
-    public void descentFigure(){
-        if(figureAbleToDescend()){
+    public void descentFigure() {
+        if (figureAbleToDescend()) {
             fallingFigure.descend();
         }
     }
@@ -158,17 +156,7 @@ public class PlayingField {
         return true;
     }
 
-    public int getCellColour(int column, int row) {
-        if (fallingFigureInCell(column, row)) {
-            return fallingFigure.getColor();
-        }
-        if (figureProjectionInCell(column, row)) {
-            return Color.rgb(200, 200, 200);
-        }
-        return cells[column][row].getColor();
-    }
-
-    private boolean fallingFigureInCell(int column, int row) {
+    public boolean fallingFigureInCell(int column, int row) {
         for (FigureSection section : getFallingFigureSectionsCoordinates()) {
             if (section.getColumn() == column && section.getRow() == row) {
                 return true;
@@ -177,8 +165,8 @@ public class PlayingField {
         return false;
     }
 
-    private boolean figureProjectionInCell(int column, int row) {
-        for (FigureSection section : getFigureProjectionCoordinates()) {
+    public boolean figureShadowInCell(int column, int row) {
+        for (FigureSection section : getFigureShadowCoordinates()) {
             if (section.getColumn() == column && section.getRow() == row) {
                 return true;
             }
@@ -186,7 +174,7 @@ public class PlayingField {
         return false;
     }
 
-    private List<FigureSection> getFigureProjectionCoordinates() {
+    private List<FigureSection> getFigureShadowCoordinates() {
         boolean[][] projectionShape = fallingFigure.getShape();
         int projectionY = fallingFigure.getY();
         int projectionX = fallingFigure.getX();
@@ -210,8 +198,16 @@ public class PlayingField {
         return result;
     }
 
-    public void setFallingFigure(Figure figure){
+    public void setFallingFigure(Figure figure) {
         fallingFigure = figure;
+    }
+
+    public int getFallingFigureColor() {
+        return fallingFigure.getColor();
+    }
+
+    public int getCellColour(int column, int row) {
+        return cells[column][row].getColor();
     }
 
     public int getNumberOfColumns() {

@@ -1,18 +1,22 @@
 package com.octagisgame.controller;
 
+import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Region;
 
+import androidx.core.content.ContextCompat;
+
+import com.octagisgame.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PolygonControlInterface extends ControlInterface{
+public class PolygonControlInterface extends ControlInterface {
     /* Указывает сколько процентов от высоты поля занимает высота кнопок управления */
     private final double CONTROL_BUTTONS_HEIGHT_PERCENT = 0.35;
     private int screenWidth;
@@ -24,39 +28,45 @@ public class PolygonControlInterface extends ControlInterface{
     private ControlButton rotationButton;
     private Region fullScreenRegion;
     private List<ControlButton> buttons = new ArrayList<>();
+    private Context context;
 
-    public PolygonControlInterface(Game game, Point displaySize) {
+    public PolygonControlInterface(Context context, Game game, Point displaySize) {
         super(game);
+        this.context = context;
         screenWidth = displaySize.x;
         screenHeight = displaySize.y;
         fullScreenRegion = new Region(new Rect(0, 0, screenWidth, screenHeight));
         controlButtonsHeight = (int) (screenHeight * CONTROL_BUTTONS_HEIGHT_PERCENT);
-        setInterfaceElementsCoordinates();
+        createButtons();
     }
 
-    private void setInterfaceElementsCoordinates() {
+    private void createButtons() {
         Point leftTop = new Point(0, screenHeight - controlButtonsHeight);
         Point leftBottom = new Point(0, screenHeight);
         Point center = new Point(screenWidth / 2, screenHeight - controlButtonsHeight / 2);
         Point rightTop = new Point(screenWidth, screenHeight - controlButtonsHeight);
         Point rightBottom = new Point(screenWidth, screenHeight);
-        //todo с этим безобразием что-то сделать
-        leftButton = new ControlButton(Color.argb(130, 100, 149, 237), center, leftBottom, leftTop);
-        rightButton = new ControlButton(Color.argb(130, 100, 149, 237),center, rightBottom, rightTop);
-        speedUpButton = new ControlButton(Color.argb(130, 250, 128, 114),center, leftBottom, rightBottom);
-        rotationButton = new ControlButton(Color.argb(130, 173, 255, 47),center, leftTop, rightTop);
+
+        int leftAndRightButtonsColour = ContextCompat.getColor(context, R.color.leftAndRightButtonsColour);
+        int speedUpButtonColour = ContextCompat.getColor(context, R.color.speedUpButtonColour);
+        int rotationButtonColour = ContextCompat.getColor(context, R.color.rotationButtonColour);
+
+        leftButton = new ControlButton(leftAndRightButtonsColour, center, leftBottom, leftTop);
+        rightButton = new ControlButton(leftAndRightButtonsColour, center, rightBottom, rightTop);
+        speedUpButton = new ControlButton(speedUpButtonColour, center, leftBottom, rightBottom);
+        rotationButton = new ControlButton(rotationButtonColour, center, leftTop, rightTop);
         buttons.addAll(Arrays.asList(leftButton, rightButton, speedUpButton, rotationButton));
     }
 
     @Override
     public void onTouchEvent(int x, int y) {
-        if(leftButton.pressed(x,y))
+        if (leftButton.pressed(x, y))
             game.moveFigureLeft();
-        if(rightButton.pressed(x,y))
+        if (rightButton.pressed(x, y))
             game.moveFigureRight();
-        if(rotationButton.pressed(x,y))
+        if (rotationButton.pressed(x, y))
             game.rotateFigure();
-        if(speedUpButton.pressed(x,y))
+        if (speedUpButton.pressed(x, y))
             game.speedUpFalling();
     }
 
@@ -71,7 +81,7 @@ public class PolygonControlInterface extends ControlInterface{
             setPath(tops);
         }
 
-        private void setPath(Point[] tops){
+        private void setPath(Point[] tops) {
             path.moveTo(tops[0].x, tops[0].y);
             for (int i = 1; i < tops.length; i++) {
                 path.lineTo(tops[i].x, tops[i].y);

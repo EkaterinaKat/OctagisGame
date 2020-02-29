@@ -1,5 +1,8 @@
 package com.octagisgame.controller;
 
+import androidx.core.content.ContextCompat;
+
+import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
 import com.octagisgame.dialogs.GameOverDialog;
 import com.octagisgame.model.FigureCreator;
@@ -40,7 +43,7 @@ public class Game {
                 if (!gamePaused) {
                     field.descentFigure();
                     sleep();
-                    if(field.figureLanded()){
+                    if (field.figureLanded()) {
                         timeInterval = STANDARD_TIME_INTERVAL;
                         if (field.figureAboveTop()) {
                             showGameOverDialog(scoredPoints);
@@ -102,6 +105,16 @@ public class Game {
         }
     }
 
+    public int getCellColour(int column, int row) {
+        if (field.fallingFigureInCell(column, row)) {
+            return field.getFallingFigureColor();
+        }
+        if (field.figureShadowInCell(column, row)) {
+            return ContextCompat.getColor(activity, R.color.shadowColor);
+        }
+        return field.getCellColour(column, row);
+    }
+
     public int getScoredPoints() {
         return scoredPoints;
     }
@@ -116,5 +129,13 @@ public class Game {
 
     public boolean isPaused() {
         return gamePaused;
+    }
+
+    public int getNumberOfColumns() {
+        return field.getNumberOfColumns();
+    }
+
+    public int getNumberOfRows() {
+        return field.getNumberOfRows();
     }
 }

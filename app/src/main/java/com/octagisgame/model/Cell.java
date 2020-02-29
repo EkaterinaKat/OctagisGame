@@ -2,7 +2,7 @@ package com.octagisgame.model;
 
 import android.graphics.Color;
 
-public class Cell {
+class Cell {
     private boolean filled;
     private int color;
 
@@ -10,7 +10,7 @@ public class Cell {
         makeEmpty();
     }
 
-    public boolean isFilled() {
+    boolean isFilled() {
         return filled;
     }
 
@@ -18,7 +18,7 @@ public class Cell {
         return color;
     }
 
-    public void makeFilled(int color) {
+    void makeFilled(int color) {
         filled = true;
         this.color = color;
     }

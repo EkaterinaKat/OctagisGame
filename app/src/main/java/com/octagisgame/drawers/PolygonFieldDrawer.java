@@ -4,8 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import com.octagisgame.controller.ControlInterface;
+import com.octagisgame.controller.Game;
 import com.octagisgame.controller.PolygonControlInterface;
-import com.octagisgame.model.PlayingField;
 import com.octagisgame.stylers.Styler;
 
 import java.util.List;
@@ -25,8 +25,8 @@ public class PolygonFieldDrawer extends FieldDrawer {
     private int columnHeight;
     private List<PolygonControlInterface.ControlButton> buttons;
 
-    public PolygonFieldDrawer(PlayingField field, ControlInterface controlInterface, Point displaySize, Styler styler) {
-        super(field, displaySize, styler);
+    public PolygonFieldDrawer(Game game, ControlInterface controlInterface, Point displaySize, Styler styler) {
+        super(game, displaySize, styler);
         buttons = ((PolygonControlInterface) controlInterface).getButtons();
         angle = 2 * PI / numberOfColumns;
         columnHeight = screenWidth / 2;
@@ -62,7 +62,7 @@ public class PolygonFieldDrawer extends FieldDrawer {
             path.lineTo(tops[i].x, tops[i].y);
         }
         path.close();
-        int cellColour = field.getCellColour(column, row);
+        int cellColour = game.getCellColour(column, row);
         styler.tunePaintForCell(paint, cellColour);
         canvas.drawPath(path, paint);
         styler.tunePaintForCellBorders(paint, cellColour);

@@ -28,7 +28,6 @@ public class GameBuilder {
     private Game game;
     private FieldDrawer fieldDrawer;
     private ControlInterface controlInterface;
-    PlayingField playingField;
 
     public GameBuilder(GameActivity activity, Point displaySize) {
         this.activity = activity;
@@ -40,7 +39,7 @@ public class GameBuilder {
     }
 
     public void build() {
-        playingField = new PlayingField(numberOfColumns, numberOfRows);
+        PlayingField playingField = new PlayingField(numberOfColumns, numberOfRows);
         game = new Game(activity, playingField);
         switch (mode) {
             case CLASSIC:
@@ -53,12 +52,12 @@ public class GameBuilder {
 
     private void buildClassicMode() {
         controlInterface = new ClassicControlInterface(game);
-        fieldDrawer = new ClassicFieldDrawer(playingField, displaySize, styler);
+        fieldDrawer = new ClassicFieldDrawer(game, displaySize, styler);
     }
 
     private void buildPolygonMode() {
-        controlInterface = new PolygonControlInterface(game, displaySize);
-        fieldDrawer = new PolygonFieldDrawer(playingField, controlInterface, displaySize, styler);
+        controlInterface = new PolygonControlInterface(activity, game, displaySize);
+        fieldDrawer = new PolygonFieldDrawer(game, controlInterface, displaySize, styler);
     }
 
     public Game getGame() {

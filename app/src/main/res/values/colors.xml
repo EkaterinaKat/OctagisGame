@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorButton">#006400</color>
-    <color name="colorWhite">#FFFFFF</color>
+    <color name="leftAndRightButtonsColour">#826495ed</color>
+    <color name="rotationButtonColour">#82ADFF2F</color>
+    <color name="speedUpButtonColour">#82FA8072</color>
+    <color name="figureColor1">#ff0800</color>
+    <color name="figureColor2">#fe5d03</color>
+    <color name="figureColor3">#fad700</color>
+    <color name="figureColor4">#4bfe01</color>
+    <color name="figureColor5">#00d6dc</color>
+    <color name="figureColor6">#0600fe</color>
+    <color name="figureColor7">#ff00da</color>
+    <color name="shadowColor">#c8c8c8</color>
 </resources>
