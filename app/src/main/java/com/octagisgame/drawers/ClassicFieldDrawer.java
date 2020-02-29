@@ -34,9 +34,4 @@ public class ClassicFieldDrawer extends FieldDrawer {
         styler.tunePaintForCellBorders(paint, cellColour);
         canvas.drawRect(rect, paint);
     }
-
-    @Override
-    void drawInterface(Canvas canvas) {
-
-    }
 }

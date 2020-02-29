@@ -10,7 +10,6 @@ import com.octagisgame.controller.PolygonControlInterface;
 import com.octagisgame.drawers.ClassicFieldDrawer;
 import com.octagisgame.drawers.FieldDrawer;
 import com.octagisgame.drawers.PolygonFieldDrawer;
-import com.octagisgame.drawers.PolygonInterfaceDrawer;
 import com.octagisgame.model.PlayingField;
 import com.octagisgame.stylers.BasicStyler;
 import com.octagisgame.stylers.Styler;
@@ -59,8 +58,7 @@ public class GameBuilder {
 
     private void buildPolygonMode() {
         controlInterface = new PolygonControlInterface(game, displaySize);
-        PolygonInterfaceDrawer interfaceDrawer = new PolygonInterfaceDrawer(controlInterface);
-        fieldDrawer = new PolygonFieldDrawer(playingField, interfaceDrawer, displaySize, styler);
+        fieldDrawer = new PolygonFieldDrawer(playingField, controlInterface, displaySize, styler);
     }
 
     public Game getGame() {

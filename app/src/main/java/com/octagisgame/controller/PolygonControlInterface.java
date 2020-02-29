@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PolygonControlInterface extends ControlInterface{
+    /* Указывает сколько процентов от высоты поля занимает высота кнопок управления */
     private final double CONTROL_BUTTONS_HEIGHT_PERCENT = 0.35;
     private int screenWidth;
     private int screenHeight;

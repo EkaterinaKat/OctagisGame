@@ -10,6 +10,7 @@ import com.octagisgame.model.PlayingField;
 import com.octagisgame.stylers.Styler;
 
 abstract public class FieldDrawer {
+    final int TEXT_SIZE = 40;
     Path path;
     Paint paint;
     PlayingField field;
@@ -33,7 +34,6 @@ abstract public class FieldDrawer {
     public void draw(Canvas canvas) {
         canvas.drawColor(Color.WHITE);
         drawField(canvas);
-        drawInterface(canvas);
     }
 
     private void drawField(Canvas canvas) {
@@ -44,7 +44,12 @@ abstract public class FieldDrawer {
         }
     }
 
-    abstract void drawCell(int column, int row, Canvas canvas);
+//    private void printScoredPoints(Canvas canvas) {   //todo сделать что-то с этим
+//        String scoredPoints = String.valueOf(field.getScoredPoints());
+//        paint.setColor(Color.BLACK);
+//        paint.setTextSize(TEXT_SIZE);
+//        canvas.drawText(scoredPoints, 50, 50, paint);
+//    }
 
-    abstract void drawInterface(Canvas canvas); //todo хмммммм
+    abstract void drawCell(int column, int row, Canvas canvas);
 }

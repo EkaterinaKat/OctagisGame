@@ -3,8 +3,12 @@ package com.octagisgame.drawers;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
+import com.octagisgame.controller.ControlInterface;
+import com.octagisgame.controller.PolygonControlInterface;
 import com.octagisgame.model.PlayingField;
 import com.octagisgame.stylers.Styler;
+
+import java.util.List;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
@@ -19,11 +23,11 @@ public class PolygonFieldDrawer extends FieldDrawer {
      * будем поворачивать на разные углы чтобы выполнять посторения */
     private Point[] mainAxisNodes;
     private int columnHeight;
-    private PolygonInterfaceDrawer interfaceDrawer;
+    private List<PolygonControlInterface.ControlButton> buttons;
 
-    public PolygonFieldDrawer(PlayingField field, PolygonInterfaceDrawer interfaceDrawer, Point displaySize, Styler styler) {
+    public PolygonFieldDrawer(PlayingField field, ControlInterface controlInterface, Point displaySize, Styler styler) {
         super(field, displaySize, styler);
-        this.interfaceDrawer = interfaceDrawer;
+        buttons = ((PolygonControlInterface) controlInterface).getButtons();
         angle = 2 * PI / numberOfColumns;
         columnHeight = screenWidth / 2;
         rowHeight = columnHeight / (numberOfRows + 1);
@@ -31,16 +35,23 @@ public class PolygonFieldDrawer extends FieldDrawer {
         setMainAxisNodes();
     }
 
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        drawInterface(canvas);
+    }
+
+    void drawInterface(Canvas canvas) {
+        for (PolygonControlInterface.ControlButton button : buttons) {
+            button.draw(canvas);
+        }
+    }
+
     private void setMainAxisNodes() {
         mainAxisNodes = new Point[numberOfRows + 1];
         for (int i = 0; i < mainAxisNodes.length; i++) {
             mainAxisNodes[i] = new Point(center.x, center.y + columnHeight - i * rowHeight);
         }
-    }
-
-    @Override
-    void drawInterface(Canvas canvas) {
-        interfaceDrawer.drawInterface(canvas);
     }
 
     @Override
