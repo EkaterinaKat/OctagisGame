@@ -32,7 +32,7 @@ public class PolygonFieldDrawer extends FieldDrawer {
         setMainAxisNodes();
     }
 
-    private void setSizes(){
+    private void setSizes() {
         columnHeight = screenWidth / 2;
         rowHeight = columnHeight / (numberOfRows + 1);
         angle = 2 * PI / numberOfColumns;
@@ -83,9 +83,11 @@ public class PolygonFieldDrawer extends FieldDrawer {
         return tops;
     }
 
+    /* Поворачивает заданную точку на заданный угол по часовой стрелке вокруг оси, 
+    * которая находится в точке center */
     private Point rotatePointAroundCenter(Point point, double angle) {
-        double x1 = (point.x - center.x) * cos(angle) + (point.y - center.y) * sin(angle) + center.x;
-        double y1 = (-1) * (point.x - center.x) * sin(angle) + (point.y - center.y) * cos(angle) + center.y;
-        return new Point((int) x1, (int) y1);
+        int x1 = (int) ((point.x - center.x) * cos(angle) + (-1) * (point.y - center.y) * sin(angle) + center.x);
+        int y1 = (int) ((point.x - center.x) * sin(angle) + (point.y - center.y) * cos(angle) + center.y);
+        return new Point(x1, y1);
     }
 }
