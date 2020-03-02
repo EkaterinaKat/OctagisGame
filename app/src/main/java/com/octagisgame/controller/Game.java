@@ -24,7 +24,7 @@ public class Game {
     public Game(GameActivity activity, PlayingField field) {
         this.field = field;
         this.activity = activity;
-        figureCreator = new FigureCreator(field.getNumberOfColumns());
+        figureCreator = new FigureCreator();
         timeInterval = STANDARD_TIME_INTERVAL;
     }
 
@@ -75,7 +75,7 @@ public class Game {
     }
 
     private void generateNextFigure() {
-        field.setFallingFigure(figureCreator.getRandomFigure());
+        field.setNewFallingFigure(figureCreator.getRandomFigure());
     }
 
     private void deleteFilledRows() {

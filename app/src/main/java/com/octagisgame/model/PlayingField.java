@@ -10,10 +10,12 @@ public class PlayingField {
     private int numberOfRows;
     private Cell[][] cells;
     private Figure fallingFigure;
+    private int initialFigureHorizontalPos;
 
     public PlayingField(int numberOfColumns, int numberOfRows) {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
+        initialFigureHorizontalPos = numberOfColumns / 2 - FIGURE_SIZE/2;
     }
 
     public void initializeWithEmptyCells() {
@@ -198,8 +200,9 @@ public class PlayingField {
         return result;
     }
 
-    public void setFallingFigure(Figure figure) {
+    public void setNewFallingFigure(Figure figure) {
         fallingFigure = figure;
+        fallingFigure.setHorizontalPos(initialFigureHorizontalPos);
     }
 
     public int getFallingFigureColor() {

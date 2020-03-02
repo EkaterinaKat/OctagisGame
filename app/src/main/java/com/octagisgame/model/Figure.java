@@ -11,11 +11,15 @@ class Figure {
      * Вертикальная ось направлена сверху вниз */
     private int y;
 
-    Figure(boolean[][] shape, int color, int initialHorizontalPosition) {
+    Figure(boolean[][] shape, int color) {
         this.shape = shape;
         this.color = color;
-        x = initialHorizontalPosition;
+        x = 0;
         y = 0;
+    }
+
+    Figure copy(){
+        return new Figure(shape, color);
     }
 
     void rotate() {
@@ -30,6 +34,10 @@ class Figure {
             }
         }
         return result;
+    }
+
+    void setHorizontalPos(int horizontalPos){
+        x = horizontalPos;
     }
 
     void descend() {

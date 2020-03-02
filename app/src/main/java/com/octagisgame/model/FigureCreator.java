@@ -2,15 +2,13 @@ package com.octagisgame.model;
 
 import android.graphics.Color;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class FigureCreator {
-    private int initialHorizontalPosition;
-
-    public FigureCreator(int numberOfColumns) {
-        initialHorizontalPosition = numberOfColumns / 2 - 2;
-    }
+    private List<Figure> figures;
+    private Random random;
 
     private final boolean[][] I_SHAPE = {
             {false, false, false, false},
@@ -62,14 +60,24 @@ public class FigureCreator {
     private int INDIGO = Color.rgb(6, 0, 254);
     private int VIOLET = Color.rgb(255, 0, 218);
 
-    private boolean[][][] shapes = {I_SHAPE, O_SHAPE, T_SHAPE, L_SHAPE, J_SHAPE, S_SHAPE, Z_SHAPE};
-    private int[] colors = {RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET};
+    public FigureCreator() {
+        initializeFigures();
+        random = new Random();
+    }
 
-    private Random random = new Random((new Date()).getTime());
+    private void initializeFigures() {
+        figures = new ArrayList<>();
+        figures.add(new Figure(I_SHAPE, BLUE));
+        figures.add(new Figure(O_SHAPE, YELLOW));
+        figures.add(new Figure(T_SHAPE, VIOLET));
+        figures.add(new Figure(L_SHAPE, ORANGE));
+        figures.add(new Figure(J_SHAPE, INDIGO));
+        figures.add(new Figure(S_SHAPE, GREEN));
+        figures.add(new Figure(Z_SHAPE, RED));
+    }
 
     public Figure getRandomFigure() {
-        int color = colors[random.nextInt(colors.length)];
-        boolean[][] shape = shapes[random.nextInt(shapes.length)];
-        return new Figure(shape, color, initialHorizontalPosition);
+        int index = random.nextInt(figures.size());
+        return figures.get(index).copy();
     }
 }
