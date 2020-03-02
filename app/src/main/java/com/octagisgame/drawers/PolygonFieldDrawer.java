@@ -28,11 +28,15 @@ public class PolygonFieldDrawer extends FieldDrawer {
     public PolygonFieldDrawer(Game game, ControlInterface controlInterface, Point displaySize, Styler styler) {
         super(game, displaySize, styler);
         buttons = ((PolygonControlInterface) controlInterface).getButtons();
-        angle = 2 * PI / numberOfColumns;
+        setSizes();
+        setMainAxisNodes();
+    }
+
+    private void setSizes(){
         columnHeight = screenWidth / 2;
         rowHeight = columnHeight / (numberOfRows + 1);
+        angle = 2 * PI / numberOfColumns;
         center = new Point(screenWidth / 2, columnHeight);
-        setMainAxisNodes();
     }
 
     @Override

@@ -15,6 +15,10 @@ public class ClassicFieldDrawer extends FieldDrawer {
 
     public ClassicFieldDrawer(Game game, Point displaySize, Styler styler) {
         super(game, displaySize, styler);
+        setSizes();
+    }
+
+    private void setSizes(){
         int fieldWidth = screenWidth;
         cellHeight = screenHeight / numberOfRows;
         cellWidth = fieldWidth / numberOfColumns;

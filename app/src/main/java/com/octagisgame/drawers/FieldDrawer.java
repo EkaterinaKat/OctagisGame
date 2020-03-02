@@ -34,6 +34,7 @@ abstract public class FieldDrawer {
     public void draw(Canvas canvas) {
         canvas.drawColor(Color.WHITE);
         drawField(canvas);
+        printScoredPoints(canvas);
     }
 
     private void drawField(Canvas canvas) {
@@ -44,12 +45,12 @@ abstract public class FieldDrawer {
         }
     }
 
-//    private void printScoredPoints(Canvas canvas) {   //todo сделать что-то с этим
-//        String scoredPoints = String.valueOf(field.getScoredPoints());
-//        paint.setColor(Color.BLACK);
-//        paint.setTextSize(TEXT_SIZE);
-//        canvas.drawText(scoredPoints, 50, 50, paint);
-//    }
+    private void printScoredPoints(Canvas canvas) {
+        String scoredPoints = String.valueOf(game.getScoredPoints());
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(TEXT_SIZE);
+        canvas.drawText(scoredPoints, 50, 50, paint);
+    }
 
     abstract void drawCell(int column, int row, Canvas canvas);
 }

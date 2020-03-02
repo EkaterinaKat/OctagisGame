@@ -40,7 +40,7 @@ public class GameActivity extends AppCompatActivity {
 
         GameBuilder gameBuilder = new GameBuilder(this, displaySize);
         gameBuilder
-                .setMode(GameBuilder.Mode.POLYGON)
+                .setMode(GameBuilder.Mode.CLASSIC)
                 .setStyler(new BrickStyler())
                 .build();
         game = gameBuilder.getGame();

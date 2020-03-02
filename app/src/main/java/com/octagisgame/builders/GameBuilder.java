@@ -51,7 +51,7 @@ public class GameBuilder {
     }
 
     private void buildClassicMode() {
-        controlInterface = new ClassicControlInterface(game);
+        controlInterface = new ClassicControlInterface(game, displaySize);
         fieldDrawer = new ClassicFieldDrawer(game, displaySize, styler);
     }
 

@@ -33,11 +33,15 @@ public class PolygonControlInterface extends ControlInterface {
     public PolygonControlInterface(Context context, Game game, Point displaySize) {
         super(game);
         this.context = context;
+        setSizes(displaySize);
+        createButtons();
+    }
+
+    private void setSizes(Point displaySize){
         screenWidth = displaySize.x;
         screenHeight = displaySize.y;
         fullScreenRegion = new Region(new Rect(0, 0, screenWidth, screenHeight));
         controlButtonsHeight = (int) (screenHeight * CONTROL_BUTTONS_HEIGHT_PERCENT);
-        createButtons();
     }
 
     private void createButtons() {
