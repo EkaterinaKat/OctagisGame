@@ -5,7 +5,6 @@ import androidx.core.content.ContextCompat;
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
 import com.octagisgame.dialogs.GameOverDialog;
-import com.octagisgame.model.FigureCreator;
 import com.octagisgame.model.PlayingField;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class Game {
     public Game(GameActivity activity, PlayingField field) {
         this.field = field;
         this.activity = activity;
-        figureCreator = new FigureCreator();
+        figureCreator = new FigureCreator(activity);
         timeInterval = STANDARD_TIME_INTERVAL;
     }
 

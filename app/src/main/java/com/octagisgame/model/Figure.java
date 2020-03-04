@@ -1,6 +1,6 @@
 package com.octagisgame.model;
 
-class Figure {
+public class Figure {
     static final int FIGURE_SIZE = 4;
     private boolean[][] shape;
     private int color;
@@ -11,14 +11,14 @@ class Figure {
      * Вертикальная ось направлена сверху вниз */
     private int y;
 
-    Figure(boolean[][] shape, int color) {
+    public Figure(boolean[][] shape, int color) {
         this.shape = shape;
         this.color = color;
         x = 0;
         y = 0;
     }
 
-    Figure copy(){
+    public Figure copy(){
         return new Figure(shape, color);
     }
 

@@ -1,14 +1,20 @@
-package com.octagisgame.model;
+package com.octagisgame.controller;
 
-import android.graphics.Color;
+import android.content.Context;
+
+import androidx.core.content.ContextCompat;
+
+import com.octagisgame.R;
+import com.octagisgame.model.Figure;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FigureCreator {
+class FigureCreator {
     private List<Figure> figures;
     private Random random;
+    private Context context;
 
     private final boolean[][] I_SHAPE = {
             {false, false, false, false},
@@ -52,31 +58,28 @@ public class FigureCreator {
             {false, false, true, true},
             {false, false, false, false}};
 
-    private int RED = Color.rgb(255, 8, 0);
-    private int ORANGE = Color.rgb(254, 93, 3);
-    private int YELLOW = Color.rgb(250, 215, 0);
-    private int GREEN = Color.rgb(75, 254, 1);
-    private int BLUE = Color.rgb(0, 214, 220);
-    private int INDIGO = Color.rgb(6, 0, 254);
-    private int VIOLET = Color.rgb(255, 0, 218);
-
-    public FigureCreator() {
+    FigureCreator(Context context) {
+        this.context = context;
         initializeFigures();
         random = new Random();
     }
 
     private void initializeFigures() {
         figures = new ArrayList<>();
-        figures.add(new Figure(I_SHAPE, BLUE));
-        figures.add(new Figure(O_SHAPE, YELLOW));
-        figures.add(new Figure(T_SHAPE, VIOLET));
-        figures.add(new Figure(L_SHAPE, ORANGE));
-        figures.add(new Figure(J_SHAPE, INDIGO));
-        figures.add(new Figure(S_SHAPE, GREEN));
-        figures.add(new Figure(Z_SHAPE, RED));
+        figures.add(new Figure(I_SHAPE, getColour(R.color.blue)));
+        figures.add(new Figure(O_SHAPE, getColour(R.color.yellow)));
+        figures.add(new Figure(T_SHAPE, getColour(R.color.violet)));
+        figures.add(new Figure(L_SHAPE, getColour(R.color.orange)));
+        figures.add(new Figure(J_SHAPE, getColour(R.color.indigo)));
+        figures.add(new Figure(S_SHAPE, getColour(R.color.green)));
+        figures.add(new Figure(Z_SHAPE, getColour(R.color.red)));
     }
 
-    public Figure getRandomFigure() {
+    private int getColour(int resource) {
+        return ContextCompat.getColor(context, resource);
+    }
+
+    Figure getRandomFigure() {
         int index = random.nextInt(figures.size());
         return figures.get(index).copy();
     }
