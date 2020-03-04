@@ -48,6 +48,7 @@ abstract public class FieldDrawer {
     private void printScoredPoints(Canvas canvas) {
         String scoredPoints = String.valueOf(game.getScoredPoints());
         paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(TEXT_SIZE);
         canvas.drawText(scoredPoints, 50, 50, paint);
     }

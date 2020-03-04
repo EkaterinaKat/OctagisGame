@@ -11,9 +11,16 @@ public class BasicStyler implements Styler {
     }
 
     @Override
-    public void tunePaintForCellBorders(Paint paint, int cellColour) {
+    public void tunePaintForCellBorders(Paint paint) {
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(3);
+        paint.setStrokeWidth(1);
+    }
+
+    @Override
+    public void tunePaintForButtonBorders(Paint paint) {
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(1);
     }
 }

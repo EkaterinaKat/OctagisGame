@@ -35,7 +35,7 @@ public class ClassicFieldDrawer extends FieldDrawer {
         int cellColour = game.getCellColour(column, row);
         styler.tunePaintForCell(paint, cellColour);
         canvas.drawRect(rect, paint);
-        styler.tunePaintForCellBorders(paint, cellColour);
+        styler.tunePaintForCellBorders(paint);
         canvas.drawRect(rect, paint);
     }
 }

@@ -1,6 +1,8 @@
 package com.octagisgame.drawers;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
 
 import com.octagisgame.controller.ControlInterface;
@@ -45,9 +47,17 @@ public class PolygonFieldDrawer extends FieldDrawer {
         drawInterface(canvas);
     }
 
-    void drawInterface(Canvas canvas) {
+    private void drawInterface(Canvas canvas) {
         for (PolygonControlInterface.ControlButton button : buttons) {
-            button.draw(canvas);
+            Path path = button.getPath();
+            int color = button.getColor();
+
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(color);
+            canvas.drawPath(path, paint);
+
+            styler.tunePaintForButtonBorders(paint);
+            canvas.drawPath(path, paint);
         }
     }
 
@@ -69,7 +79,7 @@ public class PolygonFieldDrawer extends FieldDrawer {
         int cellColour = game.getCellColour(column, row);
         styler.tunePaintForCell(paint, cellColour);
         canvas.drawPath(path, paint);
-        styler.tunePaintForCellBorders(paint, cellColour);
+        styler.tunePaintForCellBorders(paint);
         canvas.drawPath(path, paint);
         path.reset();
     }

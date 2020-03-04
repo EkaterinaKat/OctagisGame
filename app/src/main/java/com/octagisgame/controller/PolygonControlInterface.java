@@ -76,7 +76,6 @@ public class PolygonControlInterface extends ControlInterface {
 
     public class ControlButton {
         private Path path = new Path();
-        private Paint paint = new Paint();
         private Region region = new Region();
         private int color;
 
@@ -94,14 +93,16 @@ public class PolygonControlInterface extends ControlInterface {
             region.setPath(path, fullScreenRegion);
         }
 
-        public void draw(Canvas canvas) {
-            paint.setColor(color);
-            paint.setStyle(Paint.Style.FILL);
-            canvas.drawPath(path, paint);
-        }
-
         boolean pressed(int x, int y) {
             return region.contains(x, y);
+        }
+
+        public int getColor() {
+            return color;
+        }
+
+        public Path getPath() {
+            return path;
         }
     }
 

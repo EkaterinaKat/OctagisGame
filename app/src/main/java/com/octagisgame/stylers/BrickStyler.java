@@ -11,9 +11,16 @@ public class BrickStyler implements Styler {
     }
 
     @Override
-    public void tunePaintForCellBorders(Paint paint, int cellColour) {
+    public void tunePaintForCellBorders(Paint paint) {
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(6);
+    }
+
+    @Override
+    public void tunePaintForButtonBorders(Paint paint) {
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(40);
     }
 }
