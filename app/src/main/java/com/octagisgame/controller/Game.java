@@ -120,6 +120,7 @@ public class Game {
 
     public void setOnPause() {
         gamePaused = true;
+        activity.showPauseDialog();
     }
 
     public void continueGame() {

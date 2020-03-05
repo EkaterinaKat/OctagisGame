@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="leftAndRightButtonsColour">#826495ed</color>
-    <color name="rotationButtonColour">#82ADFF2F</color>
-    <color name="speedUpButtonColour">#82FA8072</color>
+    <color name="leftAndRightButtonsColor">#826495ed</color>
+    <color name="rotationButtonColor">#82ADFF2F</color>
+    <color name="speedUpButtonColor">#82FA8072</color>
+    <color name="pauseButtonColor">#826495ed</color>
     <color name="red">#ff0800</color>
     <color name="orange">#fe5d03</color>
     <color name="yellow">#fad700</color>

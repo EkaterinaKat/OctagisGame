@@ -57,13 +57,11 @@ public class GameActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         game.setOnPause();
-        showPauseDialog();
     }
 
     @Override
     public void onBackPressed() {
         game.setOnPause();
-        showPauseDialog();
     }
 
     public void continueGame() {
@@ -76,7 +74,7 @@ public class GameActivity extends AppCompatActivity {
         hideSystemUI(getWindow());
     }
 
-    private void showPauseDialog() {
+    public void showPauseDialog() {
         PauseDialog pauseDialog = new PauseDialog(this);
         pauseDialog.show(getSupportFragmentManager(), "pauseDialog");
     }

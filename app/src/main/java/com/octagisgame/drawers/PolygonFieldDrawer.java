@@ -22,14 +22,16 @@ public class PolygonFieldDrawer extends FieldDrawer {
     private int rowHeight;
     private Point center;
     /* Главная ось направлена из центра поля вправо, узлы на главной оси это точки, которые
-     * будем поворачивать на разные углы чтобы выполнять посторения */
+     * будем поворачивать на разные углы, чтобы выполнять посторения */
     private Point[] mainAxisNodes;
     private int columnHeight;
-    private List<PolygonControlInterface.ControlButton> buttons;
+    private List<PolygonControlInterface.ControlButton> controlButtons;
+    private PolygonControlInterface.PauseButton pauseButton;
 
     public PolygonFieldDrawer(Game game, ControlInterface controlInterface, Point displaySize, Styler styler) {
         super(game, displaySize, styler);
-        buttons = ((PolygonControlInterface) controlInterface).getButtons();
+        controlButtons = ((PolygonControlInterface) controlInterface).getControlButtons();
+        pauseButton = ((PolygonControlInterface) controlInterface).getPauseButton();
         setSizes();
         setMainAxisNodes();
     }
@@ -48,7 +50,12 @@ public class PolygonFieldDrawer extends FieldDrawer {
     }
 
     private void drawInterface(Canvas canvas) {
-        for (PolygonControlInterface.ControlButton button : buttons) {
+        drawControlButtons(canvas);
+        drawPauseButton(canvas);
+    }
+
+    private void drawControlButtons(Canvas canvas){
+        for (PolygonControlInterface.Button button : controlButtons) {
             Path path = button.getPath();
             int color = button.getColor();
 
@@ -59,6 +66,13 @@ public class PolygonFieldDrawer extends FieldDrawer {
             styler.tunePaintForButtonBorders(paint);
             canvas.drawPath(path, paint);
         }
+    }
+
+    private void drawPauseButton(Canvas canvas){
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(10);
+        paint.setColor(pauseButton.getColor());
+        canvas.drawPath(pauseButton.getPath(),paint);
     }
 
     private void setMainAxisNodes() {

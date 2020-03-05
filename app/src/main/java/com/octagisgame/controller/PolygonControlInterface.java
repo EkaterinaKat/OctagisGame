@@ -1,8 +1,6 @@
 package com.octagisgame.controller;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -17,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PolygonControlInterface extends ControlInterface {
-    /* Указывает сколько процентов от высоты поля занимает высота кнопок управления */
+    /* Число на, которое умножается высота экрана, для получения высоты кнопок управления */
     private final double CONTROL_BUTTONS_HEIGHT_PERCENT = 0.35;
     private int screenWidth;
     private int screenHeight;
@@ -26,8 +24,9 @@ public class PolygonControlInterface extends ControlInterface {
     private ControlButton rightButton;
     private ControlButton speedUpButton;
     private ControlButton rotationButton;
+    private PauseButton pauseButton;
     private Region fullScreenRegion;
-    private List<ControlButton> buttons = new ArrayList<>();
+    private List<ControlButton> controlButtons = new ArrayList<>();
     private Context context;
 
     public PolygonControlInterface(Context context, Game game, Point displaySize) {
@@ -37,7 +36,7 @@ public class PolygonControlInterface extends ControlInterface {
         createButtons();
     }
 
-    private void setSizes(Point displaySize){
+    private void setSizes(Point displaySize) {
         screenWidth = displaySize.x;
         screenHeight = displaySize.y;
         fullScreenRegion = new Region(new Rect(0, 0, screenWidth, screenHeight));
@@ -51,15 +50,18 @@ public class PolygonControlInterface extends ControlInterface {
         Point rightTop = new Point(screenWidth, screenHeight - controlButtonsHeight);
         Point rightBottom = new Point(screenWidth, screenHeight);
 
-        int leftAndRightButtonsColour = ContextCompat.getColor(context, R.color.leftAndRightButtonsColour);
-        int speedUpButtonColour = ContextCompat.getColor(context, R.color.speedUpButtonColour);
-        int rotationButtonColour = ContextCompat.getColor(context, R.color.rotationButtonColour);
+        int leftAndRightButtonsColor = ContextCompat.getColor(context, R.color.leftAndRightButtonsColor);
+        int speedUpButtonColor = ContextCompat.getColor(context, R.color.speedUpButtonColor);
+        int rotationButtonColor = ContextCompat.getColor(context, R.color.rotationButtonColor);
+        int pauseButtonColor = ContextCompat.getColor(context, R.color.pauseButtonColor);
 
-        leftButton = new ControlButton(leftAndRightButtonsColour, center, leftBottom, leftTop);
-        rightButton = new ControlButton(leftAndRightButtonsColour, center, rightBottom, rightTop);
-        speedUpButton = new ControlButton(speedUpButtonColour, center, leftBottom, rightBottom);
-        rotationButton = new ControlButton(rotationButtonColour, center, leftTop, rightTop);
-        buttons.addAll(Arrays.asList(leftButton, rightButton, speedUpButton, rotationButton));
+        leftButton = new ControlButton(leftAndRightButtonsColor, center, leftBottom, leftTop);
+        rightButton = new ControlButton(leftAndRightButtonsColor, center, rightBottom, rightTop);
+        speedUpButton = new ControlButton(speedUpButtonColor, center, leftBottom, rightBottom);
+        rotationButton = new ControlButton(rotationButtonColor, center, leftTop, rightTop);
+        controlButtons.addAll(Arrays.asList(leftButton, rightButton, speedUpButton, rotationButton));
+
+        pauseButton = new PauseButton(pauseButtonColor);
     }
 
     @Override
@@ -72,41 +74,77 @@ public class PolygonControlInterface extends ControlInterface {
             game.rotateFigure();
         if (speedUpButton.pressed(x, y))
             game.speedUpFalling();
+        if(pauseButton.pressed(x, y))
+            game.setOnPause();
     }
 
-    public class ControlButton {
-        private Path path = new Path();
-        private Region region = new Region();
+    abstract public class Button {
+        Region region = new Region();
+        Path path = new Path();
         private int color;
 
-        ControlButton(int color, Point... tops) {
+        public Button(int color) {
             this.color = color;
-            setPath(tops);
-        }
-
-        private void setPath(Point[] tops) {
-            path.moveTo(tops[0].x, tops[0].y);
-            for (int i = 1; i < tops.length; i++) {
-                path.lineTo(tops[i].x, tops[i].y);
-            }
-            path.close();
-            region.setPath(path, fullScreenRegion);
         }
 
         boolean pressed(int x, int y) {
             return region.contains(x, y);
         }
 
-        public int getColor() {
-            return color;
+        void setRegion() {
+            region.setPath(path, fullScreenRegion);
         }
 
         public Path getPath() {
             return path;
         }
+
+        public int getColor() {
+            return color;
+        }
     }
 
-    public List<ControlButton> getButtons() {
-        return buttons;
+    public class PauseButton extends Button {
+        /* Число, на которое умножается ширина экрана, для получения радиуса кнопки паузы */
+        private final double RADIUS_TO_HEIGHT = 0.09;
+        /* Число, на которое умножается ширина экрана, для получения горизонтальной координаты
+         * центра кнопки паузы */
+        private final double BUTTON_X_TO_SCREEN_WIDTH = 0.8;
+        /* Число, на которое умножается высота экрана, для получения вертикальной координаты
+         * центра кнопки паузы */
+        private final double BUTTON_Y_TO_SCREEN_HEIGHT = 0.5;
+
+        PauseButton(int color) {
+            super(color);
+            int radius = (int) (screenWidth * RADIUS_TO_HEIGHT);
+            int centerX = (int) (screenWidth * BUTTON_X_TO_SCREEN_WIDTH);
+            int centerY = (int) (screenHeight * BUTTON_Y_TO_SCREEN_HEIGHT);
+            path.addCircle(centerX, centerY, radius, Path.Direction.CCW);
+            setRegion();
+        }
+    }
+
+    public class ControlButton extends Button {
+        ControlButton(int color, Point... tops) {
+            super(color);
+            setPath(tops);
+            setRegion();
+        }
+
+        void setPath(Point[] tops) {
+            path.moveTo(tops[0].x, tops[0].y);
+            for (int i = 1; i < tops.length; i++) {
+                path.lineTo(tops[i].x, tops[i].y);
+            }
+            path.close();
+        }
+    }
+
+    public List<ControlButton> getControlButtons() {
+        return controlButtons;
+    }
+
+    public PauseButton getPauseButton() {
+        return pauseButton;
     }
 }
