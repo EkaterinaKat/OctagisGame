@@ -13,12 +13,24 @@ public class PauseButton extends Button {
      * центра кнопки паузы */
     private final double BUTTON_Y_TO_SCREEN_HEIGHT = 0.5;
 
+    private int radius;
+    private int centerX;
+    private int centerY;
+
     PauseButton(int color, Point displaySize) {
         super(color, displaySize);
-        int radius = (int) (screenWidth * RADIUS_TO_HEIGHT);
-        int centerX = (int) (screenWidth * BUTTON_X_TO_SCREEN_WIDTH);
-        int centerY = (int) (screenHeight * BUTTON_Y_TO_SCREEN_HEIGHT);
+        radius = (int) (screenWidth * RADIUS_TO_HEIGHT);
+        centerX = (int) (screenWidth * BUTTON_X_TO_SCREEN_WIDTH);
+        centerY = (int) (screenHeight * BUTTON_Y_TO_SCREEN_HEIGHT);
         path.addCircle(centerX, centerY, radius, Path.Direction.CCW);
         setRegion();
+        addPauseSymbolOnButton();
+    }
+
+    private void addPauseSymbolOnButton(){
+        path.addRect(centerX-radius/3, centerY-radius/2, centerX-radius/6,
+                centerY+radius/2, Path.Direction.CCW);
+        path.addRect(centerX+radius/6, centerY-radius/2, centerX+radius/3,
+                centerY+radius/2, Path.Direction.CCW);
     }
 }
