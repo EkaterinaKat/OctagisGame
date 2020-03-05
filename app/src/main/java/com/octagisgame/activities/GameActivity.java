@@ -12,11 +12,10 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.builders.GameBuilder;
-import com.octagisgame.controller.ControlInterface;
 import com.octagisgame.controller.Game;
+import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.dialogs.PauseDialog;
 import com.octagisgame.drawers.FieldDrawer;
-import com.octagisgame.stylers.BasicStyler;
 import com.octagisgame.stylers.BrickStyler;
 
 import static com.octagisgame.activities.MainActivity.hideSystemUI;

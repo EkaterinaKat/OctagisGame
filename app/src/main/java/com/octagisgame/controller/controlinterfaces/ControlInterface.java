@@ -1,9 +1,11 @@
-package com.octagisgame.controller;
+package com.octagisgame.controller.controlinterfaces;
+
+import com.octagisgame.controller.Game;
 
 public abstract class ControlInterface {
     protected Game game;
 
-    public ControlInterface(Game game) {
+    ControlInterface(Game game) {
         this.game = game;
     }
 

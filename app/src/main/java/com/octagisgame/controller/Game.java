@@ -57,19 +57,19 @@ public class Game {
         }
     };
 
-    void moveFigureLeft() {
+    public void moveFigureLeft() {
         field.moveFigureLeft();
     }
 
-    void moveFigureRight() {
+    public void moveFigureRight() {
         field.moveFigureRight();
     }
 
-    void rotateFigure() {
+    public void rotateFigure() {
         field.rotateFigure();
     }
 
-    void speedUpFalling() {
+    public void speedUpFalling() {
         timeInterval = REDUCED_TIME_INTERVAL;
     }
 

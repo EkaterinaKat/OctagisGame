@@ -5,9 +5,11 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 
-import com.octagisgame.controller.ControlInterface;
 import com.octagisgame.controller.Game;
-import com.octagisgame.controller.PolygonControlInterface;
+import com.octagisgame.controller.buttons.ControlButton;
+import com.octagisgame.controller.buttons.PauseButton;
+import com.octagisgame.controller.controlinterfaces.ControlInterface;
+import com.octagisgame.controller.controlinterfaces.PolygonControlInterface;
 import com.octagisgame.stylers.Styler;
 
 import java.util.List;
@@ -25,8 +27,8 @@ public class PolygonFieldDrawer extends FieldDrawer {
      * будем поворачивать на разные углы, чтобы выполнять посторения */
     private Point[] mainAxisNodes;
     private int columnHeight;
-    private List<PolygonControlInterface.ControlButton> controlButtons;
-    private PolygonControlInterface.PauseButton pauseButton;
+    private List<ControlButton> controlButtons;
+    private PauseButton pauseButton;
 
     public PolygonFieldDrawer(Game game, ControlInterface controlInterface, Point displaySize, Styler styler) {
         super(game, displaySize, styler);
@@ -54,8 +56,8 @@ public class PolygonFieldDrawer extends FieldDrawer {
         drawPauseButton(canvas);
     }
 
-    private void drawControlButtons(Canvas canvas){
-        for (PolygonControlInterface.Button button : controlButtons) {
+    private void drawControlButtons(Canvas canvas) {
+        for (ControlButton button : controlButtons) {
             Path path = button.getPath();
             int color = button.getColor();
 
@@ -68,11 +70,11 @@ public class PolygonFieldDrawer extends FieldDrawer {
         }
     }
 
-    private void drawPauseButton(Canvas canvas){
+    private void drawPauseButton(Canvas canvas) {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(10);
         paint.setColor(pauseButton.getColor());
-        canvas.drawPath(pauseButton.getPath(),paint);
+        canvas.drawPath(pauseButton.getPath(), paint);
     }
 
     private void setMainAxisNodes() {
@@ -107,8 +109,8 @@ public class PolygonFieldDrawer extends FieldDrawer {
         return tops;
     }
 
-    /* Поворачивает заданную точку на заданный угол по часовой стрелке вокруг оси, 
-    * которая находится в точке center */
+    /* Поворачивает заданную точку на заданный угол по часовой стрелке вокруг оси,
+     * которая находится в точке center */
     private Point rotatePointAroundCenter(Point point, double angle) {
         int x1 = (int) ((point.x - center.x) * cos(angle) + (-1) * (point.y - center.y) * sin(angle) + center.x);
         int y1 = (int) ((point.x - center.x) * sin(angle) + (point.y - center.y) * cos(angle) + center.y);

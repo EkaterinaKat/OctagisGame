@@ -3,10 +3,10 @@ package com.octagisgame.builders;
 import android.graphics.Point;
 
 import com.octagisgame.activities.GameActivity;
-import com.octagisgame.controller.ClassicControlInterface;
-import com.octagisgame.controller.ControlInterface;
 import com.octagisgame.controller.Game;
-import com.octagisgame.controller.PolygonControlInterface;
+import com.octagisgame.controller.controlinterfaces.ClassicControlInterface;
+import com.octagisgame.controller.controlinterfaces.ControlInterface;
+import com.octagisgame.controller.controlinterfaces.PolygonControlInterface;
 import com.octagisgame.drawers.ClassicFieldDrawer;
 import com.octagisgame.drawers.FieldDrawer;
 import com.octagisgame.drawers.PolygonFieldDrawer;

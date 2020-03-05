@@ -1,6 +1,8 @@
-package com.octagisgame.controller;
+package com.octagisgame.controller.controlinterfaces;
 
 import android.graphics.Point;
+
+import com.octagisgame.controller.Game;
 
 public class ClassicControlInterface extends ControlInterface {
 
