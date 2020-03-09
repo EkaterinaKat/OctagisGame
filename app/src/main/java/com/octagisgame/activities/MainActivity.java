@@ -12,6 +12,7 @@ import com.octagisgame.R;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView startBtn;
+    private ImageView scoresBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +22,25 @@ public class MainActivity extends AppCompatActivity {
 
         startBtn = findViewById(R.id.start_button);
         startBtn.setOnClickListener(startGame);
+
+        scoresBtn = findViewById(R.id.score_table_button);
+        scoresBtn.setOnClickListener(showScoresTable);
     }
 
     private final View.OnClickListener startGame = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            startBtn.setImageResource(R.drawable.play_pressed);
+            startBtn.setImageResource(R.drawable.play_btn_pressed);
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    };
+
+    private final View.OnClickListener showScoresTable = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(MainActivity.this, ScoreTableActivity.class);
             startActivity(intent);
             finish();
         }
