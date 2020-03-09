@@ -1,10 +1,10 @@
 package com.octagisgame.model;
 
-public class Score  implements Comparable{
+public class Score implements Comparable {
     private String player;
     private int scoredPoints;
 
-    public Score(String player, int scoredPoints){
+    public Score(String player, int scoredPoints) {
         this.player = player;
         this.scoredPoints = scoredPoints;
     }
