@@ -11,7 +11,7 @@ public class Score implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        Score another = (Score)o;
+        Score another = (Score) o;
         Integer scoredPoints = this.scoredPoints;
         return scoredPoints.compareTo(another.scoredPoints);
     }

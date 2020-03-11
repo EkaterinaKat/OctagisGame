@@ -8,16 +8,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.R;
-import com.octagisgame.database.ScoresSQLiteDb;
-import com.octagisgame.model.Database;
 import com.octagisgame.model.Score;
+import com.octagisgame.model.ScoreTable;
 
 import java.util.Set;
 
 public class ScoreTableActivity extends AppCompatActivity {
     private final int PADDING = 20;
     private final int TEXT_SIZE = 20;
-    private Database database;
+    private ScoreTable scoreTable;
     private TableLayout tableLayout;
 
     @Override
@@ -25,12 +24,17 @@ public class ScoreTableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_table);
         tableLayout = findViewById(R.id.tableLayout);
-        database = ScoresSQLiteDb.getInstance(this);
+        scoreTable = ScoreTable.getInstance();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         fillTable();
     }
 
     private void fillTable() {
-        Set<Score> scores = database.getScores().descendingSet();
+        Set<Score> scores = scoreTable.getScores().descendingSet();
         for (Score score : scores) {
             addScoreToTable(score);
         }

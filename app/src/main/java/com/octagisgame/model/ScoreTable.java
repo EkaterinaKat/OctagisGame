@@ -1,27 +1,40 @@
 package com.octagisgame.model;
 
-import java.util.Iterator;
 import java.util.TreeSet;
 
-class ScoreTable {
+public class ScoreTable {
     static int SIZE = 10;
+    private static ScoreTable instance;
     private Database database;
     private TreeSet<Score> scores;
+    private String currentPlayer;
 
-    ScoreTable(Database database) {
+    private ScoreTable(Database database, String currentPlayer) {
         this.database = database;
+        this.currentPlayer = currentPlayer;
         scores = getScoresFromDatabase();
+    }
+
+    public static void create(Database database, String currentPlayer) {
+        if (instance == null) {
+            instance = new ScoreTable(database, currentPlayer);
+        }
+    }
+
+    public static ScoreTable getInstance() {
+        return instance;
     }
 
     private TreeSet<Score> getScoresFromDatabase() {
         return database.getScores();
     }
 
-    TreeSet<Score> getScores() {
+    public TreeSet<Score> getScores() {
         return scores;
     }
 
-    void addScore(Score score) {
+    public void addScore(int scoredPoints) {
+        Score score = new Score(currentPlayer, scoredPoints);
         scores.add(score);
         if (scores.size() > SIZE)
             scores.remove(scores.first());
@@ -30,9 +43,16 @@ class ScoreTable {
 
     private void refreshTableInDatabase() {
         database.deleteScores();
-        Iterator<Score> iterator = scores.iterator();
         for (Score score : scores) {
             database.addScore(score);
         }
+    }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void changePlayer(String player) {
+        currentPlayer = player;
     }
 }

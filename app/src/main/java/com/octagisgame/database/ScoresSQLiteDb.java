@@ -14,16 +14,9 @@ import com.octagisgame.model.Score;
 import java.util.TreeSet;
 
 public class ScoresSQLiteDb implements Database {
-    private static ScoresSQLiteDb instance;
     private SQLiteDatabase database;
 
-    public static ScoresSQLiteDb getInstance(Context context) {
-        if (instance == null)
-            instance = new ScoresSQLiteDb(context);
-        return instance;
-    }
-
-    private ScoresSQLiteDb(Context context) {
+    public ScoresSQLiteDb(Context context) {
         database = new ScoresSQLiteDbHelper(context).getWritableDatabase();
     }
 

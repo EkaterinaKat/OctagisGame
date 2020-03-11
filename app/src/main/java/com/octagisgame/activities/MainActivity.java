@@ -9,16 +9,20 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.R;
+import com.octagisgame.database.ScoresSQLiteDb;
+import com.octagisgame.model.ScoreTable;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView startBtn;
     private ImageView scoresBtn;
+    private String currentPlayer = "somePlayer";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         hideSystemUI(getWindow());
+        ScoreTable.create(new ScoresSQLiteDb(this), currentPlayer);
 
         startBtn = findViewById(R.id.start_button);
         startBtn.setOnClickListener(startGame);
@@ -42,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent intent = new Intent(MainActivity.this, ScoreTableActivity.class);
             startActivity(intent);
-            finish();
         }
     };
 
