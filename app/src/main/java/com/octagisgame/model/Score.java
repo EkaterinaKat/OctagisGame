@@ -12,8 +12,12 @@ public class Score implements Comparable {
     @Override
     public int compareTo(Object o) {
         Score another = (Score) o;
-        Integer scoredPoints = this.scoredPoints;
-        return scoredPoints.compareTo(another.scoredPoints);
+        Integer thisScoredPoints = this.scoredPoints;
+        int result = thisScoredPoints.compareTo(another.scoredPoints);
+        if(result==0){
+            result = this.player.compareTo(another.player);
+        }
+        return result;
     }
 
     public String getPlayer() {
