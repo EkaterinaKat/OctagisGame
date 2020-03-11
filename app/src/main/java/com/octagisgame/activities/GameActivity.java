@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.octagisgame.builders.GameBuilder;
 import com.octagisgame.controller.Game;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
+import com.octagisgame.dialogs.GameOverDialog;
 import com.octagisgame.dialogs.PauseDialog;
 import com.octagisgame.drawers.FieldDrawer;
 import com.octagisgame.stylers.BrickStyler;
@@ -60,12 +61,18 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        game.setOnPause();
+        pauseGame();
     }
 
     @Override
     public void onBackPressed() {
+        pauseGame();
+
+    }
+
+    public void pauseGame() {
         game.setOnPause();
+        showPauseDialog();
     }
 
     public void continueGame() {
@@ -79,6 +86,11 @@ public class GameActivity extends AppCompatActivity {
     public void showPauseDialog() {
         PauseDialog pauseDialog = new PauseDialog(this);
         pauseDialog.show(getSupportFragmentManager(), "pauseDialog");
+    }
+
+    public void showGameOverDialog(int scoredPoints) {
+        GameOverDialog gameOverDialog = new GameOverDialog(this, scoredPoints);
+        gameOverDialog.show(getSupportFragmentManager(), "gameOverDialog");
     }
 
     public void goToMainMenu() {

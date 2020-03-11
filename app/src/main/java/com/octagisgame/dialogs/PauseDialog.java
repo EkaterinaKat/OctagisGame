@@ -32,7 +32,6 @@ public class PauseDialog extends DialogFragment {
     private DialogInterface.OnClickListener continueGameListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
-            dismiss();
             activity.continueGame();
             hideSystemUI(activity.getWindow());
         }

@@ -3,6 +3,7 @@ package com.octagisgame.controller.controlinterfaces;
 import android.content.Context;
 import android.graphics.Point;
 
+import com.octagisgame.activities.GameActivity;
 import com.octagisgame.controller.Game;
 import com.octagisgame.controller.buttons.ButtonsCreator;
 import com.octagisgame.controller.buttons.ControlButton;
@@ -19,10 +20,12 @@ public class PolygonControlInterface extends ControlInterface {
     private ControlButton rotationButton;
     private PauseButton pauseButton;
     private List<ControlButton> controlButtons = new ArrayList<>();
+    private GameActivity activity;
 
-    public PolygonControlInterface(Context context, Game game, Point displaySize) {
+    public PolygonControlInterface(GameActivity activity, Game game, Point displaySize) {
         super(game);
-        createButtons(context, displaySize);
+        this.activity = activity;
+        createButtons(activity, displaySize);
     }
 
     private void createButtons(Context context, Point displaySize) {
@@ -46,7 +49,7 @@ public class PolygonControlInterface extends ControlInterface {
         if (speedUpButton.pressed(x, y))
             game.speedUpFalling();
         if (pauseButton.pressed(x, y))
-            game.setOnPause();
+            activity.pauseGame();
     }
 
     public List<ControlButton> getControlButtons() {

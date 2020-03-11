@@ -4,7 +4,6 @@ import androidx.core.content.ContextCompat;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
-import com.octagisgame.dialogs.GameOverDialog;
 import com.octagisgame.model.PlayingField;
 import com.octagisgame.model.ScoreTable;
 
@@ -49,7 +48,7 @@ public class Game {
                         timeInterval = STANDARD_TIME_INTERVAL;
                         if (field.figureAboveTop()) {
                             saveScore();
-                            showGameOverDialog(scoredPoints);
+                            activity.showGameOverDialog(scoredPoints);
                             break;
                         }
                         field.finishFalling();
@@ -95,11 +94,6 @@ public class Game {
         scoredPoints += a;
     }
 
-    private void showGameOverDialog(int scoredPoints) {
-        GameOverDialog gameOverDialog = new GameOverDialog(activity, scoredPoints);
-        gameOverDialog.show(activity.getSupportFragmentManager(), "gameOverDialog");
-    }
-
     private void saveScore() {
         if (scoredPoints > 0) {
             scoreTable.addScore(scoredPoints);
@@ -130,7 +124,6 @@ public class Game {
 
     public void setOnPause() {
         gamePaused = true;
-        activity.showPauseDialog();
     }
 
     public void continueGame() {
