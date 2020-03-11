@@ -2,7 +2,6 @@ package com.octagisgame.dialogs;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -10,7 +9,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
-import com.octagisgame.activities.MainActivity;
+
+import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
 public class GameOverDialog extends DialogFragment {
 
@@ -37,6 +37,7 @@ public class GameOverDialog extends DialogFragment {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
             activity.startGame();
+            hideSystemUI(activity.getWindow());
         }
     };
 

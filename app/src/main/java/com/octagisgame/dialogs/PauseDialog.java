@@ -2,7 +2,6 @@ package com.octagisgame.dialogs;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -10,9 +9,10 @@ import androidx.fragment.app.DialogFragment;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
-import com.octagisgame.activities.MainActivity;
 
-public class PauseDialog  extends DialogFragment {
+import static com.octagisgame.activities.MainActivity.hideSystemUI;
+
+public class PauseDialog extends DialogFragment {
 
     private GameActivity activity;
 
@@ -34,6 +34,7 @@ public class PauseDialog  extends DialogFragment {
         public void onClick(DialogInterface dialogInterface, int i) {
             dismiss();
             activity.continueGame();
+            hideSystemUI(activity.getWindow());
         }
     };
 

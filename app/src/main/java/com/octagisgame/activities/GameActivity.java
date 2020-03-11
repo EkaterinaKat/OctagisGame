@@ -32,7 +32,6 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         drawView = new DrawView(this);
         setContentView(drawView);
-        hideSystemUI(getWindow());
 
         Display display = getWindowManager().getDefaultDisplay();
         Point displaySize = new Point();
@@ -53,6 +52,12 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        hideSystemUI(getWindow());
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         game.setOnPause();
@@ -65,12 +70,10 @@ public class GameActivity extends AppCompatActivity {
 
     public void continueGame() {
         game.continueGame();
-        hideSystemUI(getWindow());
     }
 
     public void startGame() {
         game.start();
-        hideSystemUI(getWindow());
     }
 
     public void showPauseDialog() {

@@ -26,7 +26,6 @@ public class Game {
         this.field = field;
         this.activity = activity;
         figureCreator = new FigureCreator(activity);
-        timeInterval = STANDARD_TIME_INTERVAL;
         scoreTable = ScoreTable.getInstance();
     }
 
@@ -39,6 +38,7 @@ public class Game {
         public void run() {
             field.initializeWithEmptyCells();
             scoredPoints = 0;
+            timeInterval = STANDARD_TIME_INTERVAL;
             gamePaused = false;
             generateNextFigure();
             while (true) {

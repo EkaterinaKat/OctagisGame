@@ -13,6 +13,8 @@ import com.octagisgame.model.ScoreTable;
 
 import java.util.Set;
 
+import static com.octagisgame.activities.MainActivity.hideSystemUI;
+
 public class ScoreTableActivity extends AppCompatActivity {
     private final int PADDING = 20;
     private final int TEXT_SIZE = 20;
@@ -31,6 +33,7 @@ public class ScoreTableActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         fillTable();
+        hideSystemUI(getWindow());
     }
 
     private void fillTable() {
