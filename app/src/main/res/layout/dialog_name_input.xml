@@ -6,8 +6,9 @@
     android:padding="15dp">
 
     <TextView
+        android:id="@+id/message_text_view"
         android:layout_width="180dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/enter_player_name"
         android:textSize="15sp" />

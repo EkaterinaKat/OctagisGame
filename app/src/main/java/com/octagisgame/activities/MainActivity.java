@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.R;
 import com.octagisgame.database.ScoresSQLiteDb;
+import com.octagisgame.dialogs.InitialNameInputDialog;
+import com.octagisgame.dialogs.NameChangeDialog;
 import com.octagisgame.dialogs.NameInputDialog;
 import com.octagisgame.model.ScoreTable;
 
@@ -31,10 +33,11 @@ public class MainActivity extends AppCompatActivity {
         ImageView scoresBtn = findViewById(R.id.score_table_button);
         scoresBtn.setOnClickListener(showScoresTable);
         greetingTextView = findViewById(R.id.greeting_text_view);
+        greetingTextView.setOnClickListener(changeName);
 
         loadPlayerName();
         if (playerName.equals("")) {
-            showPlayerNameInputDialog();
+            showNameInputDialog();
             greetingTextView.setVisibility(View.INVISIBLE);
         }
         ScoreTable.create(new ScoresSQLiteDb(this), playerName);
@@ -50,11 +53,6 @@ public class MainActivity extends AppCompatActivity {
     private void loadPlayerName() {
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         playerName = preferences.getString(PLAYER_NAME_KEY, "");
-    }
-
-    private void showPlayerNameInputDialog() {
-        NameInputDialog nameInputDialog = new NameInputDialog(this);
-        nameInputDialog.show(getSupportFragmentManager(), null);
     }
 
     public void setNewPlayerName(String playerName) {
@@ -89,6 +87,23 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     };
+
+    private View.OnClickListener changeName = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            showNameChangeDialog();
+        }
+    };
+
+    private void showNameInputDialog() {
+        NameInputDialog nameInputDialog = new InitialNameInputDialog(this);
+        nameInputDialog.show(getSupportFragmentManager(), null);
+    }
+
+    private void showNameChangeDialog() {
+        NameInputDialog nameInputDialog = new NameChangeDialog(this);
+        nameInputDialog.show(getSupportFragmentManager(), null);
+    }
 
     public static void hideSystemUI(Window window) {
         View decorView = window.getDecorView();
