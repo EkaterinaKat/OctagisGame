@@ -7,11 +7,11 @@ public class ScoreTable {
     private static ScoreTable instance;
     private Database database;
     private TreeSet<Score> scores;
-    private String currentPlayer;
+    private String playerName;
 
-    private ScoreTable(Database database, String currentPlayer) {
+    private ScoreTable(Database database, String playerName) {
         this.database = database;
-        this.currentPlayer = currentPlayer;
+        this.playerName = playerName;
         scores = getScoresFromDatabase();
     }
 
@@ -34,7 +34,7 @@ public class ScoreTable {
     }
 
     public void addScore(int scoredPoints) {
-        Score score = new Score(currentPlayer, scoredPoints);
+        Score score = new Score(playerName, scoredPoints);
         scores.add(score);
         if (scores.size() > SIZE)
             scores.remove(scores.first());
@@ -48,11 +48,7 @@ public class ScoreTable {
         }
     }
 
-    public String getCurrentPlayer() {
-        return currentPlayer;
-    }
-
     public void changePlayer(String player) {
-        currentPlayer = player;
+        playerName = player;
     }
 }

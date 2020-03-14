@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <TextView
+        android:layout_width="180dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="@string/enter_player_name"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/player_name_edit"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" />
+
+    <Button
+
+        android:id="@+id/ok_button"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textSize="15sp" />
+
+
+</LinearLayout>

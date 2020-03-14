@@ -3,13 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/greeting_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/start_button"
+        android:layout_centerInParent="true"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
     <ImageView
         android:id="@+id/start_button"
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/play_btn"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true"
+        android:src="@drawable/play_btn" />
 
     <ImageView
         android:id="@+id/score_table_button"
@@ -17,7 +26,7 @@
         android:layout_height="150dp"
         android:layout_below="@+id/start_button"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/scores_btn"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true"
+        android:src="@drawable/scores_btn" />
 
 </RelativeLayout>

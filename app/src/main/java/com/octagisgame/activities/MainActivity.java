@@ -1,39 +1,75 @@
 package com.octagisgame.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.R;
 import com.octagisgame.database.ScoresSQLiteDb;
+import com.octagisgame.dialogs.NameInputDialog;
 import com.octagisgame.model.ScoreTable;
 
 public class MainActivity extends AppCompatActivity {
+    private final String PLAYER_NAME_KEY = "player name";
     private ImageView startBtn;
-    private ImageView scoresBtn;
-    private String currentPlayer = "somePlayer";
+    private String playerName;
+    private TextView greetingTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ScoreTable.create(new ScoresSQLiteDb(this), currentPlayer);
 
         startBtn = findViewById(R.id.start_button);
         startBtn.setOnClickListener(startGame);
-
-        scoresBtn = findViewById(R.id.score_table_button);
+        ImageView scoresBtn = findViewById(R.id.score_table_button);
         scoresBtn.setOnClickListener(showScoresTable);
+        greetingTextView = findViewById(R.id.greeting_text_view);
+
+        loadPlayerName();
+        if (playerName.equals("")) {
+            showPlayerNameInputDialog();
+            greetingTextView.setVisibility(View.INVISIBLE);
+        }
+        ScoreTable.create(new ScoresSQLiteDb(this), playerName);
+        greetingTextView.setText(getString(R.string.greeting, playerName));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         hideSystemUI(getWindow());
+    }
+
+    private void loadPlayerName() {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        playerName = preferences.getString(PLAYER_NAME_KEY, "");
+    }
+
+    private void showPlayerNameInputDialog() {
+        NameInputDialog nameInputDialog = new NameInputDialog(this);
+        nameInputDialog.show(getSupportFragmentManager(), null);
+    }
+
+    public void setNewPlayerName(String playerName) {
+        this.playerName = playerName;
+        savePlayerName(playerName);
+        ScoreTable.getInstance().changePlayer(playerName);
+        greetingTextView.setText(getString(R.string.greeting, playerName));
+        greetingTextView.setVisibility(View.VISIBLE);
+    }
+
+    private void savePlayerName(String playerName) {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(PLAYER_NAME_KEY, playerName);
+        editor.commit();
     }
 
     private final View.OnClickListener startGame = new View.OnClickListener() {

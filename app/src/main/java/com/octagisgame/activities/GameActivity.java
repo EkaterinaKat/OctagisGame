@@ -85,12 +85,12 @@ public class GameActivity extends AppCompatActivity {
 
     public void showPauseDialog() {
         PauseDialog pauseDialog = new PauseDialog(this);
-        pauseDialog.show(getSupportFragmentManager(), "pauseDialog");
+        pauseDialog.show(getSupportFragmentManager(), null);
     }
 
     public void showGameOverDialog(int scoredPoints) {
         GameOverDialog gameOverDialog = new GameOverDialog(this, scoredPoints);
-        gameOverDialog.show(getSupportFragmentManager(), "gameOverDialog");
+        gameOverDialog.show(getSupportFragmentManager(), null);
     }
 
     public void goToMainMenu() {

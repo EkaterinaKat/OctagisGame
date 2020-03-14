@@ -32,8 +32,13 @@ public class ScoreTableActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        clearTable();
         fillTable();
         hideSystemUI(getWindow());
+    }
+
+    private void clearTable() {
+        tableLayout.removeAllViews();
     }
 
     private void fillTable() {
