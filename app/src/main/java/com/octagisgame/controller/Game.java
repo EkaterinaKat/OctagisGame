@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Game {
     private final int POINTS_FOR_ONE_ROW = 10;
-    private final int STANDARD_TIME_INTERVAL = 300;
+    private final int STANDARD_TIME_INTERVAL = 500;
     private final int REDUCED_TIME_INTERVAL = 20;
     private int timeInterval;
     private int scoredPoints;

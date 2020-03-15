@@ -1,5 +1,7 @@
 package com.octagisgame.model;
 
+import androidx.annotation.NonNull;
+
 public class Score implements Comparable {
     private String player;
     private int scoredPoints;
@@ -10,14 +12,10 @@ public class Score implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(@NonNull Object o) {
         Score another = (Score) o;
         Integer thisScoredPoints = this.scoredPoints;
-        int result = thisScoredPoints.compareTo(another.scoredPoints);
-        if(result==0){
-            result = this.player.compareTo(another.player);
-        }
-        return result;
+        return thisScoredPoints.compareTo(another.scoredPoints);
     }
 
     public String getPlayer() {

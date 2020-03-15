@@ -33,11 +33,21 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         drawView = new DrawView(this);
         setContentView(drawView);
+        buildGame();
+        drawThread = new DrawThread();
+        drawThread.start();
+        startGame();
+    }
 
+    private Point getDisplaySize() {
         Display display = getWindowManager().getDefaultDisplay();
         Point displaySize = new Point();
         display.getRealSize(displaySize);
+        return displaySize;
+    }
 
+    private void buildGame() {
+        Point displaySize = getDisplaySize();
         GameBuilder gameBuilder = new GameBuilder(this, displaySize);
         gameBuilder
                 .setMode(GameBuilder.Mode.POLYGON)
@@ -46,10 +56,6 @@ public class GameActivity extends AppCompatActivity {
         game = gameBuilder.getGame();
         fieldDrawer = gameBuilder.getFieldDrawer();
         controlInterface = gameBuilder.getControlInterface();
-
-        drawThread = new DrawThread();
-        drawThread.start();
-        startGame();
     }
 
     @Override
