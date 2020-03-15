@@ -1,5 +1,6 @@
 package com.octagisgame.dialogs;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +16,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.MainActivity;
+
+import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
 public abstract class NameInputDialog extends DialogFragment {
     Button okButton;
@@ -34,6 +37,12 @@ public abstract class NameInputDialog extends DialogFragment {
         okButton = v.findViewById(R.id.ok_button);
         okButton.setEnabled(false);
         return v;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        hideSystemUI(activity.getWindow());
     }
 
     private TextWatcher textWatcher = new TextWatcher() {

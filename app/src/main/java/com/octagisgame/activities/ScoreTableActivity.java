@@ -1,6 +1,7 @@
 package com.octagisgame.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -27,7 +28,15 @@ public class ScoreTableActivity extends AppCompatActivity {
         setContentView(R.layout.activity_score_table);
         tableLayout = findViewById(R.id.tableLayout);
         scoreTable = ScoreTable.getInstance();
+        findViewById(R.id.back_button).setOnClickListener(backToMainMenu);
     }
+
+    View.OnClickListener backToMainMenu = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            finish();
+        }
+    };
 
     @Override
     protected void onResume() {

@@ -5,10 +5,20 @@
     android:layout_height="match_parent"
     tools:context=".activities.ScoreTableActivity">
 
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="20dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/back_btn" />
+
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>
