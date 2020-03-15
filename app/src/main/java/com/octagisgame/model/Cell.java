@@ -1,7 +1,5 @@
 package com.octagisgame.model;
 
-import android.graphics.Color;
-
 public class Cell {
     private boolean filled;
     private int color;
@@ -25,7 +23,6 @@ public class Cell {
 
     private void makeEmpty() {
         filled = false;
-        color = Color.WHITE;
     }
 
     public void changeColor(int color) {

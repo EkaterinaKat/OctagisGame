@@ -1,5 +1,7 @@
 package com.octagisgame.controller;
 
+import android.graphics.Color;
+
 import androidx.core.content.ContextCompat;
 
 import com.octagisgame.R;
@@ -120,6 +122,9 @@ public class Game {
         }
         if (field.figureShadowInCell(column, row)) {
             return ContextCompat.getColor(activity, R.color.shadowColor);
+        }
+        if (field.cellIsEmpty(column, row)){
+            return Color.WHITE;
         }
         return field.getCellColour(column, row);
     }

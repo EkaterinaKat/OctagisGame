@@ -221,6 +221,10 @@ public class PlayingField {
         return cells[column][row].getColor();
     }
 
+    public boolean cellIsEmpty(int column, int row) {
+        return !cells[column][row].isFilled();
+    }
+
     public int getNumberOfColumns() {
         return numberOfColumns;
     }
