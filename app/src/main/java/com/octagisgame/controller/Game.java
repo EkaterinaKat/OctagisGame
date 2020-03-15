@@ -4,6 +4,7 @@ import androidx.core.content.ContextCompat;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
+import com.octagisgame.drawers.RowDeletionAnimator;
 import com.octagisgame.model.PlayingField;
 import com.octagisgame.model.ScoreTable;
 
@@ -20,12 +21,14 @@ public class Game {
     private boolean gamePaused;
     private PlayingField field;
     private ScoreTable scoreTable;
+    private RowDeletionAnimator animator;
 
     public Game(GameActivity activity, PlayingField field) {
         this.field = field;
         this.activity = activity;
         figureCreator = new FigureCreator(activity);
         scoreTable = ScoreTable.getInstance();
+        animator = new RowDeletionAnimator(field);
     }
 
     public void start() {
@@ -52,8 +55,8 @@ public class Game {
                             break;
                         }
                         field.finishFalling();
-                        deleteFilledRows();
                         generateNextFigure();
+                        deleteFilledRows();
                     }
                 }
             }
@@ -82,9 +85,12 @@ public class Game {
 
     private void deleteFilledRows() {
         List<Integer> filledRows = field.getFilledRows();
-        increasePoints(filledRows.size());
-        for (int row : filledRows) {
-            field.deleteRow(row);
+        if (filledRows.size() > 0) {
+            animator.animateRowDeletion(filledRows);
+            increasePoints(filledRows.size());
+            for (int row : filledRows) {
+                field.deleteRow(row);
+            }
         }
     }
 
