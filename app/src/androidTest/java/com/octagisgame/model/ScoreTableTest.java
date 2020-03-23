@@ -18,16 +18,17 @@ public class ScoreTableTest {
     @Before
     public void setUp() {
         Context context = ApplicationProvider.getApplicationContext();
-        Database database = ScoresSQLiteDb.getInstance(context);
+        Database database = new ScoresSQLiteDb(context);
         database.deleteScores();
-        table = new ScoreTable(database);
+        ScoreTable.create(database, "player1");
+        table = ScoreTable.getInstance();
     }
 
     @Test
     public void addScore() {
         int moreThanTableSize = ScoreTable.SIZE + 1;
         for (int i = 0; i < moreThanTableSize; i++) {
-            table.addScore(new Score("player", i));
+            table.addScore(i);
         }
         Set<Score> scores = table.getScores();
         for (Score score : scores) {

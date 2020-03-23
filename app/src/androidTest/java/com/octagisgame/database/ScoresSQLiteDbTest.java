@@ -24,7 +24,7 @@ public class ScoresSQLiteDbTest {
     @Before
     public void setUp() {
         Context context = ApplicationProvider.getApplicationContext();
-        database = ScoresSQLiteDb.getInstance(context);
+        database = new ScoresSQLiteDb(context);
 
         score1 = new Score("player1", 1);
         score2 = new Score("player2", 2);

@@ -1,8 +1,9 @@
 package com.octagisgame.model;
 
+import java.util.List;
+
 public class Figure {
-    static final int FIGURE_SIZE = 4;
-    private boolean[][] shape;
+    private Shape shape;
     private int color;
     /* Горизонтальная координата нижней левой клеточки фигуры.
      * Горизонтальная ось направлена слева направо */
@@ -11,14 +12,26 @@ public class Figure {
      * Вертикальная ось направлена сверху вниз */
     private int y;
 
-    public Figure(boolean[][] shape, int color) {
+    public Figure(Shape shape, int color) {
         this.shape = shape;
         this.color = color;
         x = 0;
         y = 0;
     }
 
-    public Figure copy(){
+    List<ShapeSectionCoordinates> getShapeSectionsCoordinates() {
+        return shape.getSectionsCoordinates(x, y);
+    }
+
+    List<ShapeSectionCoordinates> getDescendedShapeSectionsCoordinates() {
+        return shape.getSectionsCoordinates(x, y + 1);
+    }
+
+    void setInitialHorizontalPos(int numberOfColumns) {
+        x = numberOfColumns / 2 - shape.getHorizontalSize() / 2;
+    }
+
+    public Figure copy() {
         return new Figure(shape, color);
     }
 
@@ -26,33 +39,23 @@ public class Figure {
         shape = getRotatedShape();
     }
 
-    boolean[][] getRotatedShape() {
-        boolean[][] result = new boolean[FIGURE_SIZE][FIGURE_SIZE];
-        for (int i = 0; i < FIGURE_SIZE; i++) {
-            for (int j = 0; j < FIGURE_SIZE; j++) {
-                result[FIGURE_SIZE-1-j][i] = shape [i][j];
-            }
-        }
-        return result;
-    }
-
-    void setHorizontalPos(int horizontalPos){
-        x = horizontalPos;
+    Shape getRotatedShape() {
+        return shape.getRotatedShape();
     }
 
     void descend() {
         y++;
     }
 
-    void left(){
+    void left() {
         x--;
     }
 
-    void right(){
+    void right() {
         x++;
     }
 
-    boolean[][] getShape() {
+    Shape getShape() {
         return shape;
     }
 

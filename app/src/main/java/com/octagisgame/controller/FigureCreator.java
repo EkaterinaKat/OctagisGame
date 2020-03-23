@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import com.octagisgame.R;
 import com.octagisgame.model.Figure;
+import com.octagisgame.model.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,47 +17,37 @@ class FigureCreator {
     private Random random;
     private Context context;
 
-    private final boolean[][] I_SHAPE = {
+    final Shape I_SHAPE = new Shape(new boolean[][]{
             {false, false, false, false},
             {false, false, false, false},
             {true, true, true, true},
-            {false, false, false, false},};
+            {false, false, false, false}});
 
-    private final boolean[][] O_SHAPE = {
-            {false, false, false, false},
-            {false, true, true, false},
-            {false, true, true, false},
-            {false, false, false, false}};
+    private final Shape O_SHAPE = new Shape(new boolean[][]{
+            {true, true},
+            {true, true}});
 
-    private final boolean[][] T_SHAPE = {
-            {false, false, false, false},
-            {true, true, true, false},
-            {false, true, false, false},
-            {false, false, false, false}};
+    private final Shape T_SHAPE = new Shape(new boolean[][]{
+            {true, true, true},
+            {false, true, false}});
 
-    private final boolean[][] L_SHAPE = {
-            {false, false, false, false},
-            {false, false, false, true},
-            {false, true, true, true},
-            {false, false, false, false}};
+    private final Shape L_SHAPE = new Shape(new boolean[][]{
+            {true, false},
+            {true, false},
+            {true, true}});
 
-    private final boolean[][] J_SHAPE = {
-            {false, false, false, false},
-            {true, false, false, false},
-            {true, true, true, false},
-            {false, false, false, false}};
+    private final Shape J_SHAPE = new Shape(new boolean[][]{
+            {false, true},
+            {false, true},
+            {true, true}});
 
-    private final boolean[][] S_SHAPE = {
-            {false, false, false, false},
-            {false, true, true, false},
-            {true, true, false, false},
-            {false, false, false, false}};
+    private final Shape S_SHAPE = new Shape(new boolean[][]{
+            {false, true, true},
+            {true, true, false}});
 
-    private final boolean[][] Z_SHAPE = {
-            {false, false, false, false},
-            {false, true, true, false},
-            {false, false, true, true},
-            {false, false, false, false}};
+    private final Shape Z_SHAPE = new Shape(new boolean[][]{
+            {true, true, false},
+            {false, true, true}});
 
     FigureCreator(Context context) {
         this.context = context;

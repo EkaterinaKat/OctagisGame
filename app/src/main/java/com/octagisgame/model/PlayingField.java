@@ -3,19 +3,15 @@ package com.octagisgame.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.octagisgame.model.Figure.FIGURE_SIZE;
-
 public class PlayingField {
     private int numberOfColumns;
     private int numberOfRows;
     private Cell[][] cells;
     private Figure fallingFigure;
-    private int initialFigureHorizontalPos;
 
     public PlayingField(int numberOfColumns, int numberOfRows) {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
-        initialFigureHorizontalPos = numberOfColumns / 2 - FIGURE_SIZE / 2;
     }
 
     public void initializeWithEmptyCells() {
@@ -32,7 +28,7 @@ public class PlayingField {
     }
 
     public boolean figureAboveTop() {
-        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
+        for (ShapeSectionCoordinates section : fallingFigure.getShapeSectionsCoordinates()) {
             boolean sectionAboveTop = section.getRow() < 0;
             if (sectionAboveTop)
                 return true;
@@ -66,13 +62,9 @@ public class PlayingField {
     }
 
     public void finishFalling() {
-        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
+        for (ShapeSectionCoordinates section : fallingFigure.getShapeSectionsCoordinates()) {
             cells[section.getColumn()][section.getRow()].makeFilled(fallingFigure.getColor());
         }
-    }
-
-    private List<FigureSection> getFallingFigureSectionsCoordinates() {
-        return getShapeSectionsCoordinates(fallingFigure.getShape(), fallingFigure.getX(), fallingFigure.getY());
     }
 
     private int getActualColumnNumber(int columnNum) {
@@ -107,7 +99,7 @@ public class PlayingField {
     }
 
     private boolean figureAbleToRotate() {
-        boolean[][] rotatedShape = fallingFigure.getRotatedShape();
+        Shape rotatedShape = fallingFigure.getRotatedShape();
         return shapeAcceptable(rotatedShape, fallingFigure.getX(), fallingFigure.getY());
     }
 
@@ -122,8 +114,7 @@ public class PlayingField {
     }
 
     private boolean figureAbleToDescend() {
-        int descendedFigureRow = fallingFigure.getY() + 1;
-        for (FigureSection section : getShapeSectionsCoordinates(fallingFigure.getShape(), fallingFigure.getX(), descendedFigureRow)) {
+        for (ShapeSectionCoordinates section : fallingFigure.getDescendedShapeSectionsCoordinates()) {
 
             boolean sectionAboveTop = section.getRow() < 0;
             if (sectionAboveTop)
@@ -140,8 +131,8 @@ public class PlayingField {
         return true;
     }
 
-    private boolean shapeAcceptable(boolean[][] shape, int posX, int posY) {
-        for (FigureSection section : getShapeSectionsCoordinates(shape, posX, posY)) {
+    private boolean shapeAcceptable(Shape shape, int posX, int posY) {
+        for (ShapeSectionCoordinates section : shape.getSectionsCoordinates(posX, posY)) { //todo
 
             boolean sectionBelowBottom = section.getRow() >= numberOfRows;
             if (sectionBelowBottom)
@@ -159,7 +150,7 @@ public class PlayingField {
     }
 
     public boolean fallingFigureInCell(int column, int row) {
-        for (FigureSection section : getFallingFigureSectionsCoordinates()) {
+        for (ShapeSectionCoordinates section : fallingFigure.getShapeSectionsCoordinates()) {
             if (section.getColumn() == column && section.getRow() == row) {
                 return true;
             }
@@ -168,7 +159,7 @@ public class PlayingField {
     }
 
     public boolean figureShadowInCell(int column, int row) {
-        for (FigureSection section : getFigureShadowCoordinates()) {
+        for (ShapeSectionCoordinates section : getFigureShadowCoordinates()) {
             if (section.getColumn() == column && section.getRow() == row) {
                 return true;
             }
@@ -176,33 +167,19 @@ public class PlayingField {
         return false;
     }
 
-    private List<FigureSection> getFigureShadowCoordinates() {
-        boolean[][] projectionShape = fallingFigure.getShape();
+    private List<ShapeSectionCoordinates> getFigureShadowCoordinates() {
+        Shape projectionShape = fallingFigure.getShape();
         int projectionY = fallingFigure.getY();
         int projectionX = fallingFigure.getX();
         while (shapeAcceptable(projectionShape, projectionX, projectionY + 1)) {
             projectionY += 1;
         }
-        return getShapeSectionsCoordinates(projectionShape, projectionX, projectionY);
-    }
-
-    private List<FigureSection> getShapeSectionsCoordinates(boolean[][] shape, int shapeX, int shapeY) {
-        List<FigureSection> result = new ArrayList<>();
-        for (int i = 0; i < FIGURE_SIZE; i++) {
-            for (int j = 0; j < FIGURE_SIZE; j++) {
-                if (shape[i][j]) {
-                    int sectionColumn = getActualColumnNumber(shapeX + j);
-                    int sectionRow = shapeY - i;
-                    result.add(new FigureSection(sectionColumn, sectionRow));
-                }
-            }
-        }
-        return result;
+        return projectionShape.getSectionsCoordinates(projectionX, projectionY); //todo
     }
 
     public void setNewFallingFigure(Figure figure) {
         fallingFigure = figure;
-        fallingFigure.setHorizontalPos(initialFigureHorizontalPos);
+        fallingFigure.setInitialHorizontalPos(numberOfColumns);
     }
 
     public List<Cell> getCellsFromRow(int row) {
