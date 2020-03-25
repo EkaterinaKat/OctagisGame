@@ -1,8 +1,5 @@
 package com.octagisgame.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Shape {
     private boolean[][] array;
 
@@ -10,27 +7,10 @@ public class Shape {
         this.array = array;
     }
 
-    /* Принимает на вход координаты верхней левой клеточки фигуры на поле и возвращает
-     * список координат всех секций фигуры */
-    List<ShapeSectionCoordinates> getSectionsCoordinates(int x, int y) {
-        List<ShapeSectionCoordinates> result = new ArrayList<>();
-        for (int i = 0; i < getVerticalSize(); i++) {
-            for (int j = 0; j < getHorizontalSize(); j++) {
-                if (array[i][j]) {
-                    int sectionColumn = getActualColumnNumber(x + j, 15); //todo возможно нужно использовать этот метод в другом месте
-                    int sectionRow = y - i;
-                    result.add(new ShapeSectionCoordinates(sectionColumn, sectionRow));
-                }
-            }
-        }
-        return result;
-    }
-
-    private int getActualColumnNumber(int columnNum, int numberOfColumns) {
-        while (columnNum < 0)
-            columnNum += numberOfColumns;
-        columnNum %= numberOfColumns;
-        return columnNum;
+    /* Принимает на вход относительные координаты ячейки и возвращает true если в этой ячейке
+     * находится секция формы */
+    boolean hasSectionInCell(int x, int y) {
+        return array[x][y];
     }
 
     Shape getRotatedShape() {
@@ -47,7 +27,7 @@ public class Shape {
         return array[0].length;
     }
 
-    private int getVerticalSize() {
+    int getVerticalSize() {
         return array.length;
     }
 }

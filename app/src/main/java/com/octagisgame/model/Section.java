@@ -1,11 +1,11 @@
 package com.octagisgame.model;
 
-class ShapeSectionCoordinates {
+class Section {
 
     private int column;
     private int row;
 
-    ShapeSectionCoordinates(int column, int row) {
+    Section(int column, int row) {
         this.column = column;
         this.row = row;
     }

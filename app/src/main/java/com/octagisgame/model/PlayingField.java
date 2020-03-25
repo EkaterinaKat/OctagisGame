@@ -8,10 +8,12 @@ public class PlayingField {
     private int numberOfRows;
     private Cell[][] cells;
     private Figure fallingFigure;
+    private ShapeParser shapeParser;
 
     public PlayingField(int numberOfColumns, int numberOfRows) {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
+        shapeParser = new ShapeParser(numberOfColumns);
     }
 
     public void initializeWithEmptyCells() {
@@ -28,7 +30,7 @@ public class PlayingField {
     }
 
     public boolean figureAboveTop() {
-        for (ShapeSectionCoordinates section : fallingFigure.getShapeSectionsCoordinates()) {
+        for (Section section : shapeParser.getSections(fallingFigure)) {
             boolean sectionAboveTop = section.getRow() < 0;
             if (sectionAboveTop)
                 return true;
@@ -62,16 +64,9 @@ public class PlayingField {
     }
 
     public void finishFalling() {
-        for (ShapeSectionCoordinates section : fallingFigure.getShapeSectionsCoordinates()) {
+        for (Section section : shapeParser.getSections(fallingFigure)) {
             cells[section.getColumn()][section.getRow()].makeFilled(fallingFigure.getColor());
         }
-    }
-
-    private int getActualColumnNumber(int columnNum) {
-        while (columnNum < 0)
-            columnNum += numberOfColumns;
-        columnNum %= numberOfColumns;
-        return columnNum;
     }
 
     public void moveFigureLeft() {
@@ -104,17 +99,17 @@ public class PlayingField {
     }
 
     private boolean figureAbleToMoveLeft() {
-        int movedFigureColumn = getActualColumnNumber(fallingFigure.getX() - 1);
+        int movedFigureColumn = fallingFigure.getX() - 1;
         return shapeAcceptable(fallingFigure.getShape(), movedFigureColumn, fallingFigure.getY());
     }
 
     private boolean figureAbleToMoveRight() {
-        int movedFigureColumn = getActualColumnNumber(fallingFigure.getX() + 1);
+        int movedFigureColumn = fallingFigure.getX() + 1;
         return shapeAcceptable(fallingFigure.getShape(), movedFigureColumn, fallingFigure.getY());
     }
 
     private boolean figureAbleToDescend() {
-        for (ShapeSectionCoordinates section : fallingFigure.getDescendedShapeSectionsCoordinates()) {
+        for (Section section : shapeParser.getDescendedSections(fallingFigure)) {
 
             boolean sectionAboveTop = section.getRow() < 0;
             if (sectionAboveTop)
@@ -132,7 +127,7 @@ public class PlayingField {
     }
 
     private boolean shapeAcceptable(Shape shape, int posX, int posY) {
-        for (ShapeSectionCoordinates section : shape.getSectionsCoordinates(posX, posY)) { //todo
+        for (Section section : shapeParser.getSections(shape, posX, posY)) {
 
             boolean sectionBelowBottom = section.getRow() >= numberOfRows;
             if (sectionBelowBottom)
@@ -150,7 +145,7 @@ public class PlayingField {
     }
 
     public boolean fallingFigureInCell(int column, int row) {
-        for (ShapeSectionCoordinates section : fallingFigure.getShapeSectionsCoordinates()) {
+        for (Section section : shapeParser.getSections(fallingFigure)) {
             if (section.getColumn() == column && section.getRow() == row) {
                 return true;
             }
@@ -159,7 +154,7 @@ public class PlayingField {
     }
 
     public boolean figureShadowInCell(int column, int row) {
-        for (ShapeSectionCoordinates section : getFigureShadowCoordinates()) {
+        for (Section section : getFigureShadowCoordinates()) {
             if (section.getColumn() == column && section.getRow() == row) {
                 return true;
             }
@@ -167,14 +162,14 @@ public class PlayingField {
         return false;
     }
 
-    private List<ShapeSectionCoordinates> getFigureShadowCoordinates() {
+    private List<Section> getFigureShadowCoordinates() {
         Shape projectionShape = fallingFigure.getShape();
         int projectionY = fallingFigure.getY();
         int projectionX = fallingFigure.getX();
         while (shapeAcceptable(projectionShape, projectionX, projectionY + 1)) {
             projectionY += 1;
         }
-        return projectionShape.getSectionsCoordinates(projectionX, projectionY); //todo
+        return shapeParser.getSections(projectionShape, projectionX, projectionY);
     }
 
     public void setNewFallingFigure(Figure figure) {

@@ -1,7 +1,5 @@
 package com.octagisgame.model;
 
-import java.util.List;
-
 public class Figure {
     private Shape shape;
     private int color;
@@ -17,14 +15,6 @@ public class Figure {
         this.color = color;
         x = 0;
         y = 0;
-    }
-
-    List<ShapeSectionCoordinates> getShapeSectionsCoordinates() {
-        return shape.getSectionsCoordinates(x, y);
-    }
-
-    List<ShapeSectionCoordinates> getDescendedShapeSectionsCoordinates() {
-        return shape.getSectionsCoordinates(x, y + 1);
     }
 
     void setInitialHorizontalPos(int numberOfColumns) {
