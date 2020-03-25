@@ -20,6 +20,7 @@ public class GameOverDialog extends DialogFragment {
     public GameOverDialog(GameActivity activity, int scoredPoints) {
         this.scoredPoints = scoredPoints;
         this.activity = activity;
+        activity.setDialogOpen(true);
     }
 
     @Override
@@ -37,6 +38,7 @@ public class GameOverDialog extends DialogFragment {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
             activity.startGame();
+            activity.setDialogOpen(false);
             hideSystemUI(activity.getWindow());
         }
     };

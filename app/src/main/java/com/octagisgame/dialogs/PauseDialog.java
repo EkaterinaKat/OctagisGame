@@ -18,6 +18,7 @@ public class PauseDialog extends DialogFragment {
 
     public PauseDialog(GameActivity activity) {
         this.activity = activity;
+        activity.setDialogOpen(true);
     }
 
     @Override
@@ -33,6 +34,7 @@ public class PauseDialog extends DialogFragment {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
             activity.continueGame();
+            activity.setDialogOpen(false);
             hideSystemUI(activity.getWindow());
         }
     };

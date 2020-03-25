@@ -27,6 +27,7 @@ public class GameActivity extends AppCompatActivity {
     private Game game;
     private FieldDrawer fieldDrawer;
     private ControlInterface controlInterface;
+    private boolean dialogOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +91,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void showPauseDialog() {
-        PauseDialog pauseDialog = new PauseDialog(this);
-        pauseDialog.show(getSupportFragmentManager(), null);
+        if (!dialogOpen) {
+            PauseDialog pauseDialog = new PauseDialog(this);
+            pauseDialog.show(getSupportFragmentManager(), null);
+        }
     }
 
     public void showGameOverDialog(int scoredPoints) {
@@ -104,6 +107,10 @@ public class GameActivity extends AppCompatActivity {
         startActivity(intent);
         drawThread.interrupt();
         finish();
+    }
+
+    public void setDialogOpen(boolean dialogOpen) {
+        this.dialogOpen = dialogOpen;
     }
 
     private class DrawThread extends Thread {
