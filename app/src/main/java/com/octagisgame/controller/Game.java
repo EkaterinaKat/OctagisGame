@@ -50,8 +50,8 @@ public class Game {
                     field.descentFigure();
                     sleep();
                     if (field.figureLanded()) {
-                        timeInterval = STANDARD_TIME_INTERVAL;
                         if (field.figureAboveTop()) {
+                            SoundManager.getInstance().playGameOverSound();
                             saveScore();
                             activity.showGameOverDialog(scoredPoints);
                             break;
@@ -59,6 +59,7 @@ public class Game {
                         field.finishFalling();
                         generateNextFigure();
                         deleteFilledRows();
+                        timeInterval = STANDARD_TIME_INTERVAL;
                     }
                 }
             }
@@ -67,18 +68,24 @@ public class Game {
 
     public void moveFigureLeft() {
         field.moveFigureLeft();
+        SoundManager.getInstance().playMoveSound();
     }
 
     public void moveFigureRight() {
         field.moveFigureRight();
+        SoundManager.getInstance().playMoveSound();
     }
 
     public void rotateFigure() {
         field.rotateFigure();
+        SoundManager.getInstance().playMoveSound();
     }
 
     public void speedUpFalling() {
-        timeInterval = REDUCED_TIME_INTERVAL;
+        if (timeInterval == STANDARD_TIME_INTERVAL) {
+            timeInterval = REDUCED_TIME_INTERVAL;
+            SoundManager.getInstance().playSpeedUpSound();
+        }
     }
 
     private void generateNextFigure() {
@@ -88,6 +95,7 @@ public class Game {
     private void deleteFilledRows() {
         List<Integer> filledRows = field.getFilledRows();
         if (filledRows.size() > 0) {
+            SoundManager.getInstance().playRowDeletionSound();
             animator.animateRowDeletion(filledRows);
             increasePoints(filledRows.size());
             for (int row : filledRows) {
@@ -123,7 +131,7 @@ public class Game {
         if (field.figureShadowInCell(column, row)) {
             return ContextCompat.getColor(activity, R.color.shadowColor);
         }
-        if (field.cellIsEmpty(column, row)){
+        if (field.cellIsEmpty(column, row)) {
             return Color.WHITE;
         }
         return field.getCellColour(column, row);

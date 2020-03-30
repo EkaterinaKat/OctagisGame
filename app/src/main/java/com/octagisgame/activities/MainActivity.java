@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.R;
+import com.octagisgame.controller.SoundManager;
 import com.octagisgame.database.ScoresSQLiteDb;
 import com.octagisgame.dialogs.InitialNameInputDialog;
 import com.octagisgame.dialogs.NameChangeDialog;
@@ -40,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
             showNameInputDialog();
             greetingTextView.setVisibility(View.INVISIBLE);
         }
-        ScoreTable.create(new ScoresSQLiteDb(this), playerName);
         greetingTextView.setText(getString(R.string.greeting, playerName));
+        ScoreTable.create(new ScoresSQLiteDb(this), playerName);
+        SoundManager.create(this);
     }
 
     @Override
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private final View.OnClickListener startGame = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            SoundManager.getInstance().playClickSound();
             startBtn.setImageResource(R.drawable.play_btn_pressed);
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
             startActivity(intent);
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private final View.OnClickListener showScoresTable = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            SoundManager.getInstance().playClickSound();
             Intent intent = new Intent(MainActivity.this, ScoreTableActivity.class);
             startActivity(intent);
         }
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener changeName = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            SoundManager.getInstance().playClickSound();
             showNameChangeDialog();
         }
     };

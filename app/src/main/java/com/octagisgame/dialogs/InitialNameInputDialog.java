@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.MainActivity;
+import com.octagisgame.controller.SoundManager;
 
 public class InitialNameInputDialog extends NameInputDialog {
     private boolean nameWasEntered = false;
@@ -29,6 +30,7 @@ public class InitialNameInputDialog extends NameInputDialog {
     View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            SoundManager.getInstance().playClickSound();
             if (!nameWasEntered) {
                 activity.setNewPlayerName(editText.getText().toString());
                 nameWasEntered = true;

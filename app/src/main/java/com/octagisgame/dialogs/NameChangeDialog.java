@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.octagisgame.activities.MainActivity;
+import com.octagisgame.controller.SoundManager;
 
 public class NameChangeDialog extends NameInputDialog {
 
@@ -25,6 +26,7 @@ public class NameChangeDialog extends NameInputDialog {
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            SoundManager.getInstance().playClickSound();
             activity.setNewPlayerName(editText.getText().toString());
             dismiss();
         }

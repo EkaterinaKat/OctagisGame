@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
+import com.octagisgame.controller.SoundManager;
 
 import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
@@ -33,6 +34,7 @@ public class PauseDialog extends DialogFragment {
     private DialogInterface.OnClickListener continueGameListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
+            SoundManager.getInstance().playClickSound();
             activity.continueGame();
             activity.setDialogOpen(false);
             hideSystemUI(activity.getWindow());
@@ -42,6 +44,7 @@ public class PauseDialog extends DialogFragment {
     private DialogInterface.OnClickListener mainMenuListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
+            SoundManager.getInstance().playClickSound();
             activity.goToMainMenu();
         }
     };

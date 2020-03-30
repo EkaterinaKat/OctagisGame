@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
+import com.octagisgame.controller.SoundManager;
 
 import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
@@ -37,6 +38,7 @@ public class GameOverDialog extends DialogFragment {
     private DialogInterface.OnClickListener startAgainListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
+            SoundManager.getInstance().playClickSound();
             activity.startGame();
             activity.setDialogOpen(false);
             hideSystemUI(activity.getWindow());
@@ -46,6 +48,7 @@ public class GameOverDialog extends DialogFragment {
     private DialogInterface.OnClickListener mainMenuListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
+            SoundManager.getInstance().playClickSound();
             activity.goToMainMenu();
         }
     };

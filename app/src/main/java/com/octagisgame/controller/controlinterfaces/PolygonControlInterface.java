@@ -49,7 +49,7 @@ public class PolygonControlInterface extends ControlInterface {
         if (speedUpButton.pressed(x, y))
             game.speedUpFalling();
         if (pauseButton.pressed(x, y))
-            activity.pauseGame();
+            activity.onPausePressed();
     }
 
     public List<ControlButton> getControlButtons() {

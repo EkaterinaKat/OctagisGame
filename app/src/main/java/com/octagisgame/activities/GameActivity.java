@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.builders.GameBuilder;
 import com.octagisgame.controller.Game;
+import com.octagisgame.controller.SoundManager;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.dialogs.GameOverDialog;
 import com.octagisgame.dialogs.PauseDialog;
@@ -73,8 +74,12 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        pauseGame();
+        onPausePressed();
+    }
 
+    public void onPausePressed() { //todo этот метод нужен только потому что нужно воспроизводить звук
+        SoundManager.getInstance().playClickSound();
+        pauseGame();
     }
 
     public void pauseGame() {

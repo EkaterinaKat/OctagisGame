@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.R;
+import com.octagisgame.controller.SoundManager;
 import com.octagisgame.model.Score;
 import com.octagisgame.model.ScoreTable;
 
@@ -34,6 +35,7 @@ public class ScoreTableActivity extends AppCompatActivity {
     View.OnClickListener backToMainMenu = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            SoundManager.getInstance().playClickSound();
             finish();
         }
     };
