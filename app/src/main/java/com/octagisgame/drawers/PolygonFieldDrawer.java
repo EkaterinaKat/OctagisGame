@@ -36,6 +36,26 @@ public class PolygonFieldDrawer extends FieldDrawer {
         pauseButton = ((PolygonControlInterface) controlInterface).getPauseButton();
         setSizes();
         setMainAxisNodes();
+        setCellsOutlines();
+    }
+
+    private void setCellsOutlines() {
+        for (int row = 0; row < numberOfRows; row++) {
+            for (int column = 0; column < numberOfColumns; column++) {
+                cells[column][row].setOutline(getCellOutline(column, row));
+            }
+        }
+    }
+
+    private Path getCellOutline(int column, int row) {
+        Point[] tops = getCellTops(column, row);
+        Path outline = new Path();
+        outline.moveTo(tops[0].x, tops[0].y);
+        for (int i = 1; i < tops.length; i++) {
+            outline.lineTo(tops[i].x, tops[i].y);
+        }
+        outline.close();
+        return outline;
     }
 
     private void setSizes() {
@@ -86,18 +106,11 @@ public class PolygonFieldDrawer extends FieldDrawer {
 
     @Override
     void drawCell(int column, int row, Canvas canvas) {
-        Point[] tops = getCellTops(column, row);
-        path.moveTo(tops[0].x, tops[0].y);
-        for (int i = 1; i < tops.length; i++) {
-            path.lineTo(tops[i].x, tops[i].y);
-        }
-        path.close();
         int cellColour = game.getCellColour(column, row);
         styler.tunePaintForCell(paint, cellColour);
-        canvas.drawPath(path, paint);
+        canvas.drawPath(cells[column][row].getOutline(), paint);
         styler.tunePaintForCellBorders(paint);
-        canvas.drawPath(path, paint);
-        path.reset();
+        canvas.drawPath(cells[column][row].getOutline(), paint);
     }
 
     private Point[] getCellTops(int column, int row) {

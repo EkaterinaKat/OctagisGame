@@ -153,11 +153,7 @@ public class Game {
         return gamePaused;
     }
 
-    public int getNumberOfColumns() {
-        return field.getNumberOfColumns();
-    }
-
-    public int getNumberOfRows() {
-        return field.getNumberOfRows();
+    public PlayingField getField() {
+        return field;
     }
 }

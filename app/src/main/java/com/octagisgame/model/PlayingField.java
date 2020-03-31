@@ -14,6 +14,7 @@ public class PlayingField {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
         shapeParser = new ShapeParser(numberOfColumns);
+        initializeWithEmptyCells();
     }
 
     public void initializeWithEmptyCells() {
@@ -203,5 +204,9 @@ public class PlayingField {
 
     public int getNumberOfRows() {
         return numberOfRows;
+    }
+
+    public Cell[][] getCells() {
+        return cells;
     }
 }

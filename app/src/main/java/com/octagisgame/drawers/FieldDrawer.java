@@ -3,17 +3,18 @@ package com.octagisgame.drawers;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Point;
 
 import com.octagisgame.controller.Game;
+import com.octagisgame.model.Cell;
+import com.octagisgame.model.PlayingField;
 import com.octagisgame.stylers.Styler;
 
 abstract public class FieldDrawer {
     final int TEXT_SIZE = 40;
-    Path path;
-    Paint paint;
+    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Game game;
+    Cell[][] cells;
     int numberOfColumns;
     int numberOfRows;
     int screenWidth;
@@ -22,11 +23,11 @@ abstract public class FieldDrawer {
 
     FieldDrawer(Game game, Point displaySize, Styler styler) {
         this.styler = styler;
-        path = new Path();
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         this.game = game;
-        numberOfColumns = game.getNumberOfColumns();
-        numberOfRows = game.getNumberOfRows();
+        PlayingField field = game.getField();
+        numberOfColumns = field.getNumberOfColumns();
+        numberOfRows = field.getNumberOfRows();
+        cells = field.getCells();
         screenWidth = displaySize.x;
         screenHeight = displaySize.y;
     }
