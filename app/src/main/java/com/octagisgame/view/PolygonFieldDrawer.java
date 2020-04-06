@@ -1,4 +1,4 @@
-package com.octagisgame.drawers;
+package com.octagisgame.view;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -10,7 +10,7 @@ import com.octagisgame.controller.buttons.ControlButton;
 import com.octagisgame.controller.buttons.PauseButton;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.controller.controlinterfaces.PolygonControlInterface;
-import com.octagisgame.stylers.Styler;
+import com.octagisgame.view.stylers.Styler;
 
 import java.util.List;
 

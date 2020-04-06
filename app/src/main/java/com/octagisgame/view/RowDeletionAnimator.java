@@ -1,4 +1,4 @@
-package com.octagisgame.drawers;
+package com.octagisgame.view;
 
 import android.graphics.Color;
 

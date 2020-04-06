@@ -17,8 +17,8 @@ import com.octagisgame.controller.SoundManager;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.dialogs.GameOverDialog;
 import com.octagisgame.dialogs.PauseDialog;
-import com.octagisgame.drawers.FieldDrawer;
-import com.octagisgame.stylers.BrickStyler;
+import com.octagisgame.view.FieldDrawer;
+import com.octagisgame.view.stylers.BrickStyler;
 
 import static com.octagisgame.activities.MainActivity.hideSystemUI;
 

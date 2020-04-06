@@ -1,8 +1,9 @@
-package com.octagisgame.stylers;
+package com.octagisgame.view.stylers;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 
-public class MinimalisticStyler implements Styler {
+public class BrickStyler implements Styler {
     @Override
     public void tunePaintForCell(Paint paint, int cellColour) {
         paint.setColor(cellColour);
@@ -11,13 +12,15 @@ public class MinimalisticStyler implements Styler {
 
     @Override
     public void tunePaintForCellBorders(Paint paint) {
+        paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(0);
+        paint.setStrokeWidth(6);
     }
 
     @Override
     public void tunePaintForButtonBorders(Paint paint) {
+        paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(0);
+        paint.setStrokeWidth(40);
     }
 }

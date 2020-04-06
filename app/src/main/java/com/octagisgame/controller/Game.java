@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
-import com.octagisgame.drawers.RowDeletionAnimator;
+import com.octagisgame.view.RowDeletionAnimator;
 import com.octagisgame.model.PlayingField;
 import com.octagisgame.model.ScoreTable;
 

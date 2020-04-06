@@ -1,4 +1,4 @@
-package com.octagisgame.drawers;
+package com.octagisgame.view;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,7 +8,7 @@ import android.graphics.Point;
 import com.octagisgame.controller.Game;
 import com.octagisgame.model.Cell;
 import com.octagisgame.model.PlayingField;
-import com.octagisgame.stylers.Styler;
+import com.octagisgame.view.stylers.Styler;
 
 abstract public class FieldDrawer {
     final int TEXT_SIZE = 40;

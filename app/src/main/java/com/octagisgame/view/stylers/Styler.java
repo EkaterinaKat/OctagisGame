@@ -1,4 +1,4 @@
-package com.octagisgame.stylers;
+package com.octagisgame.view.stylers;
 
 import android.graphics.Paint;
 

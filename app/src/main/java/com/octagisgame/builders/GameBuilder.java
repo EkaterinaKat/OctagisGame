@@ -7,12 +7,12 @@ import com.octagisgame.controller.Game;
 import com.octagisgame.controller.controlinterfaces.ClassicControlInterface;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.controller.controlinterfaces.PolygonControlInterface;
-import com.octagisgame.drawers.ClassicFieldDrawer;
-import com.octagisgame.drawers.FieldDrawer;
-import com.octagisgame.drawers.PolygonFieldDrawer;
+import com.octagisgame.view.ClassicFieldDrawer;
+import com.octagisgame.view.FieldDrawer;
+import com.octagisgame.view.PolygonFieldDrawer;
 import com.octagisgame.model.PlayingField;
-import com.octagisgame.stylers.BasicStyler;
-import com.octagisgame.stylers.Styler;
+import com.octagisgame.view.stylers.BasicStyler;
+import com.octagisgame.view.stylers.Styler;
 
 public class GameBuilder {
     public enum Mode {CLASSIC, POLYGON}

@@ -1,11 +1,11 @@
-package com.octagisgame.drawers;
+package com.octagisgame.view;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 
 import com.octagisgame.controller.Game;
-import com.octagisgame.stylers.Styler;
+import com.octagisgame.view.stylers.Styler;
 
 public class ClassicFieldDrawer extends FieldDrawer {
     private int cellHeight;
