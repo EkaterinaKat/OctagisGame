@@ -17,8 +17,7 @@ import com.octagisgame.controller.SoundManager;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.dialogs.GameOverDialog;
 import com.octagisgame.dialogs.PauseDialog;
-import com.octagisgame.view.FieldDrawer;
-import com.octagisgame.view.stylers.BrickStyler;
+import com.octagisgame.view.drawers.FieldDrawer;
 
 import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
@@ -53,7 +52,7 @@ public class GameActivity extends AppCompatActivity {
         GameBuilder gameBuilder = new GameBuilder(this, displaySize);
         gameBuilder
                 .setMode(GameBuilder.Mode.POLYGON)
-                .setStyler(new BrickStyler())
+                .setDrawingStyle(GameBuilder.DrawingStyle.MINIMALISTIC)
                 .build();
         game = gameBuilder.getGame();
         fieldDrawer = gameBuilder.getFieldDrawer();

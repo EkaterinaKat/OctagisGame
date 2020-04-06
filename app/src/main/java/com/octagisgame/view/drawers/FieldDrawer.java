@@ -1,28 +1,25 @@
-package com.octagisgame.view;
+package com.octagisgame.view.drawers;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 
 import com.octagisgame.controller.Game;
 import com.octagisgame.model.Cell;
 import com.octagisgame.model.PlayingField;
-import com.octagisgame.view.stylers.Styler;
+import com.octagisgame.view.painttuners.PaintTuner;
 
 abstract public class FieldDrawer {
-    final int TEXT_SIZE = 40;
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Game game;
     Cell[][] cells;
     int numberOfColumns;
     int numberOfRows;
     int screenWidth;
     int screenHeight;
-    Styler styler;
+    PaintTuner paintTuner;
 
-    FieldDrawer(Game game, Point displaySize, Styler styler) {
-        this.styler = styler;
+    FieldDrawer(Game game, Point displaySize, PaintTuner paintTuner) {
+        this.paintTuner = paintTuner;
         this.game = game;
         PlayingField field = game.getField();
         numberOfColumns = field.getNumberOfColumns();
@@ -48,10 +45,7 @@ abstract public class FieldDrawer {
 
     private void printScoredPoints(Canvas canvas) {
         String scoredPoints = String.valueOf(game.getScoredPoints());
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setTextSize(TEXT_SIZE);
-        canvas.drawText(scoredPoints, 50, 50, paint);
+        canvas.drawText(scoredPoints, 50, 50, paintTuner.getTextPaint());
     }
 
     abstract void drawCell(int column, int row, Canvas canvas);

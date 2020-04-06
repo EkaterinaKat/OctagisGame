@@ -1,7 +1,6 @@
-package com.octagisgame.view;
+package com.octagisgame.view.drawers;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 
@@ -10,7 +9,7 @@ import com.octagisgame.controller.buttons.ControlButton;
 import com.octagisgame.controller.buttons.PauseButton;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.controller.controlinterfaces.PolygonControlInterface;
-import com.octagisgame.view.stylers.Styler;
+import com.octagisgame.view.painttuners.PaintTuner;
 
 import java.util.List;
 
@@ -30,8 +29,8 @@ public class PolygonFieldDrawer extends FieldDrawer {
     private List<ControlButton> controlButtons;
     private PauseButton pauseButton;
 
-    public PolygonFieldDrawer(Game game, ControlInterface controlInterface, Point displaySize, Styler styler) {
-        super(game, displaySize, styler);
+    public PolygonFieldDrawer(Game game, ControlInterface controlInterface, Point displaySize, PaintTuner paintTuner) {
+        super(game, displaySize, paintTuner);
         controlButtons = ((PolygonControlInterface) controlInterface).getControlButtons();
         pauseButton = ((PolygonControlInterface) controlInterface).getPauseButton();
         setSizes();
@@ -80,21 +79,14 @@ public class PolygonFieldDrawer extends FieldDrawer {
         for (ControlButton button : controlButtons) {
             Path path = button.getPath();
             int color = button.getColor();
-
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(color);
-            canvas.drawPath(path, paint);
-
-            styler.tunePaintForButtonBorders(paint);
-            canvas.drawPath(path, paint);
+            canvas.drawPath(path, paintTuner.getControlButtonPaint(color));
+            canvas.drawPath(path, paintTuner.getControlButtonBorderPaint());
         }
     }
 
     private void drawPauseButton(Canvas canvas) {
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(10);
-        paint.setColor(pauseButton.getColor());
-        canvas.drawPath(pauseButton.getPath(), paint);
+        int color = pauseButton.getColor();
+        canvas.drawPath(pauseButton.getPath(), paintTuner.getPauseButtonPaint(color));
     }
 
     private void setMainAxisNodes() {
@@ -107,10 +99,8 @@ public class PolygonFieldDrawer extends FieldDrawer {
     @Override
     void drawCell(int column, int row, Canvas canvas) {
         int cellColour = game.getCellColour(column, row);
-        styler.tunePaintForCell(paint, cellColour);
-        canvas.drawPath(cells[column][row].getOutline(), paint);
-        styler.tunePaintForCellBorders(paint);
-        canvas.drawPath(cells[column][row].getOutline(), paint);
+        canvas.drawPath(cells[column][row].getOutline(), paintTuner.getCellPaint(cellColour));
+        canvas.drawPath(cells[column][row].getOutline(), paintTuner.getCellBorderPaint());
     }
 
     private Point[] getCellTops(int column, int row) {

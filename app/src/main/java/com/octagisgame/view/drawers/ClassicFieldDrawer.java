@@ -1,11 +1,11 @@
-package com.octagisgame.view;
+package com.octagisgame.view.drawers;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 
 import com.octagisgame.controller.Game;
-import com.octagisgame.view.stylers.Styler;
+import com.octagisgame.view.painttuners.PaintTuner;
 
 public class ClassicFieldDrawer extends FieldDrawer {
     private int cellHeight;
@@ -13,12 +13,12 @@ public class ClassicFieldDrawer extends FieldDrawer {
     /* Верхняя левая точка поля */
     private Point startingPoint;
 
-    public ClassicFieldDrawer(Game game, Point displaySize, Styler styler) {
-        super(game, displaySize, styler);
+    public ClassicFieldDrawer(Game game, Point displaySize, PaintTuner paintTuner) {
+        super(game, displaySize, paintTuner);
         setSizes();
     }
 
-    private void setSizes(){
+    private void setSizes() {
         int fieldWidth = screenWidth;
         cellHeight = screenHeight / numberOfRows;
         cellWidth = fieldWidth / numberOfColumns;
@@ -33,9 +33,7 @@ public class ClassicFieldDrawer extends FieldDrawer {
         int right = startingPoint.x + ((column + 1) * cellWidth);
         Rect rect = new Rect(left, top, right, bottom);
         int cellColour = game.getCellColour(column, row);
-        styler.tunePaintForCell(paint, cellColour);
-        canvas.drawRect(rect, paint);
-        styler.tunePaintForCellBorders(paint);
-        canvas.drawRect(rect, paint);
+        canvas.drawRect(rect, paintTuner.getCellPaint(cellColour));
+        canvas.drawRect(rect, paintTuner.getCellBorderPaint());
     }
 }
