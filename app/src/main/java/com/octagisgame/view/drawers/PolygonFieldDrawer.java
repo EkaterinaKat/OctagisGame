@@ -18,14 +18,6 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 public class PolygonFieldDrawer extends FieldDrawer {
-    /* Угол в радианах, внутри которого располагается одна колонка*/
-    private double angle;
-    private int rowHeight;
-    private Point center;
-    /* Главная ось направлена из центра поля вправо, узлы на главной оси это точки, которые
-     * будем поворачивать на разные углы, чтобы выполнять посторения */
-    private Point[] mainAxisNodes;
-    private int columnHeight;
     private List<ControlButton> controlButtons;
     private PauseButton pauseButton;
 
@@ -33,35 +25,7 @@ public class PolygonFieldDrawer extends FieldDrawer {
         super(game, displaySize, paintTuner);
         controlButtons = ((PolygonControlInterface) controlInterface).getControlButtons();
         pauseButton = ((PolygonControlInterface) controlInterface).getPauseButton();
-        setSizes();
-        setMainAxisNodes();
-        setCellsOutlines();
-    }
-
-    private void setCellsOutlines() {
-        for (int row = 0; row < numberOfRows; row++) {
-            for (int column = 0; column < numberOfColumns; column++) {
-                cells[column][row].setOutline(getCellOutline(column, row));
-            }
-        }
-    }
-
-    private Path getCellOutline(int column, int row) {
-        Point[] tops = getCellTops(column, row);
-        Path outline = new Path();
-        outline.moveTo(tops[0].x, tops[0].y);
-        for (int i = 1; i < tops.length; i++) {
-            outline.lineTo(tops[i].x, tops[i].y);
-        }
-        outline.close();
-        return outline;
-    }
-
-    private void setSizes() {
-        columnHeight = screenWidth / 2;
-        rowHeight = columnHeight / (numberOfRows + 1);
-        angle = 2 * PI / numberOfColumns;
-        center = new Point(screenWidth / 2, columnHeight);
+        new Calculator().calculateAllRequiredCoordinates();
     }
 
     @Override
@@ -89,13 +53,6 @@ public class PolygonFieldDrawer extends FieldDrawer {
         canvas.drawPath(pauseButton.getPath(), paintTuner.getPauseButtonPaint(color));
     }
 
-    private void setMainAxisNodes() {
-        mainAxisNodes = new Point[numberOfRows + 1];
-        for (int i = 0; i < mainAxisNodes.length; i++) {
-            mainAxisNodes[i] = new Point(center.x, center.y + columnHeight - i * rowHeight);
-        }
-    }
-
     @Override
     void drawCell(int column, int row, Canvas canvas) {
         int cellColour = game.getCellColour(column, row);
@@ -103,20 +60,71 @@ public class PolygonFieldDrawer extends FieldDrawer {
         canvas.drawPath(cells[column][row].getOutline(), paintTuner.getCellBorderPaint());
     }
 
-    private Point[] getCellTops(int column, int row) {
-        Point[] tops = new Point[4];
-        tops[0] = rotatePointAroundCenter(mainAxisNodes[row], angle * column);
-        tops[1] = rotatePointAroundCenter(mainAxisNodes[row + 1], angle * column);
-        tops[2] = rotatePointAroundCenter(mainAxisNodes[row + 1], angle * (column + 1));
-        tops[3] = rotatePointAroundCenter(mainAxisNodes[row], angle * (column + 1));
-        return tops;
-    }
+    private class Calculator {
+        Point center;
+        /* Угол в радианах, внутри которого располагается одна колонка*/
+        double angle;
+        int rowHeight;
+        /* Главная ось направлена из центра поля вправо, узлы на главной оси это точки, которые
+         * будем поворачивать на разные углы, чтобы выполнять посторения */
+        Point[] mainAxisNodes;
+        int columnHeight;
 
-    /* Поворачивает заданную точку на заданный угол по часовой стрелке вокруг оси,
-     * которая находится в точке center */
-    private Point rotatePointAroundCenter(Point point, double angle) {
-        int x1 = (int) ((point.x - center.x) * cos(angle) + (-1) * (point.y - center.y) * sin(angle) + center.x);
-        int y1 = (int) ((point.x - center.x) * sin(angle) + (point.y - center.y) * cos(angle) + center.y);
-        return new Point(x1, y1);
+        void calculateAllRequiredCoordinates() {
+            calculateGeneralParameters();
+            calculateMainAxisNodesCoordinates();
+            calculateCellsOutlinesCoordinates();
+        }
+
+        void calculateGeneralParameters() {
+            columnHeight = screenWidth / 2;
+            rowHeight = columnHeight / (numberOfRows + 1);
+            angle = 2 * PI / numberOfColumns;
+            center = new Point(screenWidth / 2, columnHeight);
+        }
+
+        void calculateMainAxisNodesCoordinates() {
+            mainAxisNodes = new Point[numberOfRows + 1];
+            for (int i = 0; i < mainAxisNodes.length; i++) {
+                mainAxisNodes[i] = new Point(center.x, center.y + columnHeight - i * rowHeight);
+            }
+        }
+
+        void calculateCellsOutlinesCoordinates() {
+            for (int row = 0; row < numberOfRows; row++) {
+                for (int column = 0; column < numberOfColumns; column++) {
+                    cells[column][row].setOutline(getCellOutline(column, row));
+                }
+            }
+        }
+
+        Path getCellOutline(int column, int row) {
+            Point[] tops = getCellTops(column, row);
+            Path outline = new Path();
+            outline.moveTo(tops[0].x, tops[0].y);
+            for (int i = 1; i < tops.length; i++) {
+                outline.lineTo(tops[i].x, tops[i].y);
+            }
+            outline.close();
+            return outline;
+        }
+
+        Point[] getCellTops(int column, int row) {
+            Point[] tops = new Point[4];
+            tops[0] = rotatePointAroundCenter(mainAxisNodes[row], angle * column);
+            tops[1] = rotatePointAroundCenter(mainAxisNodes[row + 1], angle * column);
+            tops[2] = rotatePointAroundCenter(mainAxisNodes[row + 1], angle * (column + 1));
+            tops[3] = rotatePointAroundCenter(mainAxisNodes[row], angle * (column + 1));
+            return tops;
+        }
+
+        /* Поворачивает заданную точку на заданный угол по часовой стрелке вокруг оси,
+         * которая находится в точке center */
+        private Point rotatePointAroundCenter(Point point, double angle) {
+            int x1 = (int) ((point.x - center.x) * cos(angle) + (-1) * (point.y - center.y) * sin(angle) + center.x);
+            int y1 = (int) ((point.x - center.x) * sin(angle) + (point.y - center.y) * cos(angle) + center.y);
+            return new Point(x1, y1);
+        }
+
     }
 }
