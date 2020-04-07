@@ -20,6 +20,7 @@ import static java.lang.Math.sin;
 public class PolygonFieldDrawer extends FieldDrawer {
     private List<ControlButton> controlButtons;
     private PauseButton pauseButton;
+    private Path[][] cellOutlines;
 
     public PolygonFieldDrawer(Game game, ControlInterface controlInterface, Point displaySize, PaintTuner paintTuner) {
         super(game, displaySize, paintTuner);
@@ -56,8 +57,9 @@ public class PolygonFieldDrawer extends FieldDrawer {
     @Override
     void drawCell(int column, int row, Canvas canvas) {
         int cellColour = game.getCellColour(column, row);
-        canvas.drawPath(cells[column][row].getOutline(), paintTuner.getCellPaint(cellColour));
-        canvas.drawPath(cells[column][row].getOutline(), paintTuner.getCellBorderPaint());
+        Path outline = cellOutlines[column][row];
+        canvas.drawPath(outline, paintTuner.getCellPaint(cellColour));
+        canvas.drawPath(outline, paintTuner.getCellBorderPaint());
     }
 
     private class Calculator {
@@ -91,9 +93,10 @@ public class PolygonFieldDrawer extends FieldDrawer {
         }
 
         void calculateCellsOutlinesCoordinates() {
+            cellOutlines = new Path[numberOfColumns][numberOfRows];
             for (int row = 0; row < numberOfRows; row++) {
                 for (int column = 0; column < numberOfColumns; column++) {
-                    cells[column][row].setOutline(getCellOutline(column, row));
+                    cellOutlines[column][row] = getCellOutline(column, row);
                 }
             }
         }

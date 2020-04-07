@@ -11,7 +11,6 @@ import com.octagisgame.view.painttuners.PaintTuner;
 
 abstract public class FieldDrawer {
     Game game;
-    Cell[][] cells;
     int numberOfColumns;
     int numberOfRows;
     int screenWidth;
@@ -24,7 +23,6 @@ abstract public class FieldDrawer {
         PlayingField field = game.getField();
         numberOfColumns = field.getNumberOfColumns();
         numberOfRows = field.getNumberOfRows();
-        cells = field.getCells();
         screenWidth = displaySize.x;
         screenHeight = displaySize.y;
     }

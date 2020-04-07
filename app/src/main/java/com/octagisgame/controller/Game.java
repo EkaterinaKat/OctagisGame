@@ -40,7 +40,7 @@ public class Game {
     private Runnable game = new Runnable() {
         @Override
         public void run() {
-            field.initializeWithEmptyCells();
+            field.fillWithEmptyCells();
             scoredPoints = 0;
             timeInterval = STANDARD_TIME_INTERVAL;
             gamePaused = false;

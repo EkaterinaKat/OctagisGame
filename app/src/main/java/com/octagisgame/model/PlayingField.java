@@ -14,10 +14,10 @@ public class PlayingField {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
         shapeParser = new ShapeParser(numberOfColumns);
-        initializeWithEmptyCells();
+        fillWithEmptyCells();
     }
 
-    public void initializeWithEmptyCells() {
+    public void fillWithEmptyCells() {
         cells = new Cell[numberOfColumns][numberOfRows];
         for (int column = 0; column < numberOfColumns; column++) {
             for (int row = 0; row < numberOfRows; row++) {
@@ -204,9 +204,5 @@ public class PlayingField {
 
     public int getNumberOfRows() {
         return numberOfRows;
-    }
-
-    public Cell[][] getCells() {
-        return cells;
     }
 }
