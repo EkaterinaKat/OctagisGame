@@ -6,9 +6,9 @@ import androidx.core.content.ContextCompat;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
-import com.octagisgame.view.RowDeletionAnimator;
 import com.octagisgame.model.PlayingField;
 import com.octagisgame.model.ScoreTable;
+import com.octagisgame.view.RowDeletionAnimator;
 
 import java.util.List;
 
@@ -57,8 +57,8 @@ public class Game {
                             break;
                         }
                         field.finishFalling();
-                        generateNextFigure();
                         deleteFilledRows();
+                        generateNextFigure();
                         timeInterval = STANDARD_TIME_INTERVAL;
                     }
                 }
@@ -125,16 +125,16 @@ public class Game {
     }
 
     public int getCellColour(int column, int row) {
+        if (!field.cellIsEmpty(column, row)) {
+            return field.getCellColour(column, row);
+        }
         if (field.fallingFigureInCell(column, row)) {
             return field.getFallingFigureColor();
         }
         if (field.figureShadowInCell(column, row)) {
             return ContextCompat.getColor(activity, R.color.shadowColor);
         }
-        if (field.cellIsEmpty(column, row)) {
-            return Color.WHITE;
-        }
-        return field.getCellColour(column, row);
+        return Color.WHITE;
     }
 
     public int getScoredPoints() {
