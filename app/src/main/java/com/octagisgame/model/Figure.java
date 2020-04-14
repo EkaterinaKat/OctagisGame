@@ -14,10 +14,10 @@ public class Figure {
         this.shape = shape;
         this.color = color;
         x = 0;
-        y = 0;
+        y = -1;
     }
 
-    void setInitialHorizontalPos(int numberOfColumns) {
+    void calculateInitialHorizontalPos(int numberOfColumns) {
         x = numberOfColumns / 2 - shape.getHorizontalSize() / 2;
     }
 

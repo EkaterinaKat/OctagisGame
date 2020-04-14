@@ -111,18 +111,15 @@ public class PlayingField {
 
     private boolean figureAbleToDescend() {
         for (Section section : shapeParser.getDescendedSections(fallingFigure)) {
-
-            boolean sectionAboveTop = section.getRow() < 0;
-            if (sectionAboveTop)
-                break;
-
-            boolean sectionBelowBottom = section.getRow() >= numberOfRows;
-            if (sectionBelowBottom)
-                return false;
-
-            boolean sectionInFilledCell = cells[section.getColumn()][section.getRow()].isFilled();
-            if (sectionInFilledCell)
-                return false;
+            boolean sectionBelowTopEdge = section.getRow() >= 0;
+            if (sectionBelowTopEdge) {
+                boolean sectionBelowBottom = section.getRow() >= numberOfRows;
+                if (sectionBelowBottom)
+                    return false;
+                boolean sectionInFilledCell = cells[section.getColumn()][section.getRow()].isFilled();
+                if (sectionInFilledCell)
+                    return false;
+            }
         }
         return true;
     }
@@ -175,7 +172,7 @@ public class PlayingField {
 
     public void setNewFallingFigure(Figure figure) {
         fallingFigure = figure;
-        fallingFigure.setInitialHorizontalPos(numberOfColumns);
+        fallingFigure.calculateInitialHorizontalPos(numberOfColumns);
     }
 
     public List<Cell> getCellsFromRow(int row) {
