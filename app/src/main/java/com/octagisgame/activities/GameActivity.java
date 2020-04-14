@@ -1,7 +1,6 @@
 package com.octagisgame.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -107,8 +106,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void goToMainMenu() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
         drawThread.interrupt();
         finish();
     }
@@ -128,7 +125,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    class DrawView extends View {
+    private class DrawView extends View {
 
         public DrawView(Context context) {
             super(context);

@@ -29,10 +29,10 @@ public class ScoreTableActivity extends AppCompatActivity {
         setContentView(R.layout.activity_score_table);
         tableLayout = findViewById(R.id.tableLayout);
         scoreTable = ScoreTable.getInstance();
-        findViewById(R.id.back_button).setOnClickListener(backToMainMenu);
+        findViewById(R.id.back_button).setOnClickListener(onBackPressed);
     }
 
-    View.OnClickListener backToMainMenu = new View.OnClickListener() {
+    View.OnClickListener onBackPressed = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             SoundManager.getInstance().playClickSound();

@@ -2,6 +2,7 @@ package com.octagisgame.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -20,7 +21,8 @@ import com.octagisgame.model.ScoreTable;
 
 public class MainActivity extends AppCompatActivity {
     private final String PLAYER_NAME_KEY = "player name";
-    private ImageView startBtn;
+    private ImageView startButton;
+    private ImageView scoresButton;
     private String playerName;
     private TextView greetingTextView;
 
@@ -29,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startBtn = findViewById(R.id.start_button);
-        startBtn.setOnClickListener(startGame);
-        ImageView scoresBtn = findViewById(R.id.score_table_button);
-        scoresBtn.setOnClickListener(showScoresTable);
+        startButton = findViewById(R.id.start_button);
+        startButton.setOnClickListener(onStartButtonPressed);
+        scoresButton = findViewById(R.id.score_table_button);
+        scoresButton.setOnClickListener(onScoresButtonPressed);
         greetingTextView = findViewById(R.id.greeting_text_view);
-        greetingTextView.setOnClickListener(changeName);
+        greetingTextView.setOnClickListener(onGreetingTextViewPressed);
 
         loadPlayerName();
         if (playerName.equals("")) {
@@ -72,27 +74,59 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    private final View.OnClickListener startGame = new View.OnClickListener() {
+    private final View.OnClickListener onStartButtonPressed = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             SoundManager.getInstance().playClickSound();
-            startBtn.setImageResource(R.drawable.play_btn_pressed);
-            Intent intent = new Intent(MainActivity.this, GameActivity.class);
-            startActivity(intent);
-            finish();
+            animateStartButtonPressed();
+            startGameActivity();
         }
     };
 
-    private final View.OnClickListener showScoresTable = new View.OnClickListener() {
+    private void animateStartButtonPressed() {
+        changeImageTemporarily(startButton, R.drawable.play_btn_pressed);
+    }
+
+    private void changeImageTemporarily(final ImageView imageView, int imageResource) {
+        final Drawable drawable = imageView.getDrawable();
+        imageView.setImageResource(imageResource);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                imageView.setImageDrawable(drawable);
+            }
+        }).start();
+    }
+
+    private void startGameActivity() {
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity(intent);
+    }
+
+    private final View.OnClickListener onScoresButtonPressed = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             SoundManager.getInstance().playClickSound();
-            Intent intent = new Intent(MainActivity.this, ScoreTableActivity.class);
-            startActivity(intent);
+            animateScoresButtonPressed();
+            startScoreTableActivity();
         }
     };
 
-    private View.OnClickListener changeName = new View.OnClickListener() {
+    private void animateScoresButtonPressed() {
+        changeImageTemporarily(scoresButton, R.drawable.scores_btn_pressed);
+    }
+
+    private void startScoreTableActivity() {
+        Intent intent = new Intent(this, ScoreTableActivity.class);
+        startActivity(intent);
+    }
+
+    private View.OnClickListener onGreetingTextViewPressed = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             SoundManager.getInstance().playClickSound();
