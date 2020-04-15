@@ -7,13 +7,13 @@ import android.graphics.Rect;
 import com.octagisgame.controller.Game;
 import com.octagisgame.view.painttuners.PaintTuner;
 
-public class ClassicFieldDrawer extends FieldDrawer {
+public class ClassicGameDrawer extends GameDrawer {
     private int cellHeight;
     private int cellWidth;
     /* Верхняя левая точка поля */
     private Point startingPoint;
 
-    public ClassicFieldDrawer(Game game, Point displaySize, PaintTuner paintTuner) {
+    public ClassicGameDrawer(Game game, Point displaySize, PaintTuner paintTuner) {
         super(game, displaySize, paintTuner);
         setSizes();
     }

@@ -16,7 +16,7 @@ import com.octagisgame.controller.SoundManager;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.dialogs.GameOverDialog;
 import com.octagisgame.dialogs.PauseDialog;
-import com.octagisgame.view.drawers.FieldDrawer;
+import com.octagisgame.view.drawers.GameDrawer;
 
 import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
@@ -24,7 +24,7 @@ public class GameActivity extends AppCompatActivity {
     private DrawView drawView;
     private DrawThread drawThread;
     private Game game;
-    private FieldDrawer fieldDrawer;
+    private GameDrawer gameDrawer;
     private ControlInterface controlInterface;
     private boolean dialogOpen = false;
 
@@ -54,7 +54,7 @@ public class GameActivity extends AppCompatActivity {
                 .setDrawingStyle(GameBuilder.DrawingStyle.MINIMALISTIC)
                 .build();
         game = gameBuilder.getGame();
-        fieldDrawer = gameBuilder.getFieldDrawer();
+        gameDrawer = gameBuilder.getGameDrawer();
         controlInterface = gameBuilder.getControlInterface();
     }
 
@@ -133,7 +133,7 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         protected void onDraw(Canvas canvas) {
-            fieldDrawer.draw(canvas);
+            gameDrawer.draw(canvas);
         }
 
         @Override

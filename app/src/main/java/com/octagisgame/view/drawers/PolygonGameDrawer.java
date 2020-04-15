@@ -17,12 +17,12 @@ import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-public class PolygonFieldDrawer extends FieldDrawer {
+public class PolygonGameDrawer extends GameDrawer {
     private List<ControlButton> controlButtons;
     private PauseButton pauseButton;
     private Path[][] cellOutlines;
 
-    public PolygonFieldDrawer(Game game, ControlInterface controlInterface, Point displaySize, PaintTuner paintTuner) {
+    public PolygonGameDrawer(Game game, ControlInterface controlInterface, Point displaySize, PaintTuner paintTuner) {
         super(game, displaySize, paintTuner);
         controlButtons = ((PolygonControlInterface) controlInterface).getControlButtons();
         pauseButton = ((PolygonControlInterface) controlInterface).getPauseButton();

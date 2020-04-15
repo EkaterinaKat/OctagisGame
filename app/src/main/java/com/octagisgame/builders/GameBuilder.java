@@ -10,16 +10,16 @@ import com.octagisgame.controller.controlinterfaces.PolygonControlInterface;
 import com.octagisgame.model.PlayingField;
 import com.octagisgame.view.painttuners.BasicStylePaintTuner;
 import com.octagisgame.view.painttuners.BrickStylePaintTuner;
-import com.octagisgame.view.drawers.ClassicFieldDrawer;
-import com.octagisgame.view.drawers.FieldDrawer;
+import com.octagisgame.view.drawers.ClassicGameDrawer;
+import com.octagisgame.view.drawers.GameDrawer;
 import com.octagisgame.view.painttuners.MinimalisticStylePaintTuner;
 import com.octagisgame.view.painttuners.PaintTuner;
-import com.octagisgame.view.drawers.PolygonFieldDrawer;
+import com.octagisgame.view.drawers.PolygonGameDrawer;
 
 public class GameBuilder {
     public enum Mode {CLASSIC, POLYGON}
 
-    public enum DrawingStyle {BACIC, BRICK, MINIMALISTIC}
+    public enum DrawingStyle {BASIC, BRICK, MINIMALISTIC}
 
     private final int DEFAULT_NUMBER_OF_COLUMNS = 15;
     private final int DEFAULT_NUMBER_OF_ROWS = 15;
@@ -30,7 +30,7 @@ public class GameBuilder {
     private PaintTuner paintTuner;
     private Point displaySize;
     private Game game;
-    private FieldDrawer fieldDrawer;
+    private GameDrawer gameDrawer;
     private ControlInterface controlInterface;
 
     public GameBuilder(GameActivity activity, Point displaySize) {
@@ -56,12 +56,12 @@ public class GameBuilder {
 
     private void buildClassicMode() {
         controlInterface = new ClassicControlInterface(game, displaySize);
-        fieldDrawer = new ClassicFieldDrawer(game, displaySize, paintTuner);
+        gameDrawer = new ClassicGameDrawer(game, displaySize, paintTuner);
     }
 
     private void buildPolygonMode() {
         controlInterface = new PolygonControlInterface(activity, game, displaySize);
-        fieldDrawer = new PolygonFieldDrawer(game, controlInterface, displaySize, paintTuner);
+        gameDrawer = new PolygonGameDrawer(game, controlInterface, displaySize, paintTuner);
     }
 
     public Game getGame() {
@@ -72,8 +72,8 @@ public class GameBuilder {
         return controlInterface;
     }
 
-    public FieldDrawer getFieldDrawer() {
-        return fieldDrawer;
+    public GameDrawer getGameDrawer() {
+        return gameDrawer;
     }
 
     public GameBuilder setNumberOfColumns(int numberOfColumns) {
@@ -93,7 +93,7 @@ public class GameBuilder {
 
     public GameBuilder setDrawingStyle(DrawingStyle style) {
         switch (style) {
-            case BACIC:
+            case BASIC:
                 paintTuner = new BasicStylePaintTuner();
                 break;
             case BRICK:

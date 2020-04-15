@@ -9,7 +9,7 @@ import com.octagisgame.model.Cell;
 import com.octagisgame.model.PlayingField;
 import com.octagisgame.view.painttuners.PaintTuner;
 
-abstract public class FieldDrawer {
+abstract public class GameDrawer {
     Game game;
     int numberOfColumns;
     int numberOfRows;
@@ -17,7 +17,7 @@ abstract public class FieldDrawer {
     int screenHeight;
     PaintTuner paintTuner;
 
-    FieldDrawer(Game game, Point displaySize, PaintTuner paintTuner) {
+    GameDrawer(Game game, Point displaySize, PaintTuner paintTuner) {
         this.paintTuner = paintTuner;
         this.game = game;
         PlayingField field = game.getField();
