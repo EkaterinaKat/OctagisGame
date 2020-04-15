@@ -10,6 +10,7 @@ public class SoundManager {
     private final int MAX_SOUND_STREAMS = 5;
     private final int PRIORITY = 1;
     private static SoundManager instance;
+    private int volume = 1;
     private SoundPool soundPool;
     private int moveSoundID;
     private int speedUpSoundID;
@@ -30,6 +31,18 @@ public class SoundManager {
 
     public static SoundManager getInstance() {
         return instance;
+    }
+
+    public void turnOnSound() {
+        volume = 1;
+    }
+
+    public void turnOffSound() {
+        volume = 0;
+    }
+
+    public boolean soundOn() {
+        return volume == 1;
     }
 
     private void loadSounds(Context context) {
@@ -61,6 +74,6 @@ public class SoundManager {
     }
 
     private void playSound(int id) {
-        soundPool.play(id, 1, 1, PRIORITY, 0, 1);
+        soundPool.play(id, volume, volume, PRIORITY, 0, 1);
     }
 }

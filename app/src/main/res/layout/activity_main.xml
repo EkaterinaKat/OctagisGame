@@ -29,4 +29,13 @@
         android:adjustViewBounds="true"
         android:src="@drawable/scores_btn" />
 
+    <ImageView
+        android:id="@+id/settings_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/score_table_button"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/settings_btn" />
+
 </RelativeLayout>

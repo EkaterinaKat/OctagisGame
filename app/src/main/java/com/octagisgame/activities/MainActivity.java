@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private final String PLAYER_NAME_KEY = "player name";
     private ImageView startButton;
     private ImageView scoresButton;
+    private ImageView settingsButton;
     private String playerName;
     private TextView greetingTextView;
 
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(onStartButtonPressed);
         scoresButton = findViewById(R.id.score_table_button);
         scoresButton.setOnClickListener(onScoresButtonPressed);
+        settingsButton = findViewById(R.id.settings_btn);
+        settingsButton.setOnClickListener(onSettingsButtonPressed);
         greetingTextView = findViewById(R.id.greeting_text_view);
         greetingTextView.setOnClickListener(onGreetingTextViewPressed);
 
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -123,6 +126,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void startScoreTableActivity() {
         Intent intent = new Intent(this, ScoreTableActivity.class);
+        startActivity(intent);
+    }
+
+    private final View.OnClickListener onSettingsButtonPressed = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            SoundManager.getInstance().playClickSound();
+            animateSettingsButtonPressed();
+            startSettingsActivity();
+        }
+    };
+
+    private void animateSettingsButtonPressed() {
+        changeImageTemporarily(settingsButton, R.drawable.settings_btn_pressed);
+    }
+
+    private void startSettingsActivity() {
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
