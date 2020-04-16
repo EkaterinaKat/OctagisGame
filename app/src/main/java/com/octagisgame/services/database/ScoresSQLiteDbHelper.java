@@ -1,10 +1,10 @@
-package com.octagisgame.database;
+package com.octagisgame.services.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.octagisgame.database.ScoresDbSchema.ScoreTable;
+import com.octagisgame.services.database.ScoresDbSchema.ScoreTable;
 
 public class ScoresSQLiteDbHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;

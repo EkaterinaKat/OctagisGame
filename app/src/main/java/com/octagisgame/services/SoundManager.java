@@ -1,4 +1,4 @@
-package com.octagisgame.controller;
+package com.octagisgame.services;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -53,19 +53,19 @@ public class SoundManager {
         clickSoundID = soundPool.load(context, R.raw.click_sound, PRIORITY);
     }
 
-    void playMoveSound() {
+    public void playMoveSound() {
         playSound(moveSoundID);
     }
 
-    void playSpeedUpSound() {
+    public void playSpeedUpSound() {
         playSound(speedUpSoundID);
     }
 
-    void playGameOverSound() {
+    public void playGameOverSound() {
         playSound(gameOverSoundID);
     }
 
-    void playRowDeletionSound() {
+    public void playRowDeletionSound() {
         playSound(rowDeletionSoundID);
     }
 

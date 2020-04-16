@@ -1,4 +1,4 @@
-package com.octagisgame.database;
+package com.octagisgame.services.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.octagisgame.database.ScoresDbSchema.ScoreTable;
-import com.octagisgame.database.ScoresDbSchema.ScoreTable.Cols;
+import com.octagisgame.services.database.ScoresDbSchema.ScoreTable;
+import com.octagisgame.services.database.ScoresDbSchema.ScoreTable.Cols;
 import com.octagisgame.model.Database;
 import com.octagisgame.model.Score;
 

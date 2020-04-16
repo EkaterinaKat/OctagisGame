@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.builders.GameBuilder;
 import com.octagisgame.controller.Game;
-import com.octagisgame.controller.SoundManager;
+import com.octagisgame.services.SoundManager;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.dialogs.GameOverDialog;
 import com.octagisgame.dialogs.PauseDialog;

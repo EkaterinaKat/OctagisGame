@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.R;
-import com.octagisgame.controller.SoundManager;
+import com.octagisgame.services.SoundManager;
 import com.octagisgame.model.Score;
 import com.octagisgame.model.ScoreTable;
 

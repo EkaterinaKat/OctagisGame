@@ -1,4 +1,4 @@
-package com.octagisgame.database;
+package com.octagisgame.services.database;
 
 class ScoresDbSchema {
     static final class ScoreTable {

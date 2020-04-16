@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.MainActivity;
-import com.octagisgame.controller.SoundManager;
+import com.octagisgame.services.SoundManager;
 
 public class InitialNameInputDialog extends NameInputDialog {
     private boolean nameWasEntered = false;

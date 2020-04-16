@@ -1,4 +1,4 @@
-package com.octagisgame.database;
+package com.octagisgame.services.database;
 
 import android.content.Context;
 

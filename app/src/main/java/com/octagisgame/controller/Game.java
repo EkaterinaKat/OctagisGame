@@ -8,6 +8,7 @@ import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
 import com.octagisgame.model.PlayingField;
 import com.octagisgame.model.ScoreTable;
+import com.octagisgame.services.SoundManager;
 import com.octagisgame.view.RowDeletionAnimator;
 
 import java.util.List;

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.octagisgame.activities.MainActivity;
-import com.octagisgame.controller.SoundManager;
+import com.octagisgame.services.SoundManager;
 
 public class NameChangeDialog extends NameInputDialog {
 

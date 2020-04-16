@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.R;
-import com.octagisgame.controller.SoundManager;
-import com.octagisgame.database.ScoresSQLiteDb;
+import com.octagisgame.services.SoundManager;
+import com.octagisgame.services.database.ScoresSQLiteDb;
 import com.octagisgame.dialogs.InitialNameInputDialog;
 import com.octagisgame.dialogs.NameChangeDialog;
 import com.octagisgame.dialogs.NameInputDialog;

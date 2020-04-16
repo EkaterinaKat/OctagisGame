@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.test.core.app.ApplicationProvider;
 
-import com.octagisgame.database.ScoresSQLiteDb;
+import com.octagisgame.services.database.ScoresSQLiteDb;
 
 import org.junit.Assert;
 import org.junit.Before;

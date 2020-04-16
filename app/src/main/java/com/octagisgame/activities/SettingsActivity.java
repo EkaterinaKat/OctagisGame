@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.octagisgame.R;
-import com.octagisgame.controller.SoundManager;
+import com.octagisgame.services.SoundManager;
 
 import static android.widget.CompoundButton.OnCheckedChangeListener;
 import static com.octagisgame.activities.MainActivity.hideSystemUI;

@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
-import com.octagisgame.controller.SoundManager;
+import com.octagisgame.services.SoundManager;
 
 import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
