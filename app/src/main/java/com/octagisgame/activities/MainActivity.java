@@ -1,7 +1,6 @@
 package com.octagisgame.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -12,15 +11,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.R;
-import com.octagisgame.services.SoundManager;
-import com.octagisgame.services.database.ScoresSQLiteDb;
 import com.octagisgame.dialogs.InitialNameInputDialog;
 import com.octagisgame.dialogs.NameChangeDialog;
 import com.octagisgame.dialogs.NameInputDialog;
 import com.octagisgame.model.ScoreTable;
+import com.octagisgame.services.PreferencesManager;
+import com.octagisgame.services.SoundManager;
+import com.octagisgame.services.database.ScoresSQLiteDb;
 
 public class MainActivity extends AppCompatActivity {
-    private final String PLAYER_NAME_KEY = "player name";
     private ImageView startButton;
     private ImageView scoresButton;
     private ImageView settingsButton;
@@ -31,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        PreferencesManager.create(getPreferences(MODE_PRIVATE));
 
         startButton = findViewById(R.id.start_button);
         startButton.setOnClickListener(onStartButtonPressed);
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         greetingTextView = findViewById(R.id.greeting_text_view);
         greetingTextView.setOnClickListener(onGreetingTextViewPressed);
 
-        loadPlayerName();
+        playerName = PreferencesManager.getInstance().loadPlayerName();
         if (playerName.equals("")) {
             showNameInputDialog();
             greetingTextView.setVisibility(View.INVISIBLE);
@@ -57,24 +57,12 @@ public class MainActivity extends AppCompatActivity {
         hideSystemUI(getWindow());
     }
 
-    private void loadPlayerName() {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        playerName = preferences.getString(PLAYER_NAME_KEY, "");
-    }
-
     public void setNewPlayerName(String playerName) {
         this.playerName = playerName;
-        savePlayerName(playerName);
+        PreferencesManager.getInstance().savePlayerName(playerName);
         ScoreTable.getInstance().changePlayer(playerName);
         greetingTextView.setText(getString(R.string.greeting, playerName));
         greetingTextView.setVisibility(View.VISIBLE);
-    }
-
-    private void savePlayerName(String playerName) {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(PLAYER_NAME_KEY, playerName);
-        editor.commit();
     }
 
     private final View.OnClickListener onStartButtonPressed = new View.OnClickListener() {
