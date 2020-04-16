@@ -6,48 +6,23 @@ import androidx.core.content.ContextCompat;
 
 import com.octagisgame.R;
 import com.octagisgame.model.Figure;
-import com.octagisgame.model.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.octagisgame.model.ShapeTypes.I_SHAPE;
+import static com.octagisgame.model.ShapeTypes.J_SHAPE;
+import static com.octagisgame.model.ShapeTypes.L_SHAPE;
+import static com.octagisgame.model.ShapeTypes.O_SHAPE;
+import static com.octagisgame.model.ShapeTypes.S_SHAPE;
+import static com.octagisgame.model.ShapeTypes.T_SHAPE;
+import static com.octagisgame.model.ShapeTypes.Z_SHAPE;
+
 class FigureCreator {
     private List<Figure> figures;
     private Random random;
     private Context context;
-
-    final Shape I_SHAPE = new Shape(new boolean[][]{
-            {false, false, false, false},
-            {false, false, false, false},
-            {true, true, true, true},
-            {false, false, false, false}});
-
-    private final Shape O_SHAPE = new Shape(new boolean[][]{
-            {true, true},
-            {true, true}});
-
-    private final Shape T_SHAPE = new Shape(new boolean[][]{
-            {true, true, true},
-            {false, true, false}});
-
-    private final Shape L_SHAPE = new Shape(new boolean[][]{
-            {true, false},
-            {true, false},
-            {true, true}});
-
-    private final Shape J_SHAPE = new Shape(new boolean[][]{
-            {false, true},
-            {false, true},
-            {true, true}});
-
-    private final Shape S_SHAPE = new Shape(new boolean[][]{
-            {false, true, true},
-            {true, true, false}});
-
-    private final Shape Z_SHAPE = new Shape(new boolean[][]{
-            {true, true, false},
-            {false, true, true}});
 
     FigureCreator(Context context) {
         this.context = context;
