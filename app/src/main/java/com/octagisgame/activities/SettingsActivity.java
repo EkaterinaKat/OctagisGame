@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.octagisgame.R;
+import com.octagisgame.services.PreferencesManager;
 import com.octagisgame.services.SoundManager;
 
 import static android.widget.CompoundButton.OnCheckedChangeListener;
@@ -54,14 +55,10 @@ public class SettingsActivity extends AppCompatActivity {
     };
 
     private void applySettings() {
-        if (soundOn) {
-            SoundManager.getInstance().turnOnSound();
-        } else {
-            SoundManager.getInstance().turnOffSound();
-        }
+        SoundManager.getInstance().setSoundOn(soundOn);
     }
 
     private void saveSettings() {
-        //todo обращаемся к преференсис
+        PreferencesManager.getInstance().saveSoundMode(soundOn);
     }
 }

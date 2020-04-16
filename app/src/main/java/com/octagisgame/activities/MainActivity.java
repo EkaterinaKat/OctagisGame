@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         PreferencesManager.create(getPreferences(MODE_PRIVATE));
+        SoundManager.create(this);
+        setSoundModeFromPreferences();
 
         startButton = findViewById(R.id.start_button);
         startButton.setOnClickListener(onStartButtonPressed);
@@ -48,7 +50,11 @@ public class MainActivity extends AppCompatActivity {
         }
         greetingTextView.setText(getString(R.string.greeting, playerName));
         ScoreTable.create(new ScoresSQLiteDb(this), playerName);
-        SoundManager.create(this);
+    }
+
+    private void setSoundModeFromPreferences() {
+        boolean soundOn = PreferencesManager.getInstance().loadSoundMode();
+        SoundManager.getInstance().setSoundOn(soundOn);
     }
 
     @Override

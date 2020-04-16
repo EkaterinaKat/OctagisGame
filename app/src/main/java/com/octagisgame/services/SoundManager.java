@@ -33,12 +33,11 @@ public class SoundManager {
         return instance;
     }
 
-    public void turnOnSound() {
-        volume = 1;
-    }
-
-    public void turnOffSound() {
-        volume = 0;
+    public void setSoundOn(boolean soundOn){
+        if(soundOn)
+            volume = 1;
+        else
+            volume = 0;
     }
 
     public boolean soundOn() {
