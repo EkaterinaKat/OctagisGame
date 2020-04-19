@@ -49,7 +49,7 @@ public class Game {
             while (true) {
                 if (!gamePaused) {
                     field.descentFigure();
-                    sleep();
+                    waitForSpeedUpOrNextDescent();
                     if (field.figureLanded()) {
                         if (field.figureAboveTop()) {
                             SoundManager.getInstance().playGameOverSound();
@@ -82,9 +82,10 @@ public class Game {
         SoundManager.getInstance().playMoveSound();
     }
 
-    public void speedUpFalling() {
+    public synchronized void speedUpFalling() {
         if (timeInterval == STANDARD_TIME_INTERVAL) {
             timeInterval = REDUCED_TIME_INTERVAL;
+            notify();
             SoundManager.getInstance().playSpeedUpSound();
         }
     }
@@ -117,9 +118,9 @@ public class Game {
         }
     }
 
-    private void sleep() {
+    private synchronized void waitForSpeedUpOrNextDescent() {
         try {
-            Thread.sleep(timeInterval);
+            wait(timeInterval);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
