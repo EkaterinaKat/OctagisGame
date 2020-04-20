@@ -68,18 +68,21 @@ public class Game {
     };
 
     public void moveFigureLeft() {
-        field.moveFigureLeft();
-        SoundManager.getInstance().playMoveSound();
+        if (field.moveFigureLeft()) {
+            SoundManager.getInstance().playMoveSound();
+        }
     }
 
     public void moveFigureRight() {
-        field.moveFigureRight();
-        SoundManager.getInstance().playMoveSound();
+        if (field.moveFigureRight()) {
+            SoundManager.getInstance().playMoveSound();
+        }
     }
 
     public void rotateFigure() {
-        field.rotateFigure();
-        SoundManager.getInstance().playMoveSound();
+        if (field.rotateFigure()) {
+            SoundManager.getInstance().playMoveSound();
+        }
     }
 
     public synchronized void speedUpFalling() {

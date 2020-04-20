@@ -70,22 +70,28 @@ public class PlayingField {
         }
     }
 
-    public void moveFigureLeft() {
-        if (figureAbleToMoveLeft()) {
+    public boolean moveFigureLeft() {
+        boolean figureAbleToMoveLeft = figureAbleToMoveLeft();
+        if (figureAbleToMoveLeft) {
             fallingFigure.left();
         }
+        return figureAbleToMoveLeft;
     }
 
-    public void moveFigureRight() {
-        if (figureAbleToMoveRight()) {
+    public boolean moveFigureRight() {
+        boolean figureAbleToMoveRight = figureAbleToMoveRight();
+        if (figureAbleToMoveRight) {
             fallingFigure.right();
         }
+        return figureAbleToMoveRight;
     }
 
-    public void rotateFigure() {
-        if (figureAbleToRotate()) {
+    public boolean rotateFigure() {
+        boolean figureAbleToRotate = figureAbleToRotate();
+        if (figureAbleToRotate) {
             fallingFigure.rotate();
         }
+        return figureAbleToRotate;
     }
 
     public void descentFigure() {
