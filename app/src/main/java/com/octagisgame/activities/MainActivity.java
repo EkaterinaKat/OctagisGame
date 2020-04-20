@@ -1,10 +1,8 @@
 package com.octagisgame.activities;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +16,7 @@ import com.octagisgame.model.ScoreTable;
 import com.octagisgame.services.PreferencesManager;
 import com.octagisgame.services.SoundManager;
 import com.octagisgame.services.database.ScoresSQLiteDb;
+import com.octagisgame.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView startButton;
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        hideSystemUI(getWindow());
+        Utils.hideSystemUI(getWindow());
     }
 
     public void setNewPlayerName(String playerName) {
@@ -81,23 +80,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void animateStartButtonPressed() {
-        changeImageTemporarily(startButton, R.drawable.play_btn_pressed);
-    }
-
-    private void changeImageTemporarily(final ImageView imageView, int imageResource) {
-        final Drawable drawable = imageView.getDrawable();
-        imageView.setImageResource(imageResource);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                imageView.setImageDrawable(drawable);
-            }
-        }).start();
+        Utils.changeImageTemporarily(startButton, R.drawable.play_btn_pressed);
     }
 
     private void startGameActivity() {
@@ -115,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void animateScoresButtonPressed() {
-        changeImageTemporarily(scoresButton, R.drawable.scores_btn_pressed);
+        Utils.changeImageTemporarily(scoresButton, R.drawable.scores_btn_pressed);
     }
 
     private void startScoreTableActivity() {
@@ -133,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void animateSettingsButtonPressed() {
-        changeImageTemporarily(settingsButton, R.drawable.settings_btn_pressed);
+        Utils.changeImageTemporarily(settingsButton, R.drawable.settings_btn_pressed);
     }
 
     private void startSettingsActivity() {
@@ -157,16 +140,5 @@ public class MainActivity extends AppCompatActivity {
     private void showNameChangeDialog() {
         NameInputDialog nameInputDialog = new NameChangeDialog(this);
         nameInputDialog.show(getSupportFragmentManager(), null);
-    }
-
-    public static void hideSystemUI(Window window) {
-        View decorView = window.getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
     }
 }

@@ -9,13 +9,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.R;
-import com.octagisgame.services.SoundManager;
 import com.octagisgame.model.Score;
 import com.octagisgame.model.ScoreTable;
+import com.octagisgame.services.SoundManager;
+import com.octagisgame.utils.Utils;
 
 import java.util.Set;
-
-import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
 public class ScoreTableActivity extends AppCompatActivity {
     private final int PADDING = 20;
@@ -45,7 +44,7 @@ public class ScoreTableActivity extends AppCompatActivity {
         super.onResume();
         clearTable();
         fillTable();
-        hideSystemUI(getWindow());
+        Utils.hideSystemUI(getWindow());
     }
 
     private void clearTable() {

@@ -10,8 +10,7 @@ import androidx.fragment.app.DialogFragment;
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
 import com.octagisgame.services.SoundManager;
-
-import static com.octagisgame.activities.MainActivity.hideSystemUI;
+import com.octagisgame.utils.Utils;
 
 public class GameOverDialog extends DialogFragment {
 
@@ -41,7 +40,7 @@ public class GameOverDialog extends DialogFragment {
             SoundManager.getInstance().playClickSound();
             activity.startGame();
             activity.setDialogOpen(false);
-            hideSystemUI(activity.getWindow());
+            Utils.hideSystemUI(activity.getWindow());
         }
     };
 

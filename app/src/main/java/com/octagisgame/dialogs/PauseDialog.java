@@ -10,8 +10,7 @@ import androidx.fragment.app.DialogFragment;
 import com.octagisgame.R;
 import com.octagisgame.activities.GameActivity;
 import com.octagisgame.services.SoundManager;
-
-import static com.octagisgame.activities.MainActivity.hideSystemUI;
+import com.octagisgame.utils.Utils;
 
 public class PauseDialog extends DialogFragment {
 
@@ -37,7 +36,7 @@ public class PauseDialog extends DialogFragment {
             SoundManager.getInstance().playClickSound();
             activity.continueGame();
             activity.setDialogOpen(false);
-            hideSystemUI(activity.getWindow());
+            Utils.hideSystemUI(activity.getWindow());
         }
     };
 

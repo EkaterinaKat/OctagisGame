@@ -12,13 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.octagisgame.builders.GameBuilder;
 import com.octagisgame.controller.Game;
-import com.octagisgame.services.SoundManager;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.dialogs.GameOverDialog;
 import com.octagisgame.dialogs.PauseDialog;
+import com.octagisgame.services.SoundManager;
+import com.octagisgame.utils.Utils;
 import com.octagisgame.view.drawers.GameDrawer;
-
-import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
 public class GameActivity extends AppCompatActivity {
     private DrawView drawView;
@@ -61,7 +60,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        hideSystemUI(getWindow());
+        Utils.hideSystemUI(getWindow());
     }
 
     @Override

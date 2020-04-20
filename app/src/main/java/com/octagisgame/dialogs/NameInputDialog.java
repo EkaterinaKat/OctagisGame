@@ -16,8 +16,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.octagisgame.R;
 import com.octagisgame.activities.MainActivity;
-
-import static com.octagisgame.activities.MainActivity.hideSystemUI;
+import com.octagisgame.utils.Utils;
 
 public abstract class NameInputDialog extends DialogFragment {
     Button okButton;
@@ -42,7 +41,7 @@ public abstract class NameInputDialog extends DialogFragment {
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
-        hideSystemUI(activity.getWindow());
+        Utils.hideSystemUI(activity.getWindow());
     }
 
     private TextWatcher textWatcher = new TextWatcher() {

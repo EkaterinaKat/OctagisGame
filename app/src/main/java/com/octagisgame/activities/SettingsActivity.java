@@ -10,9 +10,9 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.octagisgame.R;
 import com.octagisgame.services.PreferencesManager;
 import com.octagisgame.services.SoundManager;
+import com.octagisgame.utils.Utils;
 
 import static android.widget.CompoundButton.OnCheckedChangeListener;
-import static com.octagisgame.activities.MainActivity.hideSystemUI;
 
 public class SettingsActivity extends AppCompatActivity {
     private boolean soundOn;
@@ -21,7 +21,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        hideSystemUI(getWindow());
+        Utils.hideSystemUI(getWindow());
 
         findViewById(R.id.back_button).setOnClickListener(onBackPressed);
 
