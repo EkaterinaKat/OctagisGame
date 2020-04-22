@@ -38,13 +38,6 @@ public class GameActivity extends AppCompatActivity {
         startGame();
     }
 
-    private Point getDisplaySize() {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point displaySize = new Point();
-        display.getRealSize(displaySize);
-        return displaySize;
-    }
-
     private void buildGame() {
         Point displaySize = getDisplaySize();
         GameBuilder gameBuilder = new GameBuilder(this, displaySize);
@@ -55,6 +48,13 @@ public class GameActivity extends AppCompatActivity {
         game = gameBuilder.getGame();
         gameDrawer = gameBuilder.getGameDrawer();
         controlInterface = gameBuilder.getControlInterface();
+    }
+
+    private Point getDisplaySize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point displaySize = new Point();
+        display.getRealSize(displaySize);
+        return displaySize;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class GameActivity extends AppCompatActivity {
         onPausePressed();
     }
 
-    public void onPausePressed() { //todo этот метод нужен только потому что нужно воспроизводить звук
+    public void onPausePressed() {
         SoundManager.getInstance().playClickSound();
         pauseGame();
     }

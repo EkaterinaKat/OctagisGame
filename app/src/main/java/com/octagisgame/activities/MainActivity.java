@@ -32,7 +32,17 @@ public class MainActivity extends AppCompatActivity {
         PreferencesManager.create(getPreferences(MODE_PRIVATE));
         SoundManager.create(this);
         setSoundModeFromPreferences();
+        tuneComponents();
+        loadPlayerNameFromPreferences();
+        ScoreTable.create(new ScoresSQLiteDb(this), playerName);
+    }
 
+    private void setSoundModeFromPreferences() {
+        boolean soundOn = PreferencesManager.getInstance().loadSoundMode();
+        SoundManager.getInstance().setSoundOn(soundOn);
+    }
+
+    private void tuneComponents() {
         startButton = findViewById(R.id.start_button);
         startButton.setOnClickListener(startButtonListener);
         scoresButton = findViewById(R.id.score_table_button);
@@ -41,19 +51,16 @@ public class MainActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(settingsButtonListener);
         greetingTextView = findViewById(R.id.greeting_text_view);
         greetingTextView.setOnClickListener(greetingTextViewListener);
+    }
 
+    private void loadPlayerNameFromPreferences() {
         playerName = PreferencesManager.getInstance().loadPlayerName();
         if (playerName.equals("")) {
             showNameInputDialog();
             greetingTextView.setVisibility(View.INVISIBLE);
+        } else {
+            greetingTextView.setText(getString(R.string.greeting, playerName));
         }
-        greetingTextView.setText(getString(R.string.greeting, playerName));
-        ScoreTable.create(new ScoresSQLiteDb(this), playerName);
-    }
-
-    private void setSoundModeFromPreferences() {
-        boolean soundOn = PreferencesManager.getInstance().loadSoundMode();
-        SoundManager.getInstance().setSoundOn(soundOn);
     }
 
     @Override

@@ -27,7 +27,7 @@ public class InitialNameInputDialog extends NameInputDialog {
         return view;
     }
 
-    View.OnClickListener listener = new View.OnClickListener() {
+    private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             SoundManager.getInstance().playClickSound();
