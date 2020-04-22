@@ -31,10 +31,10 @@ public class ScoreTableActivity extends AppCompatActivity {
         tableLayout = findViewById(R.id.tableLayout);
         scoreTable = ScoreTable.getInstance();
         backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(onBackPressed);
+        backButton.setOnClickListener(backButtonListener);
     }
 
-    View.OnClickListener onBackPressed = new View.OnClickListener() {
+    View.OnClickListener backButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             SoundManager.getInstance().playClickSound();

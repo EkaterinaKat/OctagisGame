@@ -26,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         Utils.hideSystemUI(getWindow());
 
         backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(onBackPressed);
+        backButton.setOnClickListener(backButtonListener);
 
         SwitchCompat soundSwitch = findViewById(R.id.sound_switch);
         soundOn = SoundManager.getInstance().soundOn();
@@ -40,7 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    View.OnClickListener onBackPressed = new View.OnClickListener() {
+    View.OnClickListener backButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             animateBackButtonPressed();

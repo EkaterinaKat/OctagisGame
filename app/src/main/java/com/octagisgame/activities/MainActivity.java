@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
         setSoundModeFromPreferences();
 
         startButton = findViewById(R.id.start_button);
-        startButton.setOnClickListener(onStartButtonPressed);
+        startButton.setOnClickListener(startButtonListener);
         scoresButton = findViewById(R.id.score_table_button);
-        scoresButton.setOnClickListener(onScoresButtonPressed);
+        scoresButton.setOnClickListener(scoresButtonListener);
         settingsButton = findViewById(R.id.settings_btn);
-        settingsButton.setOnClickListener(onSettingsButtonPressed);
+        settingsButton.setOnClickListener(settingsButtonListener);
         greetingTextView = findViewById(R.id.greeting_text_view);
-        greetingTextView.setOnClickListener(onGreetingTextViewPressed);
+        greetingTextView.setOnClickListener(greetingTextViewListener);
 
         playerName = PreferencesManager.getInstance().loadPlayerName();
         if (playerName.equals("")) {
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         greetingTextView.setVisibility(View.VISIBLE);
     }
 
-    private final View.OnClickListener onStartButtonPressed = new View.OnClickListener() {
+    private final View.OnClickListener startButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             SoundManager.getInstance().playClickSound();
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private final View.OnClickListener onScoresButtonPressed = new View.OnClickListener() {
+    private final View.OnClickListener scoresButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             SoundManager.getInstance().playClickSound();
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private final View.OnClickListener onSettingsButtonPressed = new View.OnClickListener() {
+    private final View.OnClickListener settingsButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             SoundManager.getInstance().playClickSound();
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private View.OnClickListener onGreetingTextViewPressed = new View.OnClickListener() {
+    private View.OnClickListener greetingTextViewListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             SoundManager.getInstance().playClickSound();
