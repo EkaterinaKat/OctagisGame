@@ -3,6 +3,7 @@ package com.octagisgame.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -16,6 +17,7 @@ import static android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class SettingsActivity extends AppCompatActivity {
     private boolean soundOn;
+    private ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Utils.hideSystemUI(getWindow());
 
-        findViewById(R.id.back_button).setOnClickListener(onBackPressed);
+        backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(onBackPressed);
 
         SwitchCompat soundSwitch = findViewById(R.id.sound_switch);
         soundOn = SoundManager.getInstance().soundOn();
@@ -40,10 +43,15 @@ public class SettingsActivity extends AppCompatActivity {
     View.OnClickListener onBackPressed = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            animateBackButtonPressed();
             finish();
             SoundManager.getInstance().playClickSound();
         }
     };
+
+    private void animateBackButtonPressed() {
+        Utils.changeImageTemporarily(backButton, R.drawable.back_btn_pressed);
+    }
 
     OnCheckedChangeListener soundSwitchListener = new OnCheckedChangeListener() {
         @Override

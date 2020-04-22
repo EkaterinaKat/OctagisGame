@@ -2,6 +2,7 @@ package com.octagisgame.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ public class ScoreTableActivity extends AppCompatActivity {
     private final int TEXT_SIZE = 20;
     private ScoreTable scoreTable;
     private TableLayout tableLayout;
+    private ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +30,22 @@ public class ScoreTableActivity extends AppCompatActivity {
         setContentView(R.layout.activity_score_table);
         tableLayout = findViewById(R.id.tableLayout);
         scoreTable = ScoreTable.getInstance();
-        findViewById(R.id.back_button).setOnClickListener(onBackPressed);
+        backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(onBackPressed);
     }
 
     View.OnClickListener onBackPressed = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             SoundManager.getInstance().playClickSound();
+            animateBackButtonPressed();
             finish();
         }
     };
+
+    private void animateBackButtonPressed() {
+        Utils.changeImageTemporarily(backButton, R.drawable.back_btn_pressed);
+    }
 
     @Override
     protected void onResume() {
