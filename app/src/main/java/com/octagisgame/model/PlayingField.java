@@ -116,34 +116,23 @@ public class PlayingField {
     }
 
     private boolean figureAbleToDescend() {
-        for (Section section : shapeParser.getDescendedSections(fallingFigure)) {
-            boolean sectionBelowTopEdge = section.getRow() >= 0;
-            if (sectionBelowTopEdge) {
-                boolean sectionBelowBottom = section.getRow() >= numberOfRows;
-                if (sectionBelowBottom)
-                    return false;
-                boolean sectionInFilledCell = cells[section.getColumn()][section.getRow()].isFilled();
-                if (sectionInFilledCell)
-                    return false;
-            }
-        }
-        return true;
+        int descendedFigureRow = fallingFigure.getY() + 1;
+        return shapeAcceptable(fallingFigure.getShape(), fallingFigure.getX(), descendedFigureRow);
     }
 
     private boolean shapeAcceptable(Shape shape, int posX, int posY) {
         for (Section section : shapeParser.getSections(shape, posX, posY)) {
+            boolean sectionBelowTopEdge = section.getRow() >= 0;
+            if (sectionBelowTopEdge) {
 
-            boolean sectionBelowBottom = section.getRow() >= numberOfRows;
-            if (sectionBelowBottom)
-                return false;
+                boolean sectionBelowBottom = section.getRow() >= numberOfRows;
+                if (sectionBelowBottom)
+                    return false;
 
-            boolean sectionAboveTop = section.getRow() < 0;
-            if (sectionAboveTop)
-                return false;
-
-            boolean sectionInFilledCell = cells[section.getColumn()][section.getRow()].isFilled();
-            if (sectionInFilledCell)
-                return false;
+                boolean sectionInFilledCell = cells[section.getColumn()][section.getRow()].isFilled();
+                if (sectionInFilledCell)
+                    return false;
+            }
         }
         return true;
     }

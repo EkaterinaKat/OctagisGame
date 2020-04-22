@@ -15,12 +15,6 @@ class ShapeParser {
         return getSections(figure.getShape(), figure.getX(), figure.getY());
     }
 
-    /* Принимает на вход фигуру и возвращает список её секций, каждая из которых опущена на
-     * одну клетку вниз */
-    List<Section> getDescendedSections(Figure figure) {
-        return getSections(figure.getShape(), figure.getX(), figure.getY() + 1);
-    }
-
     /* Принимает на вход форму и координаты верхней левой клеточки формы на поле и возвращает
      * список секций формы */
     List<Section> getSections(Shape shape, int x, int y) {
