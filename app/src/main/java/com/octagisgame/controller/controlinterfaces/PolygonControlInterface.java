@@ -2,6 +2,7 @@ package com.octagisgame.controller.controlinterfaces;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.view.MotionEvent;
 
 import com.octagisgame.activities.GameActivity;
 import com.octagisgame.controller.Game;
@@ -39,7 +40,10 @@ public class PolygonControlInterface extends ControlInterface {
     }
 
     @Override
-    public void onTouchEvent(int x, int y) {
+    public void onTouchEvent(MotionEvent event) {
+        int x = (int)event.getX();
+        int y = (int)event.getY();
+
         if (leftButton.pressed(x, y)) {
             game.moveFigureLeft();
             leftButton.visualizePress();

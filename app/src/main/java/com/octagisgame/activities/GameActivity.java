@@ -137,9 +137,7 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            float x = event.getX();
-            float y = event.getY();
-            controlInterface.onTouchEvent((int) x, (int) y);
+            controlInterface.onTouchEvent(event);
             return super.onTouchEvent(event);
         }
     }

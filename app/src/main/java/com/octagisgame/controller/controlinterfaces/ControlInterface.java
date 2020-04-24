@@ -1,5 +1,7 @@
 package com.octagisgame.controller.controlinterfaces;
 
+import android.view.MotionEvent;
+
 import com.octagisgame.controller.Game;
 
 public abstract class ControlInterface {
@@ -9,5 +11,5 @@ public abstract class ControlInterface {
         this.game = game;
     }
 
-    public abstract void onTouchEvent(int x, int y);
+    public abstract void onTouchEvent(MotionEvent event);
 }
