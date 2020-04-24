@@ -17,8 +17,8 @@ public class PauseButton extends Button {
     private int centerX;
     private int centerY;
 
-    PauseButton(int color, Point displaySize) {
-        super(color, displaySize);
+    PauseButton(int color, int pressedButtonColor, Point displaySize) {
+        super(color, pressedButtonColor, displaySize);
         radius = (int) (screenWidth * RADIUS_TO_HEIGHT);
         centerX = (int) (screenWidth * BUTTON_X_TO_SCREEN_WIDTH);
         centerY = (int) (screenHeight * BUTTON_Y_TO_SCREEN_HEIGHT);
@@ -27,10 +27,10 @@ public class PauseButton extends Button {
         addPauseSymbolOnButton();
     }
 
-    private void addPauseSymbolOnButton(){
-        path.addRect(centerX-radius/3, centerY-radius/2, centerX-radius/6,
-                centerY+radius/2, Path.Direction.CCW);
-        path.addRect(centerX+radius/6, centerY-radius/2, centerX+radius/3,
-                centerY+radius/2, Path.Direction.CCW);
+    private void addPauseSymbolOnButton() {
+        path.addRect(centerX - radius / 3, centerY - radius / 2, centerX - radius / 6,
+                centerY + radius / 2, Path.Direction.CCW);
+        path.addRect(centerX + radius / 6, centerY - radius / 2, centerX + radius / 3,
+                centerY + radius / 2, Path.Direction.CCW);
     }
 }

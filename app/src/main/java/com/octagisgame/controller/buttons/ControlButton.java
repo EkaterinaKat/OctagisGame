@@ -4,8 +4,8 @@ import android.graphics.Point;
 
 public class ControlButton extends Button {
 
-    ControlButton(int color, Point displaySize, Point... tops) {
-        super(color, displaySize);
+    ControlButton(int color, int pressedButtonColor, Point displaySize, Point... tops) {
+        super(color, pressedButtonColor, displaySize);
         setPath(tops);
         setRegion();
     }

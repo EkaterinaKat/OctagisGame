@@ -40,16 +40,26 @@ public class PolygonControlInterface extends ControlInterface {
 
     @Override
     public void onTouchEvent(int x, int y) {
-        if (leftButton.pressed(x, y))
+        if (leftButton.pressed(x, y)) {
             game.moveFigureLeft();
-        if (rightButton.pressed(x, y))
+            leftButton.visualizePress();
+        }
+        if (rightButton.pressed(x, y)) {
             game.moveFigureRight();
-        if (rotationButton.pressed(x, y))
+            rightButton.visualizePress();
+        }
+        if (rotationButton.pressed(x, y)) {
             game.rotateFigure();
-        if (speedUpButton.pressed(x, y))
+            rotationButton.visualizePress();
+        }
+        if (speedUpButton.pressed(x, y)) {
             game.speedUpFalling();
-        if (pauseButton.pressed(x, y))
+            speedUpButton.visualizePress();
+        }
+        if (pauseButton.pressed(x, y)) {
             activity.onPausePressed();
+            pauseButton.visualizePress();
+        }
     }
 
     public List<ControlButton> getControlButtons() {

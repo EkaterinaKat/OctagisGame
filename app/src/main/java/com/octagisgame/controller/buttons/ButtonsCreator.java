@@ -28,6 +28,10 @@ public class ButtonsCreator {
     private int speedUpButtonColor;
     private int rotationButtonColor;
     private int pauseButtonColor;
+    private int leftAndRightPressedButtonsColor;
+    private int speedUpPressedButtonColor;
+    private int rotationPressedButtonColor;
+    private int pausePressedButtonColor;
 
     public ButtonsCreator(Point displaySize, Context context) {
         this.context = context;
@@ -37,13 +41,13 @@ public class ButtonsCreator {
         initializeColors();
     }
 
-    private void setSizes(){
+    private void setSizes() {
         screenWidth = displaySize.x;
         screenHeight = displaySize.y;
         controlButtonsHeight = (int) (screenHeight * BUTTONS_HEIGHT_TO_SCREEN_HEIGHT);
     }
 
-    private void initializeReferencePoints(){
+    private void initializeReferencePoints() {
         leftTop = new Point(0, screenHeight - controlButtonsHeight);
         leftBottom = new Point(0, screenHeight);
         center = new Point(screenWidth / 2, screenHeight - controlButtonsHeight / 2);
@@ -51,30 +55,38 @@ public class ButtonsCreator {
         rightBottom = new Point(screenWidth, screenHeight);
     }
 
-    private void initializeColors(){
+    private void initializeColors() {
         leftAndRightButtonsColor = ContextCompat.getColor(context, R.color.leftAndRightButtonsColor);
         speedUpButtonColor = ContextCompat.getColor(context, R.color.speedUpButtonColor);
         rotationButtonColor = ContextCompat.getColor(context, R.color.rotationButtonColor);
         pauseButtonColor = ContextCompat.getColor(context, R.color.pauseButtonColor);
+        leftAndRightPressedButtonsColor = ContextCompat.getColor(context, R.color.leftAndRightPressedButtonsColor);
+        speedUpPressedButtonColor = ContextCompat.getColor(context, R.color.speedUpPressedButtonColor);
+        rotationPressedButtonColor = ContextCompat.getColor(context, R.color.rotationPressedButtonColor);
+        pausePressedButtonColor = ContextCompat.getColor(context, R.color.pausePressedButtonColor);
     }
 
     public ControlButton createLeftButton() {
-        return new ControlButton(leftAndRightButtonsColor, displaySize, center, leftBottom, leftTop);
+        return new ControlButton(leftAndRightButtonsColor, leftAndRightPressedButtonsColor,
+                displaySize, center, leftBottom, leftTop);
     }
 
     public ControlButton createRightButton() {
-        return new ControlButton(leftAndRightButtonsColor, displaySize, center, rightBottom, rightTop);
+        return new ControlButton(leftAndRightButtonsColor, leftAndRightPressedButtonsColor,
+                displaySize, center, rightBottom, rightTop);
     }
 
     public ControlButton createSpeedUpButton() {
-        return new ControlButton(speedUpButtonColor, displaySize, center, leftBottom, rightBottom);
+        return new ControlButton(speedUpButtonColor, speedUpPressedButtonColor,
+                displaySize, center, leftBottom, rightBottom);
     }
 
     public ControlButton createRotationButton() {
-        return new ControlButton(rotationButtonColor, displaySize, center, leftTop, rightTop);
+        return new ControlButton(rotationButtonColor, rotationPressedButtonColor,
+                displaySize, center, leftTop, rightTop);
     }
 
     public PauseButton createPauseButton() {
-        return new PauseButton(pauseButtonColor, displaySize);
+        return new PauseButton(pauseButtonColor, pausePressedButtonColor, displaySize);
     }
 }
