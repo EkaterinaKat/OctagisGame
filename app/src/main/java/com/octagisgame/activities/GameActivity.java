@@ -22,7 +22,6 @@ import com.octagisgame.view.drawers.GameDrawer;
 public class GameActivity extends AppCompatActivity {
     private DrawView drawView;
     private DrawThread drawThread;
-    private Game game;
     private GameDrawer gameDrawer;
     private ControlInterface controlInterface;
     private boolean dialogOpen = false;
@@ -45,7 +44,6 @@ public class GameActivity extends AppCompatActivity {
                 .setMode(GameBuilder.Mode.POLYGON)
                 .setDrawingStyle(GameBuilder.DrawingStyle.MINIMALISTIC)
                 .build();
-        game = gameBuilder.getGame();
         gameDrawer = gameBuilder.getGameDrawer();
         controlInterface = gameBuilder.getControlInterface();
     }
@@ -80,16 +78,16 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void pauseGame() {
-        game.setOnPause();
+        Game.getInstance().setOnPause();
         showPauseDialog();
     }
 
     public void continueGame() {
-        game.continueGame();
+        Game.getInstance().continueGame();
     }
 
     public void startGame() {
-        game.start();
+        Game.getInstance().start();
     }
 
     public void showPauseDialog() {
@@ -117,7 +115,7 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void run() {
             while (true) {
-                if (!game.isPaused()) {
+                if (!Game.getInstance().isPaused()) {
                     drawView.invalidate();
                 }
             }

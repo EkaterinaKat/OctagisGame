@@ -22,8 +22,8 @@ public class PolygonGameDrawer extends GameDrawer {
     private PauseButton pauseButton;
     private Path[][] cellOutlines;
 
-    public PolygonGameDrawer(Game game, ControlInterface controlInterface, Point displaySize, PaintTuner paintTuner) {
-        super(game, displaySize, paintTuner);
+    public PolygonGameDrawer(ControlInterface controlInterface, Point displaySize, PaintTuner paintTuner) {
+        super(displaySize, paintTuner);
         controlButtons = ((PolygonControlInterface) controlInterface).getControlButtons();
         pauseButton = ((PolygonControlInterface) controlInterface).getPauseButton();
         new Calculator().calculateAllRequiredCoordinates();
@@ -56,7 +56,7 @@ public class PolygonGameDrawer extends GameDrawer {
 
     @Override
     void drawCell(int column, int row, Canvas canvas) {
-        int cellColour = game.getCellColour(column, row);
+        int cellColour = Game.getInstance().getCellColour(column, row);
         Path outline = cellOutlines[column][row];
         canvas.drawPath(outline, paintTuner.getCellPaint(cellColour));
         canvas.drawPath(outline, paintTuner.getCellBorderPaint());

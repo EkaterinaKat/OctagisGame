@@ -5,22 +5,19 @@ import android.graphics.Color;
 import android.graphics.Point;
 
 import com.octagisgame.controller.Game;
-import com.octagisgame.model.Cell;
 import com.octagisgame.model.PlayingField;
 import com.octagisgame.view.painttuners.PaintTuner;
 
 abstract public class GameDrawer {
-    Game game;
     int numberOfColumns;
     int numberOfRows;
     int screenWidth;
     int screenHeight;
     PaintTuner paintTuner;
 
-    GameDrawer(Game game, Point displaySize, PaintTuner paintTuner) {
+    GameDrawer(Point displaySize, PaintTuner paintTuner) {
         this.paintTuner = paintTuner;
-        this.game = game;
-        PlayingField field = game.getField();
+        PlayingField field = Game.getInstance().getField();
         numberOfColumns = field.getNumberOfColumns();
         numberOfRows = field.getNumberOfRows();
         screenWidth = displaySize.x;
@@ -42,7 +39,7 @@ abstract public class GameDrawer {
     }
 
     private void printScoredPoints(Canvas canvas) {
-        String scoredPoints = String.valueOf(game.getScoredPoints());
+        String scoredPoints = String.valueOf(Game.getInstance().getScoredPoints());
         canvas.drawText(scoredPoints, 50, 50, paintTuner.getTextPaint());
     }
 

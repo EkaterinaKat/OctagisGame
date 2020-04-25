@@ -8,13 +8,13 @@ import com.octagisgame.controller.controlinterfaces.ClassicControlInterface;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.controller.controlinterfaces.PolygonControlInterface;
 import com.octagisgame.model.PlayingField;
-import com.octagisgame.view.painttuners.BasicStylePaintTuner;
-import com.octagisgame.view.painttuners.BrickStylePaintTuner;
 import com.octagisgame.view.drawers.ClassicGameDrawer;
 import com.octagisgame.view.drawers.GameDrawer;
+import com.octagisgame.view.drawers.PolygonGameDrawer;
+import com.octagisgame.view.painttuners.BasicStylePaintTuner;
+import com.octagisgame.view.painttuners.BrickStylePaintTuner;
 import com.octagisgame.view.painttuners.MinimalisticStylePaintTuner;
 import com.octagisgame.view.painttuners.PaintTuner;
-import com.octagisgame.view.drawers.PolygonGameDrawer;
 
 public class GameBuilder {
     public enum Mode {CLASSIC, POLYGON}
@@ -29,7 +29,6 @@ public class GameBuilder {
     private Mode mode;
     private PaintTuner paintTuner;
     private Point displaySize;
-    private Game game;
     private GameDrawer gameDrawer;
     private ControlInterface controlInterface;
 
@@ -44,7 +43,7 @@ public class GameBuilder {
 
     public void build() {
         PlayingField playingField = new PlayingField(numberOfColumns, numberOfRows);
-        game = new Game(activity, playingField);
+        Game.create(activity, playingField);
         switch (mode) {
             case CLASSIC:
                 buildClassicMode();
@@ -55,17 +54,13 @@ public class GameBuilder {
     }
 
     private void buildClassicMode() {
-        controlInterface = new ClassicControlInterface(game, displaySize);
-        gameDrawer = new ClassicGameDrawer(game, displaySize, paintTuner);
+        controlInterface = new ClassicControlInterface(displaySize);
+        gameDrawer = new ClassicGameDrawer(displaySize, paintTuner);
     }
 
     private void buildPolygonMode() {
-        controlInterface = new PolygonControlInterface(activity, game, displaySize);
-        gameDrawer = new PolygonGameDrawer(game, controlInterface, displaySize, paintTuner);
-    }
-
-    public Game getGame() {
-        return game;
+        controlInterface = new PolygonControlInterface(activity, displaySize);
+        gameDrawer = new PolygonGameDrawer(controlInterface, displaySize, paintTuner);
     }
 
     public ControlInterface getControlInterface() {

@@ -13,8 +13,8 @@ public class ClassicGameDrawer extends GameDrawer {
     /* Верхняя левая точка поля */
     private Point startingPoint;
 
-    public ClassicGameDrawer(Game game, Point displaySize, PaintTuner paintTuner) {
-        super(game, displaySize, paintTuner);
+    public ClassicGameDrawer(Point displaySize, PaintTuner paintTuner) {
+        super(displaySize, paintTuner);
         setSizes();
     }
 
@@ -32,7 +32,7 @@ public class ClassicGameDrawer extends GameDrawer {
         int left = startingPoint.x + (column * cellWidth);
         int right = startingPoint.x + ((column + 1) * cellWidth);
         Rect rect = new Rect(left, top, right, bottom);
-        int cellColour = game.getCellColour(column, row);
+        int cellColour = Game.getInstance().getCellColour(column, row);
         canvas.drawRect(rect, paintTuner.getCellPaint(cellColour));
         canvas.drawRect(rect, paintTuner.getCellBorderPaint());
     }

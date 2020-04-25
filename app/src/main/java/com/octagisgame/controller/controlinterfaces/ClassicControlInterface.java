@@ -9,8 +9,7 @@ public class ClassicControlInterface extends ControlInterface {
 
     private int screenWidth;
 
-    public ClassicControlInterface(Game game, Point displaySize) {
-        super(game);
+    public ClassicControlInterface(Point displaySize) {
         screenWidth = displaySize.x;
     }
 
@@ -18,8 +17,8 @@ public class ClassicControlInterface extends ControlInterface {
     public void onTouchEvent(MotionEvent event) {
         float x = event.getX();
         if (x < screenWidth / 2)
-            game.moveFigureLeft();
+            Game.getInstance().moveFigureLeft();
         if (x > screenWidth / 2)
-            game.moveFigureRight();
+            Game.getInstance().moveFigureRight();
     }
 }

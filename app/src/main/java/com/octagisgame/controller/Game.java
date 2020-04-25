@@ -14,6 +14,7 @@ import com.octagisgame.view.RowDeletionAnimator;
 import java.util.List;
 
 public class Game {
+    private static Game instance;
     private final int POINTS_FOR_ONE_ROW = 10;
     private final int STANDARD_TIME_INTERVAL = 500;
     private final int REDUCED_TIME_INTERVAL = 20;
@@ -26,7 +27,18 @@ public class Game {
     private ScoreTable scoreTable;
     private RowDeletionAnimator animator;
 
-    public Game(GameActivity activity, PlayingField field) {
+    public static Game getInstance() {
+        return instance;
+    }
+
+    public static Game create(GameActivity activity, PlayingField field) {
+        if (instance == null) {
+            instance = new Game(activity, field);
+        }
+        return instance;
+    }
+
+    private Game(GameActivity activity, PlayingField field) {
         this.field = field;
         this.activity = activity;
         figureCreator = new FigureCreator(activity);

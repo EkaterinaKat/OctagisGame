@@ -23,8 +23,7 @@ public class PolygonControlInterface extends ControlInterface {
     private List<ControlButton> controlButtons = new ArrayList<>();
     private GameActivity activity;
 
-    public PolygonControlInterface(GameActivity activity, Game game, Point displaySize) {
-        super(game);
+    public PolygonControlInterface(GameActivity activity, Point displaySize) {
         this.activity = activity;
         createButtons(activity, displaySize);
     }
@@ -41,23 +40,23 @@ public class PolygonControlInterface extends ControlInterface {
 
     @Override
     public void onTouchEvent(MotionEvent event) {
-        int x = (int)event.getX();
-        int y = (int)event.getY();
+        int x = (int) event.getX();
+        int y = (int) event.getY();
 
         if (leftButton.pressed(x, y)) {
-            game.moveFigureLeft();
+            Game.getInstance().moveFigureLeft();
             leftButton.visualizePress();
         }
         if (rightButton.pressed(x, y)) {
-            game.moveFigureRight();
+            Game.getInstance().moveFigureRight();
             rightButton.visualizePress();
         }
         if (rotationButton.pressed(x, y)) {
-            game.rotateFigure();
+            Game.getInstance().rotateFigure();
             rotationButton.visualizePress();
         }
         if (speedUpButton.pressed(x, y)) {
-            game.speedUpFalling();
+            Game.getInstance().speedUpFalling();
             speedUpButton.visualizePress();
         }
         if (pauseButton.pressed(x, y)) {
