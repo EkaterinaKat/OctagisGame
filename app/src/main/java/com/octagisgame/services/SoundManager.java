@@ -13,7 +13,7 @@ public class SoundManager {
     private int volume = 1;
     private SoundPool soundPool;
     private int moveSoundID;
-    private int speedUpSoundID;
+    private int accelerationSoundID;
     private int gameOverSoundID;
     private int rowDeletionSoundID;
     private int clickSoundID;
@@ -33,8 +33,8 @@ public class SoundManager {
         return instance;
     }
 
-    public void setSoundOn(boolean soundOn){
-        if(soundOn)
+    public void setSoundOn(boolean soundOn) {
+        if (soundOn)
             volume = 1;
         else
             volume = 0;
@@ -46,7 +46,7 @@ public class SoundManager {
 
     private void loadSounds(Context context) {
         moveSoundID = soundPool.load(context, R.raw.move_sound, PRIORITY);
-        speedUpSoundID = soundPool.load(context, R.raw.speed_up_sound, PRIORITY);
+        accelerationSoundID = soundPool.load(context, R.raw.acceleration_sound, PRIORITY);
         gameOverSoundID = soundPool.load(context, R.raw.game_over_sound, PRIORITY);
         rowDeletionSoundID = soundPool.load(context, R.raw.row_deletion_sound, PRIORITY);
         clickSoundID = soundPool.load(context, R.raw.click_sound, PRIORITY);
@@ -56,8 +56,8 @@ public class SoundManager {
         playSound(moveSoundID);
     }
 
-    public void playSpeedUpSound() {
-        playSound(speedUpSoundID);
+    public void playAccelerationSound() {
+        playSound(accelerationSoundID);
     }
 
     public void playGameOverSound() {

@@ -6,8 +6,8 @@ import android.view.MotionEvent;
 
 import com.octagisgame.activities.GameActivity;
 import com.octagisgame.controller.Game;
+import com.octagisgame.controller.buttons.Button;
 import com.octagisgame.controller.buttons.ButtonsCreator;
-import com.octagisgame.controller.buttons.ControlButton;
 import com.octagisgame.controller.buttons.PauseButton;
 
 import java.util.ArrayList;
@@ -15,12 +15,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PolygonControlInterface extends ControlInterface {
-    private ControlButton leftButton;
-    private ControlButton rightButton;
-    private ControlButton speedUpButton;
-    private ControlButton rotationButton;
+    private Button leftButton;
+    private Button rightButton;
+    private Button accelerationButton;
+    private Button rotationButton;
     private PauseButton pauseButton;
-    private List<ControlButton> controlButtons = new ArrayList<>();
+    private List<Button> controlButtons = new ArrayList<>();
     private GameActivity activity;
 
     public PolygonControlInterface(GameActivity activity, Point displaySize) {
@@ -32,10 +32,10 @@ public class PolygonControlInterface extends ControlInterface {
         ButtonsCreator buttonsCreator = new ButtonsCreator(displaySize, context);
         leftButton = buttonsCreator.createLeftButton();
         rightButton = buttonsCreator.createRightButton();
-        speedUpButton = buttonsCreator.createSpeedUpButton();
+        accelerationButton = buttonsCreator.createAccelerationButton();
         rotationButton = buttonsCreator.createRotationButton();
         pauseButton = buttonsCreator.createPauseButton();
-        controlButtons.addAll(Arrays.asList(leftButton, rightButton, speedUpButton, rotationButton));
+        controlButtons.addAll(Arrays.asList(leftButton, rightButton, accelerationButton, rotationButton));
     }
 
     @Override
@@ -55,9 +55,9 @@ public class PolygonControlInterface extends ControlInterface {
             Game.getInstance().rotateFigure();
             rotationButton.visualizePress();
         }
-        if (speedUpButton.pressed(x, y)) {
-            Game.getInstance().speedUpFalling();
-            speedUpButton.visualizePress();
+        if (accelerationButton.pressed(x, y)) {
+            Game.getInstance().accelerateFalling();
+            accelerationButton.visualizePress();
         }
         if (pauseButton.pressed(x, y)) {
             activity.onPausePressed();
@@ -65,7 +65,7 @@ public class PolygonControlInterface extends ControlInterface {
         }
     }
 
-    public List<ControlButton> getControlButtons() {
+    public List<Button> getControlButtons() {
         return controlButtons;
     }
 

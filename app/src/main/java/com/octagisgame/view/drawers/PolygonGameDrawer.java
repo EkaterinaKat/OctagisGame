@@ -5,7 +5,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 
 import com.octagisgame.controller.Game;
-import com.octagisgame.controller.buttons.ControlButton;
+import com.octagisgame.controller.buttons.Button;
 import com.octagisgame.controller.buttons.PauseButton;
 import com.octagisgame.controller.controlinterfaces.ControlInterface;
 import com.octagisgame.controller.controlinterfaces.PolygonControlInterface;
@@ -18,7 +18,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 public class PolygonGameDrawer extends GameDrawer {
-    private List<ControlButton> controlButtons;
+    private List<Button> controlButtons;
     private PauseButton pauseButton;
     private Path[][] cellOutlines;
 
@@ -41,7 +41,7 @@ public class PolygonGameDrawer extends GameDrawer {
     }
 
     private void drawControlButtons(Canvas canvas) {
-        for (ControlButton button : controlButtons) {
+        for (Button button : controlButtons) {
             Path path = button.getPath();
             int color = button.getColor();
             canvas.drawPath(path, paintTuner.getControlButtonPaint(color));

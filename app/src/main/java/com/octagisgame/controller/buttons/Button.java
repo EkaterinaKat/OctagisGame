@@ -1,27 +1,20 @@
 package com.octagisgame.controller.buttons;
 
 import android.graphics.Path;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.Region;
 
-public abstract class Button {
-    private Region fullScreenRegion;
-    private Region region = new Region();
+public class Button {
+    /* region задаёт область кнопки, при нажатии на которую происходит событие */
+    private Region region;
     private int currentColor;
     private int color;
     private int pressedButtonColor;
-    Path path = new Path();
-    int screenWidth;
-    int screenHeight;
 
-    Button(int color, int pressedButtonColor, Point displaySize) {
+    Button(Region region, int color, int pressedButtonColor) {
+        this.region = region;
         this.color = color;
         this.pressedButtonColor = pressedButtonColor;
         currentColor = color;
-        screenWidth = displaySize.x;
-        screenHeight = displaySize.y;
-        fullScreenRegion = new Region(new Rect(0, 0, screenWidth, screenHeight));
     }
 
     public void visualizePress() {
@@ -43,12 +36,8 @@ public abstract class Button {
         return region.contains(x, y);
     }
 
-    void setRegion() {
-        region.setPath(path, fullScreenRegion);
-    }
-
     public Path getPath() {
-        return path;
+        return region.getBoundaryPath();
     }
 
     public int getColor() {

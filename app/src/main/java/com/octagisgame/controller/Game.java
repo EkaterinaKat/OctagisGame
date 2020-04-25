@@ -97,11 +97,11 @@ public class Game {
         }
     }
 
-    public synchronized void speedUpFalling() {
+    public synchronized void accelerateFalling() {
         if (timeInterval == STANDARD_TIME_INTERVAL) {
             timeInterval = REDUCED_TIME_INTERVAL;
             notify();
-            SoundManager.getInstance().playSpeedUpSound();
+            SoundManager.getInstance().playAccelerationSound();
         }
     }
 

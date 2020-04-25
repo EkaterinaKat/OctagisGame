@@ -1,7 +1,10 @@
 package com.octagisgame.controller.buttons;
 
 import android.content.Context;
+import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.Region;
 
 import androidx.core.content.ContextCompat;
 
@@ -13,6 +16,7 @@ public class ButtonsCreator {
 
     private Context context;
     private Point displaySize;
+    private Region fullScreenRegion;
 
     private int screenWidth;
     private int screenHeight;
@@ -25,11 +29,11 @@ public class ButtonsCreator {
     private Point rightBottom;
 
     private int leftAndRightButtonsColor;
-    private int speedUpButtonColor;
+    private int accelerationButtonColor;
     private int rotationButtonColor;
     private int pauseButtonColor;
     private int leftAndRightPressedButtonsColor;
-    private int speedUpPressedButtonColor;
+    private int accelerationPressedButtonColor;
     private int rotationPressedButtonColor;
     private int pausePressedButtonColor;
 
@@ -44,6 +48,7 @@ public class ButtonsCreator {
     private void setSizes() {
         screenWidth = displaySize.x;
         screenHeight = displaySize.y;
+        fullScreenRegion = new Region(new Rect(0, 0, screenWidth, screenHeight));
         controlButtonsHeight = (int) (screenHeight * BUTTONS_HEIGHT_TO_SCREEN_HEIGHT);
     }
 
@@ -57,36 +62,93 @@ public class ButtonsCreator {
 
     private void initializeColors() {
         leftAndRightButtonsColor = ContextCompat.getColor(context, R.color.leftAndRightButtonsColor);
-        speedUpButtonColor = ContextCompat.getColor(context, R.color.speedUpButtonColor);
+        accelerationButtonColor = ContextCompat.getColor(context, R.color.accelerationButtonColor);
         rotationButtonColor = ContextCompat.getColor(context, R.color.rotationButtonColor);
         pauseButtonColor = ContextCompat.getColor(context, R.color.pauseButtonColor);
         leftAndRightPressedButtonsColor = ContextCompat.getColor(context, R.color.leftAndRightPressedButtonsColor);
-        speedUpPressedButtonColor = ContextCompat.getColor(context, R.color.speedUpPressedButtonColor);
+        accelerationPressedButtonColor = ContextCompat.getColor(context, R.color.accelerationPressedButtonColor);
         rotationPressedButtonColor = ContextCompat.getColor(context, R.color.rotationPressedButtonColor);
         pausePressedButtonColor = ContextCompat.getColor(context, R.color.pausePressedButtonColor);
     }
 
-    public ControlButton createLeftButton() {
-        return new ControlButton(leftAndRightButtonsColor, leftAndRightPressedButtonsColor,
-                displaySize, center, leftBottom, leftTop);
+    public Button createLeftButton() {
+        Region leftButtonRegion = getRegion(getControlButtonPath(center, leftBottom, leftTop));
+        return new Button(leftButtonRegion, leftAndRightButtonsColor,
+                leftAndRightPressedButtonsColor);
     }
 
-    public ControlButton createRightButton() {
-        return new ControlButton(leftAndRightButtonsColor, leftAndRightPressedButtonsColor,
-                displaySize, center, rightBottom, rightTop);
+    public Button createRightButton() {
+        Region rightButtonRegion = getRegion(getControlButtonPath(center, rightBottom, rightTop));
+        return new Button(rightButtonRegion, leftAndRightButtonsColor,
+                leftAndRightPressedButtonsColor);
     }
 
-    public ControlButton createSpeedUpButton() {
-        return new ControlButton(speedUpButtonColor, speedUpPressedButtonColor,
-                displaySize, center, leftBottom, rightBottom);
+    public Button createAccelerationButton() {
+        Region accelerationButtonRegion = getRegion(getControlButtonPath(center, leftBottom, rightBottom));
+        return new Button(accelerationButtonRegion, accelerationButtonColor,
+                accelerationPressedButtonColor);
     }
 
-    public ControlButton createRotationButton() {
-        return new ControlButton(rotationButtonColor, rotationPressedButtonColor,
-                displaySize, center, leftTop, rightTop);
+    public Button createRotationButton() {
+        Region rotationButtonRegion = getRegion(getControlButtonPath(center, leftTop, rightTop));
+        return new Button(rotationButtonRegion, rotationButtonColor,
+                rotationPressedButtonColor);
     }
 
     public PauseButton createPauseButton() {
-        return new PauseButton(pauseButtonColor, pausePressedButtonColor, displaySize);
+        return new PauseButtonCreator().create();
+    }
+
+    private Region getRegion(Path path) {
+        Region region = new Region();
+        region.setPath(path, fullScreenRegion);
+        return region;
+    }
+
+    private Path getControlButtonPath(Point... tops) {
+        Path path = new Path();
+        path.moveTo(tops[0].x, tops[0].y);
+        for (int i = 1; i < tops.length; i++) {
+            path.lineTo(tops[i].x, tops[i].y);
+        }
+        path.close();
+        return path;
+    }
+
+    private class PauseButtonCreator {
+        /* Число, на которое умножается ширина экрана, для получения радиуса кнопки паузы */
+        private final double PAUSE_BUTTON_RADIUS_TO_HEIGHT = 0.09;
+        /* Число, на которое умножается ширина экрана, для получения горизонтальной координаты
+         * центра кнопки паузы */
+        private final double PAUSE_BUTTON_X_TO_SCREEN_WIDTH = 0.8;
+        /* Число, на которое умножается высота экрана, для получения вертикальной координаты
+         * центра кнопки паузы */
+        private final double PAUSE_BUTTON_Y_TO_SCREEN_HEIGHT = 0.5;
+
+        private Path path = new Path();
+        private int radius;
+        private int centerX;
+        private int centerY;
+
+        public PauseButton create() {
+            addCircleToPath();
+            Region pauseButtonRegion = getRegion(path);
+            addPauseSymbolToPath();
+            return new PauseButton(pauseButtonRegion, path, pauseButtonColor, pausePressedButtonColor);
+        }
+
+        private void addCircleToPath() {
+            radius = (int) (screenWidth * PAUSE_BUTTON_RADIUS_TO_HEIGHT);
+            centerX = (int) (screenWidth * PAUSE_BUTTON_X_TO_SCREEN_WIDTH);
+            centerY = (int) (screenHeight * PAUSE_BUTTON_Y_TO_SCREEN_HEIGHT);
+            path.addCircle(centerX, centerY, radius, Path.Direction.CCW);
+        }
+
+        private void addPauseSymbolToPath() {
+            path.addRect(centerX - radius / 3, centerY - radius / 2, centerX - radius / 6,
+                    centerY + radius / 2, Path.Direction.CCW);
+            path.addRect(centerX + radius / 6, centerY - radius / 2, centerX + radius / 3,
+                    centerY + radius / 2, Path.Direction.CCW);
+        }
     }
 }
