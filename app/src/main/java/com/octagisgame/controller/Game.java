@@ -61,7 +61,7 @@ public class Game {
             while (true) {
                 if (!gamePaused) {
                     field.descentFigure();
-                    waitForSpeedUpOrNextDescent();
+                    waitForAccelerationOrNextDescent();
                     if (field.figureLanded()) {
                         if (field.figureAboveTop()) {
                             SoundManager.getInstance().playGameOverSound();
@@ -79,25 +79,47 @@ public class Game {
         }
     };
 
-    public void moveFigureLeft() {
+    public enum Command {LEFT, RIGHT, ROTATE, ACCELERATE, DESCENT}
+
+    public void passCommand(Command command) {
+        switch (command) {
+            case LEFT:
+                moveFigureLeft();
+                break;
+            case RIGHT:
+                moveFigureRight();
+                break;
+            case ROTATE:
+                rotateFigure();
+                break;
+            case ACCELERATE:
+                accelerateFigure();
+                break;
+            case DESCENT:
+                //todo
+        }
+    }
+
+
+    private void moveFigureLeft() {
         if (field.moveFigureLeft()) {
             SoundManager.getInstance().playMoveSound();
         }
     }
 
-    public void moveFigureRight() {
+    private void moveFigureRight() {
         if (field.moveFigureRight()) {
             SoundManager.getInstance().playMoveSound();
         }
     }
 
-    public void rotateFigure() {
+    private void rotateFigure() {
         if (field.rotateFigure()) {
             SoundManager.getInstance().playMoveSound();
         }
     }
 
-    public synchronized void accelerateFalling() {
+    private synchronized void accelerateFigure() {
         if (timeInterval == STANDARD_TIME_INTERVAL) {
             timeInterval = REDUCED_TIME_INTERVAL;
             notify();
@@ -133,7 +155,7 @@ public class Game {
         }
     }
 
-    private synchronized void waitForSpeedUpOrNextDescent() {
+    private synchronized void waitForAccelerationOrNextDescent() {
         try {
             wait(timeInterval);
         } catch (InterruptedException e) {

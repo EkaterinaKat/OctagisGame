@@ -17,8 +17,8 @@ public class ClassicControlInterface extends ControlInterface {
     public void onTouchEvent(MotionEvent event) {
         float x = event.getX();
         if (x < screenWidth / 2)
-            Game.getInstance().moveFigureLeft();
+            Game.getInstance().passCommand(Game.Command.LEFT);
         if (x > screenWidth / 2)
-            Game.getInstance().moveFigureRight();
+            Game.getInstance().passCommand(Game.Command.RIGHT);
     }
 }

@@ -1,6 +1,5 @@
 package com.octagisgame.controller.buttons;
 
-import android.content.Context;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -9,12 +8,14 @@ import android.graphics.Region;
 import androidx.core.content.ContextCompat;
 
 import com.octagisgame.R;
+import com.octagisgame.activities.GameActivity;
+import com.octagisgame.controller.Game;
 
 public class ButtonsCreator {
     /* Число на, которое умножается высота экрана, для получения высоты кнопок управления */
     private final double BUTTONS_HEIGHT_TO_SCREEN_HEIGHT = 0.35;
 
-    private Context context;
+    private GameActivity activity;
     private Point displaySize;
     private Region fullScreenRegion;
 
@@ -37,8 +38,8 @@ public class ButtonsCreator {
     private int rotationPressedButtonColor;
     private int pausePressedButtonColor;
 
-    public ButtonsCreator(Point displaySize, Context context) {
-        this.context = context;
+    public ButtonsCreator(Point displaySize, GameActivity activity) {
+        this.activity = activity;
         this.displaySize = displaySize;
         setSizes();
         initializeReferencePoints();
@@ -61,37 +62,37 @@ public class ButtonsCreator {
     }
 
     private void initializeColors() {
-        leftAndRightButtonsColor = ContextCompat.getColor(context, R.color.leftAndRightButtonsColor);
-        accelerationButtonColor = ContextCompat.getColor(context, R.color.accelerationButtonColor);
-        rotationButtonColor = ContextCompat.getColor(context, R.color.rotationButtonColor);
-        pauseButtonColor = ContextCompat.getColor(context, R.color.pauseButtonColor);
-        leftAndRightPressedButtonsColor = ContextCompat.getColor(context, R.color.leftAndRightPressedButtonsColor);
-        accelerationPressedButtonColor = ContextCompat.getColor(context, R.color.accelerationPressedButtonColor);
-        rotationPressedButtonColor = ContextCompat.getColor(context, R.color.rotationPressedButtonColor);
-        pausePressedButtonColor = ContextCompat.getColor(context, R.color.pausePressedButtonColor);
+        leftAndRightButtonsColor = ContextCompat.getColor(activity, R.color.leftAndRightButtonsColor);
+        accelerationButtonColor = ContextCompat.getColor(activity, R.color.accelerationButtonColor);
+        rotationButtonColor = ContextCompat.getColor(activity, R.color.rotationButtonColor);
+        pauseButtonColor = ContextCompat.getColor(activity, R.color.pauseButtonColor);
+        leftAndRightPressedButtonsColor = ContextCompat.getColor(activity, R.color.leftAndRightPressedButtonsColor);
+        accelerationPressedButtonColor = ContextCompat.getColor(activity, R.color.accelerationPressedButtonColor);
+        rotationPressedButtonColor = ContextCompat.getColor(activity, R.color.rotationPressedButtonColor);
+        pausePressedButtonColor = ContextCompat.getColor(activity, R.color.pausePressedButtonColor);
     }
 
     public Button createLeftButton() {
         Region leftButtonRegion = getRegion(getControlButtonPath(center, leftBottom, leftTop));
-        return new Button(leftButtonRegion, leftAndRightButtonsColor,
+        return new Button(Game.Command.LEFT, leftButtonRegion, leftAndRightButtonsColor,
                 leftAndRightPressedButtonsColor);
     }
 
     public Button createRightButton() {
         Region rightButtonRegion = getRegion(getControlButtonPath(center, rightBottom, rightTop));
-        return new Button(rightButtonRegion, leftAndRightButtonsColor,
+        return new Button(Game.Command.RIGHT, rightButtonRegion, leftAndRightButtonsColor,
                 leftAndRightPressedButtonsColor);
     }
 
     public Button createAccelerationButton() {
         Region accelerationButtonRegion = getRegion(getControlButtonPath(center, leftBottom, rightBottom));
-        return new Button(accelerationButtonRegion, accelerationButtonColor,
+        return new Button(Game.Command.ACCELERATE, accelerationButtonRegion, accelerationButtonColor,
                 accelerationPressedButtonColor);
     }
 
     public Button createRotationButton() {
         Region rotationButtonRegion = getRegion(getControlButtonPath(center, leftTop, rightTop));
-        return new Button(rotationButtonRegion, rotationButtonColor,
+        return new Button(Game.Command.ROTATE, rotationButtonRegion, rotationButtonColor,
                 rotationPressedButtonColor);
     }
 
@@ -134,7 +135,8 @@ public class ButtonsCreator {
             addCircleToPath();
             Region pauseButtonRegion = getRegion(path);
             addPauseSymbolToPath();
-            return new PauseButton(pauseButtonRegion, path, pauseButtonColor, pausePressedButtonColor);
+            return new PauseButton(activity, pauseButtonRegion, path, pauseButtonColor,
+                    pausePressedButtonColor);
         }
 
         private void addCircleToPath() {
@@ -145,10 +147,10 @@ public class ButtonsCreator {
         }
 
         private void addPauseSymbolToPath() {
-            path.addRect(centerX - radius / 3, centerY - radius / 2, centerX - radius / 6,
-                    centerY + radius / 2, Path.Direction.CCW);
-            path.addRect(centerX + radius / 6, centerY - radius / 2, centerX + radius / 3,
-                    centerY + radius / 2, Path.Direction.CCW);
+            path.addRect(centerX - radius / 3.0f, centerY - radius / 2.0f,
+                    centerX - radius / 6.0f, centerY + radius / 2.0f, Path.Direction.CCW);
+            path.addRect(centerX + radius / 6.0f, centerY - radius / 2.0f,
+                    centerX + radius / 3.0f, centerY + radius / 2.0f, Path.Direction.CCW);
         }
     }
 }

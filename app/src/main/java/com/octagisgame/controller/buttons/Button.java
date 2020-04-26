@@ -2,6 +2,9 @@ package com.octagisgame.controller.buttons;
 
 import android.graphics.Path;
 import android.graphics.Region;
+import android.view.MotionEvent;
+
+import com.octagisgame.controller.Game;
 
 public class Button {
     /* region задаёт область кнопки, при нажатии на которую происходит событие */
@@ -9,15 +12,27 @@ public class Button {
     private int currentColor;
     private int color;
     private int pressedButtonColor;
+    private Game.Command command;
 
-    Button(Region region, int color, int pressedButtonColor) {
+    Button(Game.Command command, Region region, int color, int pressedButtonColor) {
+        this.command = command;
         this.region = region;
         this.color = color;
         this.pressedButtonColor = pressedButtonColor;
         currentColor = color;
     }
 
-    public void visualizePress() {
+    public void onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+
+        if (pressed(x, y)) {
+            visualizePress();
+            Game.getInstance().passCommand(command);
+        }
+    }
+
+    void visualizePress() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -32,7 +47,7 @@ public class Button {
         }).start();
     }
 
-    public boolean pressed(int x, int y) {
+    boolean pressed(int x, int y) {
         return region.contains(x, y);
     }
 
