@@ -36,10 +36,14 @@ public class PolygonControlInterface extends ControlInterface {
     }
 
     @Override
-    public void onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         for (Button button : buttons) {
-            button.onTouchEvent(event);
+            boolean buttonWasPressed = button.onTouchEvent(event);
+            if (buttonWasPressed) {
+                return true;
+            }
         }
+        return false;
     }
 
     public List<Button> getControlButtons() {

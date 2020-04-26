@@ -23,7 +23,7 @@ public class PauseButton extends Button {
     }
 
     @Override
-    public void onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
 
@@ -31,5 +31,6 @@ public class PauseButton extends Button {
             visualizePress();
             activity.onPausePressed();
         }
+        return false;
     }
 }

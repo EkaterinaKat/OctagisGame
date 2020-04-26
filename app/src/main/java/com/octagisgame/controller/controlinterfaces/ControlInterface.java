@@ -4,5 +4,5 @@ import android.view.MotionEvent;
 
 public abstract class ControlInterface {
 
-    public abstract void onTouchEvent(MotionEvent event);
+    public abstract boolean onTouchEvent(MotionEvent event);
 }

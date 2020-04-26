@@ -14,11 +14,12 @@ public class ClassicControlInterface extends ControlInterface {
     }
 
     @Override
-    public void onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         if (x < screenWidth / 2)
             Game.getInstance().passCommand(Game.Command.LEFT);
         if (x > screenWidth / 2)
             Game.getInstance().passCommand(Game.Command.RIGHT);
+        return false;
     }
 }

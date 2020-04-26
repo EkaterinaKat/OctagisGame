@@ -22,7 +22,7 @@ public class Button {
         currentColor = color;
     }
 
-    public void onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
 
@@ -30,6 +30,7 @@ public class Button {
             visualizePress();
             Game.getInstance().passCommand(command);
         }
+        return false;
     }
 
     void visualizePress() {
